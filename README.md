@@ -12,7 +12,7 @@ El objetivo es facilitar la integración entre ambos sistemas y ofrecer una expe
 ---
 
 ## Estructura del repositorio
-
+```text 
 projecte-dam-25-26-javier-alejandro/
 ├── erp/                    # Código, configuración y documentación del ERP (Odoo + Docker)
 │   ├── docker/
@@ -25,7 +25,7 @@ projecte-dam-25-26-javier-alejandro/
 ├── documentación-general/  # Documentación transversal, diagramas ER/UML, arquitectura, requisitos
 ├── README.md               # Archivo de ayuda rápida
 └── .gitignore
-
+```
 
 ---
 
