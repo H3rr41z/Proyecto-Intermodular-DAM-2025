@@ -20,8 +20,7 @@ projecte-dam-25-26-javier-alejandro/
 │   └── documentación/
 ├── app-movil/              # Código fuente y documentación de la app móvil en Kotlin
 │   ├── src/
-│   ├── documentación/
-│   └── diagramas/
+│   └── documentación/
 ├── documentación-general/  # Documentación transversal, diagramas ER/UML, arquitectura, requisitos
 ├── README.md               # Archivo de ayuda rápida
 └── .gitignore
