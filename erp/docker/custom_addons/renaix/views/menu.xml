@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Menú Principal de Renaix -->
+    <menuitem id="menu_renaix_root"
+              name="Renaix"
+              sequence="10"
+              web_icon="renaix,static/description/icon.png"/>
+    
+    <!-- Menú: Configuración -->
+    <menuitem id="menu_renaix_configuracion"
+              name="Configuración"
+              parent="menu_renaix_root"
+              sequence="100"/>
+    
+    <!-- Submenú: Categorías -->
+    <menuitem id="menu_renaix_categoria"
+              name="Categorías"
+              parent="menu_renaix_configuracion"
+              action="action_categoria"
+              sequence="10"/>
+    
+    <!-- Submenú: Etiquetas -->
+    <menuitem id="menu_renaix_etiqueta"
+              name="Etiquetas"
+              parent="menu_renaix_configuracion"
+              action="action_etiqueta"
+              sequence="20"/>
+
+</odoo>

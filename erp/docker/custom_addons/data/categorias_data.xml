@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Categorías predefinidas para Renaix -->
+        
+        <record id="categoria_electronica" model="renaix.categoria">
+            <field name="name">Electrónica</field>
+            <field name="descripcion">Smartphones, ordenadores, tablets, consolas, accesorios tecnológicos y más</field>
+            <field name="sequence">10</field>
+            <field name="color">1</field>
+        </record>
+
+        <record id="categoria_ropa" model="renaix.categoria">
+            <field name="name">Ropa y Accesorios</field>
+            <field name="descripcion">Ropa de hombre, mujer, niño, calzado, complementos y accesorios</field>
+            <field name="sequence">20</field>
+            <field name="color">2</field>
+        </record>
+
+        <record id="categoria_hogar" model="renaix.categoria">
+            <field name="name">Hogar y Jardín</field>
+            <field name="descripcion">Muebles, decoración, electrodomésticos, herramientas de jardín</field>
+            <field name="sequence">30</field>
+            <field name="color">3</field>
+        </record>
+
+        <record id="categoria_deportes" model="renaix.categoria">
+            <field name="name">Deportes y Ocio</field>
+            <field name="descripcion">Equipamiento deportivo, bicicletas, camping, instrumentos musicales</field>
+            <field name="sequence">40</field>
+            <field name="color">4</field>
+        </record>
+
+        <record id="categoria_libros" model="renaix.categoria">
+            <field name="name">Libros y Películas</field>
+            <field name="descripcion">Libros, cómics, películas, música, videojuegos</field>
+            <field name="sequence">50</field>
+            <field name="color">5</field>
+        </record>
+
+        <record id="categoria_juguetes" model="renaix.categoria">
+            <field name="name">Juguetes e Infantil</field>
+            <field name="descripcion">Juguetes, artículos para bebés, ropa infantil, cochecitos</field>
+            <field name="sequence">60</field>
+            <field name="color">6</field>
+        </record>
+
+        <record id="categoria_vehiculos" model="renaix.categoria">
+            <field name="name">Vehículos</field>
+            <field name="descripcion">Coches, motos, piezas y accesorios para vehículos</field>
+            <field name="sequence">70</field>
+            <field name="color">7</field>
+        </record>
+
+        <record id="categoria_coleccionismo" model="renaix.categoria">
+            <field name="name">Coleccionismo y Arte</field>
+            <field name="descripcion">Antigüedades, obras de arte, colecciones, artículos vintage</field>
+            <field name="sequence">80</field>
+            <field name="color">8</field>
+        </record>
+
+        <record id="categoria_otros" model="renaix.categoria">
+            <field name="name">Otros</field>
+            <field name="descripcion">Otros artículos no clasificados en las categorías anteriores</field>
+            <field name="sequence">999</field>
+            <field name="color">9</field>
+        </record>
+
+    </data>
+</odoo>

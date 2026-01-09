@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vista Tree (Lista) de Etiquetas -->
+    <record id="view_etiqueta_tree" model="ir.ui.view">
+        <field name="name">renaix.etiqueta.tree</field>
+        <field name="model">renaix.etiqueta</field>
+        <field name="arch" type="xml">
+            <tree string="Etiquetas" editable="bottom" default_order="name">
+                <field name="name" string="Etiqueta"/>
+                <field name="color" widget="color_picker"/>
+                <field name="producto_count" string="Productos"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista Form (Formulario) de Etiquetas -->
+    <record id="view_etiqueta_form" model="ir.ui.view">
+        <field name="name">renaix.etiqueta.form</field>
+        <field name="model">renaix.etiqueta</field>
+        <field name="arch" type="xml">
+            <form string="Etiqueta">
+                <header>
+                    <button name="action_view_productos" 
+                            type="object" 
+                            string="Ver Productos" 
+                            class="oe_highlight"
+                            invisible="producto_count == 0"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_productos" 
+                                type="object" 
+                                class="oe_stat_button" 
+                                icon="fa-shopping-cart">
+                            <field name="producto_count" widget="statinfo" string="Productos"/>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <span class="mr-2">#</span>
+                            <field name="name" placeholder="gaming, vintage, nuevo..."/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="color" widget="color_picker"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Productos" invisible="producto_count == 0">
+                            <field name="producto_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="precio" widget="monetary"/>
+                                    <field name="propietario_id"/>
+                                    <field name="estado_venta"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Kanban de Etiquetas -->
+    <record id="view_etiqueta_kanban" model="ir.ui.view">
+        <field name="name">renaix.etiqueta.kanban</field>
+        <field name="model">renaix.etiqueta</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="producto_count"/>
+                <field name="color"/>
+                
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill" 
+                             t-att-style="'background-color: ' + kanban_color(record.color.raw_value)">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_title">
+                                    <span class="badge badge-pill" 
+                                          t-att-style="'background-color: ' + kanban_color(record.color.raw_value)">
+                                        #<field name="name"/>
+                                    </span>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <i class="fa fa-shopping-cart"/> 
+                                    <field name="producto_count"/> productos
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vista Search (Búsqueda y Filtros) -->
+    <record id="view_etiqueta_search" model="ir.ui.view">
+        <field name="name">renaix.etiqueta.search</field>
+        <field name="model">renaix.etiqueta</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Etiquetas">
+                <field name="name" string="Etiqueta" 
+                       filter_domain="[('name', 'ilike', self)]"/>
+                
+                <filter string="Activas" name="active" 
+                        domain="[('active', '=', True)]"/>
+                <filter string="Inactivas" name="inactive" 
+                        domain="[('active', '=', False)]"/>
+                
+                <separator/>
+                
+                <filter string="Con Productos" name="con_productos" 
+                        domain="[('producto_count', '>', 0)]"/>
+                <filter string="Sin Productos" name="sin_productos" 
+                        domain="[('producto_count', '=', 0)]"/>
+                
+                <separator/>
+                
+                <filter string="Más Usadas" name="mas_usadas" 
+                        domain="[('producto_count', '>', 5)]"/>
+                
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Estado" name="group_active" 
+                            context="{'group_by': 'active'}"/>
+                    <filter string="Color" name="group_color" 
+                            context="{'group_by': 'color'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción de Ventana para Etiquetas -->
+    <record id="action_etiqueta" model="ir.actions.act_window">
+        <field name="name">Etiquetas</field>
+        <field name="res_model">renaix.etiqueta</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear primera etiqueta
+            </p>
+            <p>
+                Las etiquetas ayudan a clasificar y encontrar productos.<br/>
+                Ejemplos: #gaming, #vintage, #nuevo, #retro, #colección, etc.<br/>
+                Los usuarios pueden asignar hasta 5 etiquetas por producto.
+            </p>
+        </field>
+    </record>
+
+</odoo>

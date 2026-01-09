@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- Categoría de Módulo -->
+        <record id="module_category_renaix" model="ir.module.category">
+            <field name="name">Renaix</field>
+            <field name="description">Gestión del Marketplace Renaix</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Grupo: Usuario (Solo lectura - para consultas) -->
+        <record id="group_renaix_user" model="res.groups">
+            <field name="name">Usuario</field>
+            <field name="category_id" ref="module_category_renaix"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Puede ver productos, categorías y etiquetas</field>
+        </record>
+
+        <!-- Grupo: Moderador (Gestionar productos, denuncias, comentarios) -->
+        <record id="group_renaix_moderador" model="res.groups">
+            <field name="name">Moderador</field>
+            <field name="category_id" ref="module_category_renaix"/>
+            <field name="implied_ids" eval="[(4, ref('group_renaix_user'))]"/>
+            <field name="comment">Puede moderar productos, eliminar comentarios y gestionar denuncias</field>
+        </record>
+
+        <!-- Grupo: Administrador (Control total) -->
+        <record id="group_renaix_admin" model="res.groups">
+            <field name="name">Administrador</field>
+            <field name="category_id" ref="module_category_renaix"/>
+            <field name="implied_ids" eval="[(4, ref('group_renaix_moderador'))]"/>
+            <field name="comment">Control total sobre el sistema Renaix</field>
+        </record>
+
+        <!-- Reglas de Registro (Record Rules) -->
+        
+        <!-- Categorías: Todos pueden ver las activas -->
+        <record id="categoria_user_rule" model="ir.rule">
+            <field name="name">Categoría: Usuario puede ver activas</field>
+            <field name="model_id" ref="model_renaix_categoria"/>
+            <field name="domain_force">[('active', '=', True)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Categorías: Administradores pueden ver todas -->
+        <record id="categoria_admin_rule" model="ir.rule">
+            <field name="name">Categoría: Admin puede gestionar todas</field>
+            <field name="model_id" ref="model_renaix_categoria"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Etiquetas: Todos pueden ver las activas -->
+        <record id="etiqueta_user_rule" model="ir.rule">
+            <field name="name">Etiqueta: Usuario puede ver activas</field>
+            <field name="model_id" ref="model_renaix_etiqueta"/>
+            <field name="domain_force">[('active', '=', True)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Etiquetas: Administradores pueden gestionar todas -->
+        <record id="etiqueta_admin_rule" model="ir.rule">
+            <field name="name">Etiqueta: Admin puede gestionar todas</field>
+            <field name="model_id" ref="model_renaix_etiqueta"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_renaix_categoria_user,renaix.categoria.user,model_renaix_categoria,group_renaix_user,1,0,0,0
+access_renaix_categoria_moderador,renaix.categoria.moderador,model_renaix_categoria,group_renaix_moderador,1,1,0,0
+access_renaix_categoria_admin,renaix.categoria.admin,model_renaix_categoria,group_renaix_admin,1,1,1,1
+access_renaix_etiqueta_user,renaix.etiqueta.user,model_renaix_etiqueta,group_renaix_user,1,0,0,0
+access_renaix_etiqueta_moderador,renaix.etiqueta.moderador,model_renaix_etiqueta,group_renaix_moderador,1,1,1,0
+access_renaix_etiqueta_admin,renaix.etiqueta.admin,model_renaix_etiqueta,group_renaix_admin,1,1,1,1
