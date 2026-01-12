@@ -30,7 +30,7 @@ class ResPartner(models.Model):
     valoracion_promedio = fields.Float(
         string='Valoración Promedio',
         compute='_compute_valoracion_promedio',
-        store=True,
+        store=True,  # ✅ Para poder filtrar por valoración
         help='Media de valoraciones recibidas como vendedor (0-5 estrellas)'
     )
     
@@ -38,30 +38,35 @@ class ResPartner(models.Model):
     productos_en_venta = fields.Integer(
         string='Productos en Venta',
         compute='_compute_estadisticas_productos',
+        store=True,  # ✅ Para poder filtrar
         help='Cantidad de productos disponibles actualmente'
     )
     
     productos_vendidos = fields.Integer(
         string='Productos Vendidos',
         compute='_compute_estadisticas_productos',
+        store=True,  # ✅ Para poder filtrar
         help='Total de productos vendidos'
     )
     
     productos_comprados = fields.Integer(
         string='Productos Comprados',
         compute='_compute_estadisticas_productos',
+        store=True,  # ✅ Para poder filtrar
         help='Total de productos comprados'
     )
     
     total_comentarios = fields.Integer(
         string='Total Comentarios',
         compute='_compute_estadisticas_actividad',
+        store=True,  # ✅ Para poder filtrar
         help='Cantidad de comentarios realizados'
     )
     
     total_denuncias_realizadas = fields.Integer(
         string='Denuncias Realizadas',
         compute='_compute_estadisticas_actividad',
+        store=True,  # ✅ Para poder filtrar
         help='Cantidad de denuncias realizadas por el usuario'
     )
     
@@ -83,6 +88,10 @@ class ResPartner(models.Model):
         'vendedor_id',
         string='Ventas Realizadas'
     )
+    
+    # TEMPORAL: Comentadas hasta crear los modelos
+    # Se descomentarán cuando existan: renaix.valoracion, renaix.comentario, 
+    # renaix.denuncia, renaix.mensaje
     
     valoracion_ids = fields.One2many(
         'renaix.valoracion',
