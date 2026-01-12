@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     
-    <!-- Vista Tree de Imágenes de Producto -->
-    <record id="view_producto_imagen_tree" model="ir.ui.view">
-        <field name="name">renaix.producto.imagen.tree</field>
+    <!-- Vista list de Imágenes de Producto -->
+    <record id="view_producto_imagen_list" model="ir.ui.view">
+        <field name="name">renaix.producto.imagen.list</field>
         <field name="model">renaix.producto.imagen</field>
         <field name="arch" type="xml">
-            <tree string="Imágenes de Productos">
+            <list string="Imágenes de Productos">
                 <field name="imagen_small" widget="image" width="75px"/>
                 <field name="producto_id"/>
                 <field name="secuencia" widget="handle"/>
                 <field name="es_principal" widget="boolean_toggle"/>
                 <field name="descripcion"/>
                 <field name="tamano_kb"/>
-            </tree>
+            </list>
         </field>
     </record>
 

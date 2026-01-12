@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     
-    <!-- Vista Tree de Denuncias -->
-    <record id="view_denuncia_tree" model="ir.ui.view">
-        <field name="name">renaix.denuncia.tree</field>
+    <!-- Vista list de Denuncias -->
+    <record id="view_denuncia_list" model="ir.ui.view">
+        <field name="name">renaix.denuncia.list</field>
         <field name="model">renaix.denuncia</field>
         <field name="arch" type="xml">
-            <tree string="Denuncias" 
+            <list string="Denuncias" 
                   decoration-danger="estado == 'pendiente'"
                   decoration-warning="estado == 'en_revision'"
                   decoration-success="estado == 'resuelta'">
@@ -21,7 +21,7 @@
                        decoration-success="estado=='resuelta'"
                        widget="badge"/>
                 <field name="empleado_asignado_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -218,7 +218,7 @@
     <record id="action_denuncia" model="ir.actions.act_window">
         <field name="name">Denuncias</field>
         <field name="res_model">renaix.denuncia</field>
-        <field name="view_mode">kanban,tree,form,graph</field>
+        <field name="view_mode">kanban,list,form,graph</field>
         <field name="context">{'search_default_pendientes': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

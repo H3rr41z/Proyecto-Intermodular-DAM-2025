@@ -62,7 +62,7 @@
     <record id="action_producto_graph_categoria" model="ir.actions.act_window">
         <field name="name">Productos por Categoría</field>
         <field name="res_model">renaix.producto</field>
-        <field name="view_mode">graph,tree</field>
+        <field name="view_mode">graph,list</field>
         <field name="view_id" ref="view_producto_graph_categoria"/>
         <field name="domain">[('active', '=', True)]</field>
         <field name="context">{'group_by': ['categoria_id']}</field>
@@ -80,7 +80,7 @@
     <record id="action_denuncia_graph_tipo" model="ir.actions.act_window">
         <field name="name">Denuncias por Tipo</field>
         <field name="res_model">renaix.denuncia</field>
-        <field name="view_mode">graph,tree</field>
+        <field name="view_mode">graph,list</field>
         <field name="view_id" ref="view_denuncia_graph_tipo"/>
         <field name="context">{'group_by': ['tipo']}</field>
         <field name="help" type="html">
@@ -97,7 +97,7 @@
     <record id="action_denuncia_graph_estado" model="ir.actions.act_window">
         <field name="name">Denuncias por Estado</field>
         <field name="res_model">renaix.denuncia</field>
-        <field name="view_mode">graph,tree</field>
+        <field name="view_mode">graph,list</field>
         <field name="view_id" ref="view_denuncia_graph_estado"/>
         <field name="context">{'group_by': ['estado']}</field>
         <field name="help" type="html">
@@ -114,7 +114,7 @@
     <record id="action_valoracion_graph_usuario" model="ir.actions.act_window">
         <field name="name">Valoraciones por Usuario</field>
         <field name="res_model">renaix.valoracion</field>
-        <field name="view_mode">graph,tree</field>
+        <field name="view_mode">graph,list</field>
         <field name="view_id" ref="view_valoracion_graph_usuario"/>
         <field name="context">{'group_by': ['usuario_valorado_id']}</field>
         <field name="help" type="html">
@@ -131,11 +131,11 @@
     <!-- LISTADO 1: Usuarios Más Activos -->
     <!-- ========================================== -->
     
-    <record id="view_usuarios_activos_tree" model="ir.ui.view">
-        <field name="name">res.partner.activos.tree</field>
+    <record id="view_usuarios_activos_list" model="ir.ui.view">
+        <field name="name">res.partner.activos.list</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
-            <tree string="Usuarios Más Activos" 
+            <list string="Usuarios Más Activos" 
                   default_order="productos_en_venta desc, productos_vendidos desc, total_comentarios desc"
                   create="false" 
                   edit="false">
@@ -149,7 +149,7 @@
                 <field name="total_comentarios" sum="Total comentarios"/>
                 <field name="fecha_registro_app"/>
                 <field name="cuenta_activa" widget="boolean_toggle"/>
-            </tree>
+            </list>
         </field>
     </record>
     
@@ -182,8 +182,8 @@
     <record id="action_usuarios_activos" model="ir.actions.act_window">
         <field name="name">Usuarios Más Activos</field>
         <field name="res_model">res.partner</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_usuarios_activos_tree"/>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_usuarios_activos_list"/>
         <field name="search_view_id" ref="view_usuarios_activos_search"/>
         <field name="domain">[('es_usuario_app', '=', True)]</field>
         <field name="context">{
@@ -207,11 +207,11 @@
     <!-- LISTADO 2: Productos Más Comentados -->
     <!-- ========================================== -->
     
-    <record id="view_productos_comentados_tree" model="ir.ui.view">
-        <field name="name">renaix.producto.comentados.tree</field>
+    <record id="view_productos_comentados_list" model="ir.ui.view">
+        <field name="name">renaix.producto.comentados.list</field>
         <field name="model">renaix.producto</field>
         <field name="arch" type="xml">
-            <tree string="Productos Más Comentados/Denunciados" 
+            <list string="Productos Más Comentados/Denunciados" 
                   default_order="total_comentarios desc, total_denuncias desc"
                   create="false" 
                   edit="false"
@@ -228,7 +228,7 @@
                 <field name="dias_publicado"/>
                 <field name="active" widget="boolean_toggle"/>
                 <field name="currency_id" column_invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
     
@@ -264,8 +264,8 @@
     <record id="action_productos_comentados" model="ir.actions.act_window">
         <field name="name">Productos Más Comentados</field>
         <field name="res_model">renaix.producto</field>
-        <field name="view_mode">tree,kanban,form</field>
-        <field name="view_id" ref="view_productos_comentados_tree"/>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="view_id" ref="view_productos_comentados_list"/>
         <field name="search_view_id" ref="view_productos_comentados_search"/>
         <field name="context">{
             'search_default_con_comentarios': 1
