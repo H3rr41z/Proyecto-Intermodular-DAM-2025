@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vista Form extendida de res.partner para Usuarios App -->
+    <record id="view_partner_form_renaix" model="ir.ui.view">
+        <field name="name">res.partner.form.renaix</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Añadir botones estadísticos -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_productos" 
+                        type="object" 
+                        class="oe_stat_button" 
+                        icon="fa-shopping-cart"
+                        invisible="not es_usuario_app">
+                    <field name="productos_en_venta" widget="statinfo" string="En Venta"/>
+                </button>
+                <button name="action_view_compras" 
+                        type="object" 
+                        class="oe_stat_button" 
+                        icon="fa-shopping-bag"
+                        invisible="not es_usuario_app">
+                    <field name="productos_comprados" widget="statinfo" string="Comprados"/>
+                </button>
+                <button name="action_view_ventas" 
+                        type="object" 
+                        class="oe_stat_button" 
+                        icon="fa-money"
+                        invisible="not es_usuario_app">
+                    <field name="productos_vendidos" widget="statinfo" string="Vendidos"/>
+                </button>
+            </xpath>
+            
+            <!-- Añadir página de Renaix -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Renaix App" invisible="not es_usuario_app">
+                    <group>
+                        <group string="Información de Usuario">
+                            <field name="es_usuario_app"/>
+                            <field name="fecha_registro_app"/>
+                            <field name="cuenta_activa" widget="boolean_toggle"/>
+                            <field name="fecha_ultima_actividad"/>
+                        </group>
+                        <group string="Estadísticas">
+                            <field name="valoracion_promedio" widget="progressbar"/>
+                            <field name="total_comentarios"/>
+                            <field name="total_denuncias_realizadas"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Acciones">
+                            <button name="action_desactivar_cuenta" 
+                                    type="object" 
+                                    string="Desactivar Cuenta" 
+                                    class="btn-warning"
+                                    confirm="¿Está seguro de desactivar esta cuenta?"
+                                    invisible="not cuenta_activa"/>
+                            <button name="action_activar_cuenta" 
+                                    type="object" 
+                                    string="Activar Cuenta" 
+                                    class="btn-success"
+                                    invisible="cuenta_activa"/>
+                        </group>
+                        <group string="API">
+                            <field name="api_token" password="True" groups="base.group_system"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Productos" invisible="not producto_ids">
+                            <field name="producto_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="categoria_id"/>
+                                    <field name="precio" widget="monetary"/>
+                                    <field name="estado_venta"/>
+                                    <field name="fecha_publicacion"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Valoraciones" invisible="not valoracion_ids">
+                            <field name="valoracion_ids" readonly="1">
+                                <tree>
+                                    <field name="compra_id"/>
+                                    <field name="puntuacion" widget="priority"/>
+                                    <field name="comentario"/>
+                                    <field name="fecha"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- Vista Tree de Usuarios App -->
+    <record id="view_partner_tree_renaix" model="ir.ui.view">
+        <field name="name">res.partner.tree.renaix</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <tree string="Usuarios App">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="fecha_registro_app"/>
+                <field name="valoracion_promedio" widget="progressbar"/>
+                <field name="productos_en_venta"/>
+                <field name="productos_vendidos"/>
+                <field name="cuenta_activa" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista Search para Usuarios App -->
+    <record id="view_partner_search_renaix" model="ir.ui.view">
+        <field name="name">res.partner.search.renaix</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Usuarios App">
+                <field name="name" string="Nombre" 
+                       filter_domain="[('name', 'ilike', self)]"/>
+                <field name="email"/>
+                <field name="phone"/>
+                
+                <filter string="Usuarios App" name="usuarios_app" 
+                        domain="[('es_usuario_app', '=', True)]"/>
+                <filter string="Cuenta Activa" name="activos" 
+                        domain="[('cuenta_activa', '=', True), ('es_usuario_app', '=', True)]"/>
+                <filter string="Cuenta Inactiva" name="inactivos" 
+                        domain="[('cuenta_activa', '=', False), ('es_usuario_app', '=', True)]"/>
+                
+                <separator/>
+                
+                <filter string="Con Productos" name="con_productos" 
+                        domain="[('productos_en_venta', '>', 0)]"/>
+                <filter string="Vendedores" name="vendedores" 
+                        domain="[('productos_vendidos', '>', 0)]"/>
+                <filter string="Compradores" name="compradores" 
+                        domain="[('productos_comprados', '>', 0)]"/>
+                
+                <separator/>
+                
+                <filter string="Bien Valorados" name="bien_valorados" 
+                        domain="[('valoracion_promedio', '>=', 4.0)]"/>
+                
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Fecha Registro" name="group_fecha" 
+                            context="{'group_by': 'fecha_registro_app'}"/>
+                    <filter string="Estado Cuenta" name="group_estado" 
+                            context="{'group_by': 'cuenta_activa'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción de Ventana para Usuarios App -->
+    <record id="action_partner_renaix" model="ir.actions.act_window">
+        <field name="name">Usuarios App</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_partner_tree_renaix"/>
+        <field name="context">{
+            'search_default_usuarios_app': 1,
+            'search_default_activos': 1,
+            'default_es_usuario_app': True
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear primer usuario de la app
+            </p>
+            <p>
+                Los usuarios de la app móvil Renaix se gestionan aquí.<br/>
+                Puedes ver sus productos, compras, valoraciones y más.
+            </p>
+        </field>
+    </record>
+
+    <!-- Añadir al menú -->
+    <menuitem id="menu_renaix_usuarios"
+              name="Usuarios App"
+              parent="menu_renaix_root"
+              action="action_partner_renaix"
+              sequence="10"/>
+
+</odoo>

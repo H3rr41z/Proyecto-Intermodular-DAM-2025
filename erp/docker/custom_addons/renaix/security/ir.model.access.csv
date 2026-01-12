@@ -5,3 +5,12 @@ access_renaix_categoria_admin,renaix.categoria.admin,model_renaix_categoria,grou
 access_renaix_etiqueta_user,renaix.etiqueta.user,model_renaix_etiqueta,group_renaix_user,1,0,0,0
 access_renaix_etiqueta_moderador,renaix.etiqueta.moderador,model_renaix_etiqueta,group_renaix_moderador,1,1,1,0
 access_renaix_etiqueta_admin,renaix.etiqueta.admin,model_renaix_etiqueta,group_renaix_admin,1,1,1,1
+access_renaix_producto_user,renaix.producto.user,model_renaix_producto,group_renaix_user,1,0,0,0
+access_renaix_producto_moderador,renaix.producto.moderador,model_renaix_producto,group_renaix_moderador,1,1,1,1
+access_renaix_producto_admin,renaix.producto.admin,model_renaix_producto,group_renaix_admin,1,1,1,1
+access_renaix_producto_imagen_user,renaix.producto.imagen.user,model_renaix_producto_imagen,group_renaix_user,1,0,0,0
+access_renaix_producto_imagen_moderador,renaix.producto.imagen.moderador,model_renaix_producto_imagen,group_renaix_moderador,1,1,1,1
+access_renaix_producto_imagen_admin,renaix.producto.imagen.admin,model_renaix_producto_imagen,group_renaix_admin,1,1,1,1
+access_renaix_compra_user,renaix.compra.user,model_renaix_compra,group_renaix_user,1,0,0,0
+access_renaix_compra_moderador,renaix.compra.moderador,model_renaix_compra,group_renaix_moderador,1,1,1,0
+access_renaix_compra_admin,renaix.compra.admin,model_renaix_compra,group_renaix_admin,1,1,1,1

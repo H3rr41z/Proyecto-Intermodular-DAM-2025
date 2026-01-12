@@ -81,7 +81,9 @@ class Categoria(models.Model):
     def _compute_producto_count(self):
         """Calcula cuántos productos hay en cada categoría"""
         for categoria in self:
-            categoria.producto_count = len(categoria.producto_ids)
+            # Temporalmente devuelve 0 hasta que exista el modelo Producto
+            # categoria.producto_count = len(categoria.producto_ids)
+            categoria.producto_count = 0
     
     @api.constrains('name')
     def _check_name(self):

@@ -28,7 +28,7 @@
         * App Móvil: Interfaz para usuarios finales
     """,
     'author': 'Javier Herraiz & Alejandro Sánchez',
-    'website': 'https://github.com/H3rr41z/proyecto-renaix',
+    'website': 'https://github.com/Alejandro-WOU/projecte-dam-25-26-javier-alejandro',
     'license': 'LGPL-3',
     'depends': [
         'base',
@@ -41,12 +41,17 @@
         'security/ir.model.access.csv',
         
         # Data
+        'data/sequences.xml',
         'data/categorias_data.xml',
         
         # Views
         'views/menu.xml',
         'views/categoria_views.xml',
         'views/etiqueta_views.xml',
+        'views/res_partner_views.xml',
+        'views/producto_views.xml',
+        'views/producto_imagen_views.xml',
+        'views/compra_views.xml',
     ],
     'demo': [],
     'installable': True,
