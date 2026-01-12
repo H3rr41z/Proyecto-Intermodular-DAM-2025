@@ -231,11 +231,4 @@
         </field>
     </record>
 
-    <!-- Añadir al menú -->
-    <menuitem id="menu_renaix_denuncias"
-              name="Denuncias"
-              parent="menu_renaix_root"
-              action="action_denuncia"
-              sequence="70"/>
-
 </odoo>

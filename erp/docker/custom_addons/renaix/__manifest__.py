@@ -44,8 +44,7 @@
         'data/sequences.xml',
         'data/categorias_data.xml',
         
-        # Views (vistas de la aplicación)
-        'views/menu.xml',
+        # Views (vistas y acciones - ANTES del menú)
         'views/categoria_views.xml',
         'views/etiqueta_views.xml',
         'views/res_partner_views.xml',
@@ -57,6 +56,9 @@
         'views/mensaje_views.xml',
         'views/denuncia_views.xml',
         'views/estadisticas_views.xml',  # Estadísticas (gráficos + listados)
+        
+        # Menu (AL FINAL - después de todas las acciones)
+        'views/menu.xml',
     ],
     'demo': [],
     'installable': True,

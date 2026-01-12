@@ -165,11 +165,4 @@
         </field>
     </record>
 
-    <!-- Añadir al menú -->
-    <menuitem id="menu_renaix_mensajes"
-              name="Mensajes"
-              parent="menu_renaix_root"
-              action="action_mensaje"
-              sequence="60"/>
-
 </odoo>
