@@ -41,6 +41,7 @@ class Etiqueta(models.Model):
     producto_count = fields.Integer(
         string='Nº Productos',
         compute='_compute_producto_count',
+        store=True,  # IMPORTANTE: store=True para poder usar en filtros
         help='Cantidad de productos con esta etiqueta'
     )
     

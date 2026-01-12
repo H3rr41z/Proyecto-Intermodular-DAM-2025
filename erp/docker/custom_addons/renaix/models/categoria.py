@@ -56,6 +56,7 @@ class Categoria(models.Model):
     producto_count = fields.Integer(
         string='Nº Productos',
         compute='_compute_producto_count',
+        store=True,  # ✅ IMPORTANTE: store=True para poder usar en filtros
         help='Cantidad de productos en esta categoría'
     )
     
@@ -81,9 +82,7 @@ class Categoria(models.Model):
     def _compute_producto_count(self):
         """Calcula cuántos productos hay en cada categoría"""
         for categoria in self:
-            # Temporalmente devuelve 0 hasta que exista el modelo Producto
-            # categoria.producto_count = len(categoria.producto_ids)
-            categoria.producto_count = 0
+            categoria.producto_count = len(categoria.producto_ids)
     
     @api.constrains('name')
     def _check_name(self):
