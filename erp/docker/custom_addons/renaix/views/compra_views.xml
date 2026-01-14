@@ -225,11 +225,5 @@
         </field>
     </record>
 
-    <!-- Añadir al menú -->
-    <menuitem id="menu_renaix_compras"
-              name="Compras"
-              parent="menu_renaix_root"
-              action="action_compra"
-              sequence="30"/>
 
 </odoo>

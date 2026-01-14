@@ -123,8 +123,8 @@
                         <page string="Imágenes">
                             <group>
                                 <field name="total_imagenes"/>
-                                <label string="Mínimo 1 imagen, máximo 10" class="text-muted"/>
                             </group>
+                            <div class="text-muted">Mínimo 1 imagen, máximo 10</div>
                             <field name="imagen_ids" mode="kanban">
                                 <kanban>
                                     <field name="id"/>
@@ -344,11 +344,5 @@
         </field>
     </record>
 
-    <!-- Añadir al menú -->
-    <menuitem id="menu_renaix_productos"
-              name="Productos"
-              parent="menu_renaix_root"
-              action="action_producto"
-              sequence="20"/>
 
 </odoo>

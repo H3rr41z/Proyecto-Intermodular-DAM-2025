@@ -254,3 +254,17 @@ class Denuncia(models.Model):
             name = f"[{tipo_label}] {denuncia.denunciado_nombre} - {denuncia.categoria}"
             result.append((denuncia.id, name))
         return result
+    
+    def action_view_producto(self):
+        """Abre el producto denunciado"""
+        self.ensure_one()
+        if self.tipo == 'producto' and self.producto_id:
+            return {
+                'name': f'Producto Denunciado: {self.producto_id.name}',
+                'type': 'ir.actions.act_window',
+                'res_model': 'renaix.producto',
+                'view_mode': 'form',
+                'res_id': self.producto_id.id,
+                'target': 'current',
+            }
+        return False

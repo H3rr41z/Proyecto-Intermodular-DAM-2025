@@ -138,12 +138,14 @@ class Compra(models.Model):
     comprador_valoro = fields.Boolean(
         string='Comprador Valoró',
         compute='_compute_valoraciones_realizadas',
+        store=True,  # ✅ Para poder filtrar
         help='Indica si el comprador ya valoró al vendedor'
     )
     
     vendedor_valoro = fields.Boolean(
         string='Vendedor Valoró',
         compute='_compute_valoraciones_realizadas',
+        store=True,  # ✅ Para poder filtrar
         help='Indica si el vendedor ya valoró al comprador'
     )
     

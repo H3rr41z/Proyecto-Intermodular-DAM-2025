@@ -158,12 +158,14 @@ class Producto(models.Model):
     # Campos computados
     total_comentarios = fields.Integer(
         string='Nº Comentarios',
-        compute='_compute_estadisticas'
+        compute='_compute_estadisticas',
+        store=True  # ✅ Para poder filtrar
     )
     
     total_denuncias = fields.Integer(
         string='Nº Denuncias',
-        compute='_compute_estadisticas'
+        compute='_compute_estadisticas',
+        store=True  # ✅ Para poder filtrar
     )
     
     total_imagenes = fields.Integer(
