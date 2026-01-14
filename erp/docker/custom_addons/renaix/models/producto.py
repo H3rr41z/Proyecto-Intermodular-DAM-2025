@@ -158,17 +158,20 @@ class Producto(models.Model):
     # Campos computados
     total_comentarios = fields.Integer(
         string='Nº Comentarios',
-        compute='_compute_estadisticas'
+        compute='_compute_estadisticas',
+        store=True
     )
     
     total_denuncias = fields.Integer(
         string='Nº Denuncias',
-        compute='_compute_estadisticas'
+        compute='_compute_estadisticas',
+        store=True
     )
     
     total_imagenes = fields.Integer(
         string='Nº Imágenes',
-        compute='_compute_total_imagenes'
+        compute='_compute_total_imagenes',
+        store=True
     )
     
     dias_publicado = fields.Integer(
