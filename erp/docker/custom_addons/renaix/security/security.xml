@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         
         <!-- Categoría de Módulo -->
         <record id="module_category_renaix" model="ir.module.category">
@@ -33,9 +33,11 @@
             <field name="comment">Control total sobre el sistema Renaix</field>
         </record>
 
-        <!-- Reglas de Registro (Record Rules) -->
+        <!-- ================================ -->
+        <!-- REGLAS DE REGISTRO (Record Rules) -->
+        <!-- ================================ -->
         
-        <!-- Categorías: Todos pueden ver las activas -->
+        <!-- CATEGORÍAS -->
         <record id="categoria_user_rule" model="ir.rule">
             <field name="name">Categoría: Usuario puede ver activas</field>
             <field name="model_id" ref="model_renaix_categoria"/>
@@ -47,7 +49,6 @@
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <!-- Categorías: Administradores pueden ver todas -->
         <record id="categoria_admin_rule" model="ir.rule">
             <field name="name">Categoría: Admin puede gestionar todas</field>
             <field name="model_id" ref="model_renaix_categoria"/>
@@ -59,7 +60,7 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <!-- Etiquetas: Todos pueden ver las activas -->
+        <!-- ETIQUETAS -->
         <record id="etiqueta_user_rule" model="ir.rule">
             <field name="name">Etiqueta: Usuario puede ver activas</field>
             <field name="model_id" ref="model_renaix_etiqueta"/>
@@ -71,12 +72,127 @@
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <!-- Etiquetas: Administradores pueden gestionar todas -->
         <record id="etiqueta_admin_rule" model="ir.rule">
             <field name="name">Etiqueta: Admin puede gestionar todas</field>
             <field name="model_id" ref="model_renaix_etiqueta"/>
             <field name="domain_force">[(1, '=', 1)]</field>
             <field name="groups" eval="[(4, ref('group_renaix_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- PRODUCTOS -->
+        <record id="producto_user_rule" model="ir.rule">
+            <field name="name">Producto: Usuario puede ver disponibles y publicados</field>
+            <field name="model_id" ref="model_renaix_producto"/>
+            <field name="domain_force">[('active', '=', True), ('estado_venta', 'in', ['disponible', 'reservado', 'vendido'])]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="producto_moderador_rule" model="ir.rule">
+            <field name="name">Producto: Moderador puede gestionar todos</field>
+            <field name="model_id" ref="model_renaix_producto"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_moderador'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- COMENTARIOS -->
+        <record id="comentario_user_rule" model="ir.rule">
+            <field name="name">Comentario: Usuario puede ver activos</field>
+            <field name="model_id" ref="model_renaix_comentario"/>
+            <field name="domain_force">[('active', '=', True)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="comentario_moderador_rule" model="ir.rule">
+            <field name="name">Comentario: Moderador puede gestionar todos (incluidos inactivos)</field>
+            <field name="model_id" ref="model_renaix_comentario"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_moderador'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- DENUNCIAS -->
+        <record id="denuncia_moderador_rule" model="ir.rule">
+            <field name="name">Denuncia: Moderador puede gestionar todas</field>
+            <field name="model_id" ref="model_renaix_denuncia"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_moderador'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- MENSAJES -->
+        <record id="mensaje_user_rule" model="ir.rule">
+            <field name="name">Mensaje: Usuario puede gestionar todos</field>
+            <field name="model_id" ref="model_renaix_mensaje"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- COMPRAS -->
+        <record id="compra_user_rule" model="ir.rule">
+            <field name="name">Compra: Usuario puede ver todas</field>
+            <field name="model_id" ref="model_renaix_compra"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="compra_moderador_rule" model="ir.rule">
+            <field name="name">Compra: Moderador puede gestionar todas</field>
+            <field name="model_id" ref="model_renaix_compra"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_moderador'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- VALORACIONES -->
+        <record id="valoracion_user_rule" model="ir.rule">
+            <field name="name">Valoración: Usuario puede ver todas</field>
+            <field name="model_id" ref="model_renaix_valoracion"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="valoracion_moderador_rule" model="ir.rule">
+            <field name="name">Valoración: Moderador puede gestionar todas</field>
+            <field name="model_id" ref="model_renaix_valoracion"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_renaix_moderador'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
