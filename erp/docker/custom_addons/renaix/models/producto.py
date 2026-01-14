@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
@@ -159,18 +158,19 @@ class Producto(models.Model):
     total_comentarios = fields.Integer(
         string='Nº Comentarios',
         compute='_compute_estadisticas',
-        store=True  # ✅ Para poder filtrar
+        store=True
     )
     
     total_denuncias = fields.Integer(
         string='Nº Denuncias',
         compute='_compute_estadisticas',
-        store=True  # ✅ Para poder filtrar
+        store=True
     )
     
     total_imagenes = fields.Integer(
         string='Nº Imágenes',
-        compute='_compute_total_imagenes'
+        compute='_compute_total_imagenes',
+        store=True
     )
     
     dias_publicado = fields.Integer(

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     
-    <!-- Vista list de Compras -->
-    <record id="view_compra_list" model="ir.ui.view">
-        <field name="name">renaix.compra.list</field>
+    <!-- Vista Tree de Compras -->
+    <record id="view_compra_tree" model="ir.ui.view">
+        <field name="name">renaix.compra.tree</field>
         <field name="model">renaix.compra</field>
         <field name="arch" type="xml">
-            <list string="Compras">
+            <tree string="Compras">
                 <field name="codigo"/>
                 <field name="producto_nombre"/>
                 <field name="comprador_nombre"/>
@@ -20,7 +20,7 @@
                 <field name="comprador_valoro" widget="boolean_toggle"/>
                 <field name="vendedor_valoro" widget="boolean_toggle"/>
                 <field name="currency_id" column_invisible="1"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -93,21 +93,21 @@
                         <page string="Valoraciones del Comprador" 
                               invisible="not valoracion_comprador_ids">
                             <field name="valoracion_comprador_ids" readonly="1">
-                                <list>
+                                <tree>
                                     <field name="puntuacion" widget="priority"/>
                                     <field name="comentario"/>
                                     <field name="fecha"/>
-                                </list>
+                                </tree>
                             </field>
                         </page>
                         <page string="Valoraciones del Vendedor" 
                               invisible="not valoracion_vendedor_ids">
                             <field name="valoracion_vendedor_ids" readonly="1">
-                                <list>
+                                <tree>
                                     <field name="puntuacion" widget="priority"/>
                                     <field name="comentario"/>
                                     <field name="fecha"/>
-                                </list>
+                                </tree>
                             </field>
                         </page>
                     </notebook>
@@ -212,7 +212,7 @@
     <record id="action_compra" model="ir.actions.act_window">
         <field name="name">Compras / Transacciones</field>
         <field name="res_model">renaix.compra</field>
-        <field name="view_mode">list,kanban,form</field>
+        <field name="view_mode">tree,kanban,form</field>
         <field name="context">{'search_default_pendientes': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -224,6 +224,5 @@
             </p>
         </field>
     </record>
-
 
 </odoo>

@@ -72,23 +72,23 @@
                     <notebook>
                         <page string="Productos" invisible="not producto_ids">
                             <field name="producto_ids" readonly="1">
-                                <list>
+                                <tree>
                                     <field name="name"/>
                                     <field name="categoria_id"/>
                                     <field name="precio" widget="monetary"/>
                                     <field name="estado_venta"/>
                                     <field name="fecha_publicacion"/>
-                                </list>
+                                </tree>
                             </field>
                         </page>
                         <page string="Valoraciones" invisible="not valoracion_ids">
                             <field name="valoracion_ids" readonly="1">
-                                <list>
+                                <tree>
                                     <field name="compra_id"/>
                                     <field name="puntuacion" widget="priority"/>
                                     <field name="comentario"/>
                                     <field name="fecha"/>
-                                </list>
+                                </tree>
                             </field>
                         </page>
                     </notebook>
@@ -98,12 +98,12 @@
         </field>
     </record>
 
-    <!-- Vista list de Usuarios App -->
-    <record id="view_partner_list_renaix" model="ir.ui.view">
-        <field name="name">res.partner.list.renaix</field>
+    <!-- Vista Tree de Usuarios App -->
+    <record id="view_partner_tree_renaix" model="ir.ui.view">
+        <field name="name">res.partner.tree.renaix</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
-            <list string="Usuarios App">
+            <tree string="Usuarios App">
                 <field name="name"/>
                 <field name="email"/>
                 <field name="phone"/>
@@ -112,7 +112,7 @@
                 <field name="productos_en_venta"/>
                 <field name="productos_vendidos"/>
                 <field name="cuenta_activa" widget="boolean_toggle"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -162,8 +162,8 @@
     <record id="action_partner_renaix" model="ir.actions.act_window">
         <field name="name">Usuarios App</field>
         <field name="res_model">res.partner</field>
-        <field name="view_mode">list,form</field>
-        <field name="view_id" ref="view_partner_list_renaix"/>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_partner_tree_renaix"/>
         <field name="context">{
             'search_default_usuarios_app': 1,
             'search_default_activos': 1,
