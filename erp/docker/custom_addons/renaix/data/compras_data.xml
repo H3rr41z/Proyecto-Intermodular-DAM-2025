@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- COMPRAS / TRANSACCIONES -->
+        <!-- ========================================== -->
+        
+        <record id="compra_1" model="renaix.compra">
+            <field name="codigo">RNX00001</field>
+            <field name="producto_id" ref="producto_nintendo_switch"/>
+            <field name="comprador_id" ref="usuario_ana_martinez"/>
+            <field name="precio_final">280.00</field>
+            <field name="estado">completada</field>
+            <field name="fecha_compra" eval="(datetime.now() - timedelta(days=25)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="notas">Entrega en mano en Plaza del Ayuntamiento. Todo perfecto.</field>
+        </record>
+
+        <record id="compra_2" model="renaix.compra">
+            <field name="codigo">RNX00002</field>
+            <field name="producto_id" ref="producto_camara_canon"/>
+            <field name="comprador_id" ref="usuario_pedro_sanchez"/>
+            <field name="precio_final">380.00</field>
+            <field name="estado">completada</field>
+            <field name="fecha_compra" eval="(datetime.now() - timedelta(days=15)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="notas">Envío por mensajería. Producto recibido en excelente estado.</field>
+        </record>
+
+        <record id="compra_3" model="renaix.compra">
+            <field name="codigo">RNX00003</field>
+            <field name="producto_id" ref="producto_vinilo_beatles"/>
+            <field name="comprador_id" ref="usuario_carlos_lopez"/>
+            <field name="precio_final">45.00</field>
+            <field name="estado">confirmada</field>
+            <field name="fecha_compra" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="notas">Quedamos este fin de semana para recogerlo.</field>
+        </record>
+
+        <record id="compra_4" model="renaix.compra">
+            <field name="codigo">RNX00004</field>
+            <field name="producto_id" ref="producto_robot_aspirador"/>
+            <field name="comprador_id" ref="usuario_laura_fernandez"/>
+            <field name="precio_final">195.00</field>
+            <field name="estado">pendiente</field>
+            <field name="fecha_compra" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="notas">Esperando confirmación del vendedor para acordar entrega.</field>
+        </record>
+
+        <record id="compra_5" model="renaix.compra">
+            <field name="codigo">RNX00005</field>
+            <field name="producto_id" ref="producto_coleccion_harry_potter"/>
+            <field name="comprador_id" ref="usuario_maria_garcia"/>
+            <field name="precio_final">55.00</field>
+            <field name="estado">completada</field>
+            <field name="fecha_compra" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="notas">Libros en perfecto estado. Muy contenta con la compra.</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- ACTUALIZAR PRODUCTOS A VENDIDO -->
+        <!-- (Después de las compras completadas) -->
+        <!-- ========================================== -->
+        
+        <!-- Marcar Nintendo Switch como vendido -->
+        <record id="producto_nintendo_switch" model="renaix.producto">
+            <field name="estado_venta">vendido</field>
+            <field name="compra_id" ref="compra_1"/>
+        </record>
+
+        <!-- Marcar Cámara Canon como vendida -->
+        <record id="producto_camara_canon" model="renaix.producto">
+            <field name="estado_venta">vendido</field>
+            <field name="compra_id" ref="compra_2"/>
+        </record>
+
+        <!-- Marcar Colección Harry Potter como vendida -->
+        <record id="producto_coleccion_harry_potter" model="renaix.producto">
+            <field name="estado_venta">vendido</field>
+            <field name="compra_id" ref="compra_5"/>
+        </record>
+
+        <!-- Marcar Vinilo Beatles como reservado (compra confirmada pero no completada) -->
+        <record id="producto_vinilo_beatles" model="renaix.producto">
+            <field name="estado_venta">reservado</field>
+        </record>
+
+        <!-- Marcar Robot Aspirador como reservado (compra pendiente) -->
+        <record id="producto_robot_aspirador" model="renaix.producto">
+            <field name="estado_venta">reservado</field>
+        </record>
+
+    </data>
+</odoo>

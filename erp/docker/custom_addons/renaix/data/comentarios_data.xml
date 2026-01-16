@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- COMENTARIOS EN PRODUCTOS -->
+        <!-- ========================================== -->
+        
+        <!-- Comentarios en iPhone 13 -->
+        <record id="comentario_1" model="renaix.comentario">
+            <field name="producto_id" ref="producto_iphone_13"/>
+            <field name="usuario_id" ref="usuario_maria_garcia"/>
+            <field name="texto">¿Aún tienes la caja original? Estoy muy interesada. ¿Aceptarías 630€?</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="comentario_2" model="renaix.comentario">
+            <field name="producto_id" ref="producto_iphone_13"/>
+            <field name="usuario_id" ref="usuario_juan_perez"/>
+            <field name="texto">Sí, tengo la caja original con todos los accesorios. El precio es firme, gracias por tu interés.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=5, hours=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="comentario_3" model="renaix.comentario">
+            <field name="producto_id" ref="producto_iphone_13"/>
+            <field name="usuario_id" ref="usuario_pedro_sanchez"/>
+            <field name="texto">¿Tiene algún arañazo en la pantalla? ¿Incluye protector?</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Comentarios en PS5 -->
+        <record id="comentario_4" model="renaix.comentario">
+            <field name="producto_id" ref="producto_ps5"/>
+            <field name="usuario_id" ref="usuario_carlos_lopez"/>
+            <field name="texto">¿Incluye cables HDMI y de corriente? ¿Los juegos son para la cuenta o físicos?</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="comentario_5" model="renaix.comentario">
+            <field name="producto_id" ref="producto_ps5"/>
+            <field name="usuario_id" ref="usuario_maria_garcia"/>
+            <field name="texto">Sí, incluye todos los cables originales y dos mandos. Los juegos son digitales vinculados a mi cuenta, te paso las contraseñas al comprar.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=3, hours=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Comentarios en MacBook Air -->
+        <record id="comentario_6" model="renaix.comentario">
+            <field name="producto_id" ref="producto_macbook_air"/>
+            <field name="usuario_id" ref="usuario_ana_martinez"/>
+            <field name="texto">¿Cuántos ciclos de carga tiene la batería? ¿Tiene garantía restante?</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="comentario_7" model="renaix.comentario">
+            <field name="producto_id" ref="producto_macbook_air"/>
+            <field name="usuario_id" ref="usuario_carlos_lopez"/>
+            <field name="texto">Solo 85 ciclos, la batería está prácticamente nueva (salud al 98%). Comprado en febrero 2023, aún tiene garantía Apple hasta febrero 2026.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=2, hours=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Comentarios en Bicicleta -->
+        <record id="comentario_8" model="renaix.comentario">
+            <field name="producto_id" ref="producto_bicicleta_montana"/>
+            <field name="usuario_id" ref="usuario_pedro_sanchez"/>
+            <field name="texto">¿Aceptas cambios? Tengo una bicicleta de carretera que te podría interesar.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Comentarios en Robot Aspirador -->
+        <record id="comentario_9" model="renaix.comentario">
+            <field name="producto_id" ref="producto_robot_aspirador"/>
+            <field name="usuario_id" ref="usuario_laura_fernandez"/>
+            <field name="texto">¿Cuántas horas de uso tiene aproximadamente? ¿Funciona bien en alfombras?</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(hours=12)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="comentario_10" model="renaix.comentario">
+            <field name="producto_id" ref="producto_robot_aspirador"/>
+            <field name="usuario_id" ref="usuario_david_ruiz"/>
+            <field name="texto">Aproximadamente 100 horas de uso. Funciona perfectamente en alfombras de hasta 2cm de grosor. Incluyo 3 filtros nuevos!</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(hours=10)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Comentarios en Patinete -->
+        <record id="comentario_11" model="renaix.comentario">
+            <field name="producto_id" ref="producto_patinete_electrico"/>
+            <field name="usuario_id" ref="usuario_sofia_moreno"/>
+            <field name="texto">Buenas! ¿Cuál es la autonomía real que le queda? ¿Tiene algún golpe?</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(hours=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Comentarios en LEGO -->
+        <record id="comentario_12" model="renaix.comentario">
+            <field name="producto_id" ref="producto_lego_star_wars"/>
+            <field name="usuario_id" ref="usuario_ana_martinez"/>
+            <field name="texto">¿Todas las piezas están? ¿Las minifiguras incluidas? Es un regalo, necesito asegurarme.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=6)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="comentario_13" model="renaix.comentario">
+            <field name="producto_id" ref="producto_lego_star_wars"/>
+            <field name="usuario_id" ref="usuario_pedro_sanchez"/>
+            <field name="texto">Sí, todas las 7541 piezas están verificadas y las 7 minifiguras incluidas. Perfecto para regalo!</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=6, hours=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+    </data>
+</odoo>

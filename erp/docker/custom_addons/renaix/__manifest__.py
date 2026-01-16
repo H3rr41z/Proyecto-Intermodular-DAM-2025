@@ -37,6 +37,18 @@
         ✅ Listados avanzados (2 listados)
         ✅ Dashboard organizado jerárquicamente
         ✅ Informe QWeb profesional (PDF)
+        ✅ Datos de demostración completos
+        
+        Datos Demo Incluidos:
+        --------------------
+        * 9 usuarios de la app (8 activos + 1 suspendido)
+        * 10 etiquetas populares
+        * 17 productos variados (14 disponibles, 2 vendidos, 1 borrador)
+        * 5 transacciones en diferentes estados
+        * 6 valoraciones bidireccionales (promedio 4.83⭐)
+        * 13 comentarios en productos
+        * 9 mensajes privados (7 leídos, 2 sin leer)
+        * 7 denuncias para gestión
     """,
     'author': 'Javier Herraiz & Alejandro Sánchez',
     'website': 'https://github.com/Alejandro-WOU/projecte-dam-25-26-javier-alejandro',
@@ -58,6 +70,14 @@
         # ================================
         'data/sequences.xml',
         'data/categorias_data.xml',
+        'data/usuarios_data.xml',
+        'data/etiquetas_data.xml',
+        'data/productos_data.xml',
+        'data/compras_data.xml',
+        'data/valoraciones_data.xml',
+        'data/comentarios_data.xml',
+        'data/mensajes_data.xml',
+        'data/denuncias_data.xml',
         
         # ================================
         # VIEWS (vistas y acciones)
@@ -98,7 +118,37 @@
         # ================================
         'views/menu.xml',
     ],
-    'demo': [],
+    'demo': [
+        # ================================
+        # DEMO DATA (datos de demostración)
+        # ================================
+        # IMPORTANTE: El orden es crítico para mantener
+        # la integridad referencial entre registros
+        
+        # 1. Usuarios (base de todo)
+        'data/usuarios_data.xml',
+        
+        # 2. Etiquetas (independientes)
+        'data/etiquetas_data.xml',
+        
+        # 3. Productos (dependen de usuarios y etiquetas)
+        'data/productos_data.xml',
+        
+        # 4. Compras (dependen de productos y usuarios)
+        'data/compras_data.xml',
+        
+        # 5. Valoraciones (dependen de compras completadas)
+        'data/valoraciones_data.xml',
+        
+        # 6. Comentarios (dependen de productos y usuarios)
+        'data/comentarios_data.xml',
+        
+        # 7. Mensajes (dependen de usuarios y productos)
+        'data/mensajes_data.xml',
+        
+        # 8. Denuncias (dependen de productos, comentarios y usuarios)
+        'data/denuncias_data.xml',
+    ],
     'images': ['static/description/icon.png'],
     'installable': True,
     'application': True,

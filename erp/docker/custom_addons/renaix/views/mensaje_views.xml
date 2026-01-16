@@ -33,11 +33,25 @@
                             type="object" 
                             string="Marcar como No Leído"
                             invisible="not leido"/>
-                    <field name="leido" widget="statusbar" 
-                           statusbar_visible="False,True"
-                           options="{'clickable': False}"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-envelope-open" type="object"
+                                name="action_marcar_leido"
+                                invisible="leido">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text text-danger">No Leído</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-envelope-open-o" type="object"
+                                name="action_marcar_no_leido"
+                                invisible="not leido">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text text-success">Leído</span>
+                            </div>
+                        </button>
+                    </div>
+                    
                     <div class="oe_title">
                         <h1>
                             <field name="emisor_nombre" readonly="1"/>
@@ -54,6 +68,7 @@
                         <group>
                             <field name="producto_id" readonly="1"/>
                             <field name="hilo_id" readonly="1"/>
+                            <field name="leido" invisible="1"/>
                         </group>
                     </group>
                     

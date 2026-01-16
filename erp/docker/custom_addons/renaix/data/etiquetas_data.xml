@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- ETIQUETAS -->
+        <!-- ========================================== -->
+        
+        <record id="etiqueta_nuevo" model="renaix.etiqueta">
+            <field name="name">nuevo</field>
+            <field name="color">10</field>
+        </record>
+
+        <record id="etiqueta_vintage" model="renaix.etiqueta">
+            <field name="name">vintage</field>
+            <field name="color">5</field>
+        </record>
+
+        <record id="etiqueta_gaming" model="renaix.etiqueta">
+            <field name="name">gaming</field>
+            <field name="color">2</field>
+        </record>
+
+        <record id="etiqueta_apple" model="renaix.etiqueta">
+            <field name="name">apple</field>
+            <field name="color">1</field>
+        </record>
+
+        <record id="etiqueta_android" model="renaix.etiqueta">
+            <field name="name">android</field>
+            <field name="color">3</field>
+        </record>
+
+        <record id="etiqueta_coleccion" model="renaix.etiqueta">
+            <field name="name">coleccionable</field>
+            <field name="color">7</field>
+        </record>
+
+        <record id="etiqueta_negociable" model="renaix.etiqueta">
+            <field name="name">precio negociable</field>
+            <field name="color">4</field>
+        </record>
+
+        <record id="etiqueta_urgente" model="renaix.etiqueta">
+            <field name="name">venta urgente</field>
+            <field name="color">1</field>
+        </record>
+
+        <record id="etiqueta_garantia" model="renaix.etiqueta">
+            <field name="name">con garantía</field>
+            <field name="color">10</field>
+        </record>
+
+        <record id="etiqueta_caja" model="renaix.etiqueta">
+            <field name="name">caja original</field>
+            <field name="color">6</field>
+        </record>
+
+    </data>
+</odoo>

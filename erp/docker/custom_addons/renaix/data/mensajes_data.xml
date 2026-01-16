@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- MENSAJES PRIVADOS -->
+        <!-- ========================================== -->
+        
+        <!-- Conversación sobre iPhone 13 -->
+        <record id="mensaje_1" model="renaix.mensaje">
+            <field name="emisor_id" ref="usuario_maria_garcia"/>
+            <field name="receptor_id" ref="usuario_juan_perez"/>
+            <field name="producto_id" ref="producto_iphone_13"/>
+            <field name="texto">Hola Juan, me interesa mucho el iPhone. ¿Podrías enviarme más fotos del estado general del teléfono? Especialmente de la parte trasera y los bordes. Gracias.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=4)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="leido" eval="True"/>
+            <field name="fecha_lectura" eval="(datetime.now() - timedelta(days=4, hours=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="mensaje_2" model="renaix.mensaje">
+            <field name="emisor_id" ref="usuario_juan_perez"/>
+            <field name="receptor_id" ref="usuario_maria_garcia"/>
+            <field name="producto_id" ref="producto_iphone_13"/>
+            <field name="texto">¡Hola María! Claro, sin problema. Te las envío por WhatsApp ahora mismo. Mi número es el +34 600 111 222. El teléfono está impecable, sin ningún golpe ni rayadura.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=4, hours=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="leido" eval="True"/>
+            <field name="fecha_lectura" eval="(datetime.now() - timedelta(days=4, hours=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Conversación sobre Cámara Canon -->
+        <record id="mensaje_3" model="renaix.mensaje">
+            <field name="emisor_id" ref="usuario_pedro_sanchez"/>
+            <field name="receptor_id" ref="usuario_sofia_moreno"/>
+            <field name="producto_id" ref="producto_camara_canon"/>
+            <field name="texto">Hola Sofía, estoy muy interesado en la cámara Canon. ¿Cuándo podríamos vernos para que pueda probarla? Vivo en Valencia centro.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=16)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="leido" eval="True"/>
+            <field name="fecha_lectura" eval="(datetime.now() - timedelta(days=16, hours=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="mensaje_4" model="renaix.mensaje">
+            <field name="emisor_id" ref="usuario_sofia_moreno"/>
+            <field name="receptor_id" ref="usuario_pedro_sanchez"/>
+            <field name="producto_id" ref="producto_camara_canon"/>
+            <field name="texto">Hola Pedro! Perfecto. ¿Te viene bien el sábado por la mañana? Podemos quedar en el Corte Inglés de Colón. Así puedes probarla tranquilamente.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=16, hours=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="leido" eval="True"/>
+            <field name="fecha_lectura" eval="(datetime.now() - timedelta(days=16, hours=4)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="mensaje_5" model="renaix.mensaje">
+            <field name="emisor_id" ref="usuario_pedro_sanchez"/>
+            <field name="receptor_id" ref="usuario_sofia_moreno"/>
+            <field name="producto_id" ref="producto_camara_canon"/>
+            <field name="texto">Perfecto! El sábado a las 11:00 te viene bien? Llevo el dinero en efectivo.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=16, hours=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="leido" eval="True"/>
+            <field name="fecha_lectura" eval="(datetime.now() - timedelta(days=16, hours=6)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Conversación sobre MacBook -->
+        <record id="mensaje_6" model="renaix.mensaje">
+            <field name="emisor_id" ref="usuario_ana_martinez"/>
+            <field name="receptor_id" ref="usuario_carlos_lopez"/>
+            <field name="producto_id" ref="producto_macbook_air"/>
+            <field name="texto">Buenas tardes Carlos, me interesa el MacBook. ¿Podrías darme más detalles sobre el estado de la batería? ¿Cuántas horas aguanta aproximadamente?</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=2, hours=6)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="leido" eval="True"/>
+            <field name="fecha_lectura" eval="(datetime.now() - timedelta(days=2, hours=8)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="mensaje_7" model="renaix.mensaje">
+            <field name="emisor_id" ref="usuario_carlos_lopez"/>
+            <field name="receptor_id" ref="usuario_ana_martinez"/>
+            <field name="producto_id" ref="producto_macbook_air"/>
+            <field name="texto">Hola Ana! La batería está excelente, con solo 85 ciclos. Aguanta perfectamente 12-14 horas de uso normal (navegación, ofimática). Para video o tareas pesadas unas 8-10 horas. Está como nuevo.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=2, hours=10)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="leido" eval="True"/>
+            <field name="fecha_lectura" eval="(datetime.now() - timedelta(days=2, hours=12)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Mensajes NO LEÍDOS (para testing) -->
+        <record id="mensaje_8" model="renaix.mensaje">
+            <field name="emisor_id" ref="usuario_david_ruiz"/>
+            <field name="receptor_id" ref="usuario_laura_fernandez"/>
+            <field name="producto_id" ref="producto_robot_aspirador"/>
+            <field name="texto">Hola Laura, vi que estás interesada en el robot aspirador. Si quieres te hago un descuento a 195€. ¿Te interesa?</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(hours=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="leido" eval="False"/>
+        </record>
+
+        <record id="mensaje_9" model="renaix.mensaje">
+            <field name="emisor_id" ref="usuario_sofia_moreno"/>
+            <field name="receptor_id" ref="usuario_pedro_sanchez"/>
+            <field name="texto">Hola Pedro! Gracias por la compra de la cámara. Espero que la disfrutes mucho. Cualquier duda me comentas :)</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="leido" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

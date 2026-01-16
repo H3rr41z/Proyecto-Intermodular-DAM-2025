@@ -34,11 +34,23 @@
                             string="Restaurar Comentario" 
                             class="btn-success"
                             invisible="active"/>
-                    <field name="active" widget="statusbar" 
-                           statusbar_visible="True,False"
-                           options="{'clickable': False}"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_eliminar" icon="fa-ban"
+                                invisible="not active">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Activo</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_restaurar" icon="fa-check"
+                                invisible="active">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text text-danger">Eliminado</span>
+                            </div>
+                        </button>
+                    </div>
+                    
                     <div class="oe_title">
                         <h1>
                             <field name="producto_nombre" readonly="1"/>
@@ -53,6 +65,7 @@
                         <group>
                             <field name="fecha" readonly="1"/>
                             <field name="propietario_producto_id" readonly="1"/>
+                            <field name="active" invisible="1"/>
                         </group>
                     </group>
                     

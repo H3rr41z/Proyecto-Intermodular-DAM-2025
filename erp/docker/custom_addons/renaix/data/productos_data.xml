@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- PRODUCTOS -->
+        <!-- ========================================== -->
+        
+        <!-- Electrónica -->
+        <record id="producto_iphone_13" model="renaix.producto">
+            <field name="name">iPhone 13 128GB Negro</field>
+            <field name="descripcion">iPhone 13 en perfecto estado, 128GB de almacenamiento, color negro. Incluye cargador y funda protectora. Batería al 95% de salud. Sin rayones ni golpes.</field>
+            <field name="precio">650.00</field>
+            <field name="categoria_id" ref="categoria_electronica"/>
+            <field name="estado_producto">como_nuevo</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_juan_perez"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">6 meses</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_apple'), ref('etiqueta_nuevo'), ref('etiqueta_garantia')])]"/>
+        </record>
+
+        <record id="producto_ps5" model="renaix.producto">
+            <field name="name">PlayStation 5 Digital Edition</field>
+            <field name="descripcion">PS5 Digital Edition, poco uso, como nueva. Incluye 2 mandos DualSense blancos y 3 juegos digitales (Spider-Man, God of War, Horizon). Sin rayones ni desperfectos. Caja original incluida.</field>
+            <field name="precio">420.00</field>
+            <field name="categoria_id" ref="categoria_electronica"/>
+            <field name="estado_producto">como_nuevo</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_maria_garcia"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">1 año</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_gaming'), ref('etiqueta_caja')])]"/>
+        </record>
+
+        <record id="producto_macbook_air" model="renaix.producto">
+            <field name="name">MacBook Air M1 2020 8GB 256GB</field>
+            <field name="descripcion">MacBook Air con chip M1, 8GB RAM, 256GB SSD. Excelente estado, apenas usado (85 ciclos de batería). Incluye cargador original MagSafe y funda de protección. Sin marcas ni rayones.</field>
+            <field name="precio">750.00</field>
+            <field name="categoria_id" ref="categoria_electronica"/>
+            <field name="estado_producto">como_nuevo</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_carlos_lopez"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">2 años</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_apple'), ref('etiqueta_garantia'), ref('etiqueta_caja')])]"/>
+        </record>
+
+        <record id="producto_airpods_pro" model="renaix.producto">
+            <field name="name">Apple AirPods Pro 2ª Gen</field>
+            <field name="descripcion">AirPods Pro de segunda generación, en perfecto estado. Cancelación de ruido activa funcionando perfectamente. Estuche de carga MagSafe original. Incluye todos los tips de silicona en diferentes tamaños.</field>
+            <field name="precio">180.00</field>
+            <field name="categoria_id" ref="categoria_electronica"/>
+            <field name="estado_producto">como_nuevo</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_ana_martinez"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">4 meses</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_apple'), ref('etiqueta_nuevo')])]"/>
+        </record>
+
+        <!-- Ropa y Accesorios -->
+        <record id="producto_zapatillas_nike" model="renaix.producto">
+            <field name="name">Zapatillas Nike Air Max 90 Talla 42</field>
+            <field name="descripcion">Zapatillas Nike Air Max 90, talla 42 EU, color blanco y negro. Poco uso (menos de 10 veces), en excelente estado. Caja original incluida con todos los accesorios.</field>
+            <field name="precio">85.00</field>
+            <field name="categoria_id" ref="categoria_ropa"/>
+            <field name="estado_producto">como_nuevo</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_pedro_sanchez"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">3 meses</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_nuevo'), ref('etiqueta_caja')])]"/>
+        </record>
+
+        <record id="producto_chaqueta_cuero" model="renaix.producto">
+            <field name="name">Chaqueta de Cuero Negro Talla M</field>
+            <field name="descripcion">Chaqueta de cuero genuino, talla M, color negro. Estilo motero clásico. En muy buen estado, cuero suave y flexible. Forros interiores en perfecto estado. Perfecta para invierno.</field>
+            <field name="precio">120.00</field>
+            <field name="categoria_id" ref="categoria_ropa"/>
+            <field name="estado_producto">buen_estado</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_laura_fernandez"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">1 año</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_vintage'), ref('etiqueta_negociable')])]"/>
+        </record>
+
+        <!-- Hogar y Jardín -->
+        <record id="producto_robot_aspirador" model="renaix.producto">
+            <field name="name">Robot Aspirador Roomba e5</field>
+            <field name="descripcion">Robot aspirador iRobot Roomba e5, funciona perfectamente. Incluye base de carga y 3 filtros de repuesto nuevos. Muy poco uso (6 meses). Mapeo inteligente y compatible con app móvil.</field>
+            <field name="precio">200.00</field>
+            <field name="categoria_id" ref="categoria_hogar"/>
+            <field name="estado_producto">como_nuevo</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_david_ruiz"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">6 meses</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=4)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_garantia'), ref('etiqueta_caja')])]"/>
+        </record>
+
+        <record id="producto_mesa_comedor" model="renaix.producto">
+            <field name="name">Mesa de Comedor Extensible 6-8 Personas</field>
+            <field name="descripcion">Mesa de comedor de madera maciza, extensible de 6 a 8 personas. Color roble natural, en muy buen estado. Dimensiones: 160-200cm x 90cm. Perfecta para espacios medianos.</field>
+            <field name="precio">280.00</field>
+            <field name="categoria_id" ref="categoria_hogar"/>
+            <field name="estado_producto">buen_estado</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_sofia_moreno"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">2 años</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=6)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_urgente'), ref('etiqueta_negociable')])]"/>
+        </record>
+
+        <!-- Deportes -->
+        <record id="producto_bicicleta_montana" model="renaix.producto">
+            <field name="name">Bicicleta de Montaña 29" Shimano</field>
+            <field name="descripcion">Bicicleta de montaña, ruedas 29 pulgadas, cambios Shimano 21 velocidades. Suspensión delantera, frenos de disco hidráulicos. Cuadro aluminio talla M. Muy buen estado general, recién revisada.</field>
+            <field name="precio">350.00</field>
+            <field name="categoria_id" ref="categoria_deportes"/>
+            <field name="estado_producto">buen_estado</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_juan_perez"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">1 año</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=12)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_negociable')])]"/>
+        </record>
+
+        <record id="producto_tabla_surf" model="renaix.producto">
+            <field name="name">Tabla de Surf 6'2" + Funda</field>
+            <field name="descripcion">Tabla de surf shortboard 6'2", ideal para nivel intermedio-avanzado. Incluye funda acolchada FCS y set de quillas Futures. Algunos pequeños arreglos profesionales pero en buenas condiciones generales.</field>
+            <field name="precio">280.00</field>
+            <field name="categoria_id" ref="categoria_deportes"/>
+            <field name="estado_producto">aceptable</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_maria_garcia"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">3 años</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=15)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_negociable')])]"/>
+        </record>
+
+        <!-- Libros y Películas -->
+        <record id="producto_coleccion_harry_potter" model="renaix.producto">
+            <field name="name">Colección Completa Harry Potter (7 libros)</field>
+            <field name="descripcion">Colección completa de Harry Potter, 7 libros en español. Edición de tapa dura de lujo, en excelente estado. Perfecto para regalo o colección personal. Sin subrayados ni páginas dobladas.</field>
+            <field name="precio">60.00</field>
+            <field name="categoria_id" ref="categoria_libros"/>
+            <field name="estado_producto">como_nuevo</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_carlos_lopez"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">2 años</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=9)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_coleccion')])]"/>
+        </record>
+
+        <record id="producto_vinilo_beatles" model="renaix.producto">
+            <field name="name">Vinilo The Beatles - Abbey Road</field>
+            <field name="descripcion">Disco de vinilo original de The Beatles - Abbey Road. Edición europea de 1969, estado VG+ (Very Good Plus). Funda original incluida con ligeras marcas de uso. Reproducción excelente.</field>
+            <field name="precio">45.00</field>
+            <field name="categoria_id" ref="categoria_libros"/>
+            <field name="estado_producto">buen_estado</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_ana_martinez"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">55 años (1969)</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=14)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_vintage'), ref('etiqueta_coleccion')])]"/>
+        </record>
+
+        <!-- Juguetes -->
+        <record id="producto_lego_star_wars" model="renaix.producto">
+            <field name="name">LEGO Star Wars Halcón Milenario 75192</field>
+            <field name="descripcion">Set LEGO Star Wars Halcón Milenario Ultimate Collector Series. Montado con cuidado, todas las 7541 piezas incluidas y verificadas. Incluye caja original, instrucciones y pegatinas aplicadas. Pieza de coleccionista.</field>
+            <field name="precio">550.00</field>
+            <field name="categoria_id" ref="categoria_juguetes"/>
+            <field name="estado_producto">como_nuevo</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_pedro_sanchez"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">1 año</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=11)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_coleccion'), ref('etiqueta_caja')])]"/>
+        </record>
+
+        <!-- Vehículos -->
+        <record id="producto_patinete_electrico" model="renaix.producto">
+            <field name="name">Patinete Eléctrico Xiaomi Mi Scooter Pro 2</field>
+            <field name="descripcion">Patinete eléctrico Xiaomi Mi Scooter Pro 2, autonomía real 45km, velocidad máxima 25km/h. Muy buen estado general, batería en perfecto estado (98% salud). Incluye cargador original y candado adicional.</field>
+            <field name="precio">320.00</field>
+            <field name="categoria_id" ref="categoria_vehiculos"/>
+            <field name="estado_producto">buen_estado</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_laura_fernandez"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">8 meses</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_garantia')])]"/>
+        </record>
+
+        <!-- PRODUCTOS VENDIDOS (para demo) -->
+        <record id="producto_nintendo_switch" model="renaix.producto">
+            <field name="name">Nintendo Switch + 5 Juegos</field>
+            <field name="descripcion">Nintendo Switch modelo original con 5 juegos físicos: Zelda Breath of the Wild, Mario Kart 8, Animal Crossing, Pokemon Shield y Smash Bros Ultimate. Todo en perfecto estado, poco uso. Incluye funda de transporte y protectores de pantalla.</field>
+            <field name="precio">280.00</field>
+            <field name="categoria_id" ref="categoria_electronica"/>
+            <field name="estado_producto">como_nuevo</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_david_ruiz"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">1 año</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_gaming'), ref('etiqueta_caja')])]"/>
+        </record>
+
+        <record id="producto_camara_canon" model="renaix.producto">
+            <field name="name">Cámara Canon EOS 2000D + Objetivo 18-55mm</field>
+            <field name="descripcion">Cámara réflex Canon EOS 2000D con objetivo Canon EF-S 18-55mm. Incluye batería, cargador, correa original Canon y tarjeta SD SanDisk 32GB. Perfecto estado, solo 2500 disparos. Ideal para iniciarse en fotografía.</field>
+            <field name="precio">380.00</field>
+            <field name="categoria_id" ref="categoria_electronica"/>
+            <field name="estado_producto">como_nuevo</field>
+            <field name="estado_venta">disponible</field>
+            <field name="propietario_id" ref="usuario_sofia_moreno"/>
+            <field name="ubicacion">Valencia, España</field>
+            <field name="antiguedad">6 meses</field>
+            <field name="fecha_publicacion" eval="(datetime.now() - timedelta(days=20)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="etiqueta_ids" eval="[(6, 0, [ref('etiqueta_garantia'), ref('etiqueta_caja')])]"/>
+        </record>
+
+        <!-- Productos en BORRADOR (para testing) -->
+        <record id="producto_borrador" model="renaix.producto">
+            <field name="name">Samsung Galaxy S21 (Borrador)</field>
+            <field name="descripcion">Producto en borrador para testing...</field>
+            <field name="precio">400.00</field>
+            <field name="categoria_id" ref="categoria_electronica"/>
+            <field name="estado_producto">buen_estado</field>
+            <field name="estado_venta">borrador</field>
+            <field name="propietario_id" ref="usuario_juan_perez"/>
+            <field name="ubicacion">Valencia, España</field>
+        </record>
+
+    </data>
+</odoo>

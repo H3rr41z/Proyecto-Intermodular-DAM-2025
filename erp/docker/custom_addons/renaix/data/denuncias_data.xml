@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- DENUNCIAS -->
+        <!-- ========================================== -->
+        
+        <!-- Denuncia de PRODUCTO -->
+        <record id="denuncia_1" model="renaix.denuncia">
+            <field name="tipo">producto</field>
+            <field name="producto_id" ref="producto_lego_star_wars"/>
+            <field name="usuario_reportante_id" ref="usuario_carlos_lopez"/>
+            <field name="motivo">El precio parece sospechosamente bajo para un set de coleccionista LEGO Star Wars. El precio de mercado de este set está en torno a 900-1000€ y aquí lo vende por 550€. Podría ser una réplica o falta de piezas no declaradas.</field>
+            <field name="categoria">informacion_falsa</field>
+            <field name="estado">en_revision</field>
+            <field name="fecha_denuncia" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Denuncia de USUARIO por spam -->
+        <record id="denuncia_2" model="renaix.denuncia">
+            <field name="tipo">usuario</field>
+            <field name="usuario_reportado_id" ref="usuario_pedro_sanchez"/>
+            <field name="usuario_reportante_id" ref="usuario_laura_fernandez"/>
+            <field name="motivo">El usuario me ha enviado múltiples mensajes no solicitados en las últimas 24 horas intentando venderme productos que no me interesan y que no están relacionados con ninguna consulta que yo haya hecho. Después de pedirle que dejara de contactarme, ha continuado enviando mensajes.</field>
+            <field name="categoria">spam</field>
+            <field name="estado">resuelta</field>
+            <field name="fecha_denuncia" eval="(datetime.now() - timedelta(days=35)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_resolucion" eval="(datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="resolucion">Se ha verificado el comportamiento del usuario reportado. Se ha procedido a enviar un aviso formal al usuario. En caso de reincidencia, se procederá a suspender temporalmente su cuenta. La denunciante ha confirmado que no ha vuelto a recibir mensajes no deseados.</field>
+        </record>
+
+        <!-- Denuncia de COMENTARIO -->
+        <record id="denuncia_3" model="renaix.denuncia">
+            <field name="tipo">comentario</field>
+            <field name="comentario_id" ref="comentario_8"/>
+            <field name="usuario_reportante_id" ref="usuario_juan_perez"/>
+            <field name="motivo">El comentario contiene información de contacto personal (número de teléfono) lo cual está en contra de las normas de la plataforma. Los usuarios deben usar el sistema de mensajería interna para mantener la seguridad de las transacciones.</field>
+            <field name="categoria">contenido_inapropiado</field>
+            <field name="estado">resuelta</field>
+            <field name="fecha_denuncia" eval="(datetime.now() - timedelta(days=50)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_resolucion" eval="(datetime.now() - timedelta(days=45)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="resolucion">El comentario ha sido eliminado y se ha enviado un aviso al usuario sobre las normas de la plataforma. Se ha explicado la importancia de usar el sistema de mensajería interna para protección de ambas partes.</field>
+        </record>
+
+        <!-- Denuncia de USUARIO por comportamiento sospechoso -->
+        <record id="denuncia_4" model="renaix.denuncia">
+            <field name="tipo">usuario</field>
+            <field name="usuario_reportado_id" ref="usuario_david_ruiz"/>
+            <field name="usuario_reportante_id" ref="usuario_ana_martinez"/>
+            <field name="motivo">El vendedor canceló la venta del producto después de que acordáramos precio y fecha de entrega, sin dar ninguna explicación válida. Sospecho que pudo haber recibido una oferta mejor y prefirió cancelar nuestra transacción. Esto genera desconfianza en la plataforma.</field>
+            <field name="categoria">otro</field>
+            <field name="estado">resuelta</field>
+            <field name="fecha_denuncia" eval="(datetime.now() - timedelta(days=50)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_resolucion" eval="(datetime.now() - timedelta(days=45)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="resolucion">Se ha contactado con el vendedor quien explicó que tuvo un problema personal familiar urgente que le impidió completar la venta en ese momento. Se ha verificado que no es un comportamiento recurrente. Ambas partes han llegado a un entendimiento y la situación se ha resuelto amigablemente.</field>
+        </record>
+
+        <!-- Denuncia de PRODUCTO por descripción engañosa -->
+        <record id="denuncia_5" model="renaix.denuncia">
+            <field name="tipo">producto</field>
+            <field name="producto_id" ref="producto_vinilo_beatles"/>
+            <field name="usuario_reportante_id" ref="usuario_sofia_moreno"/>
+            <field name="motivo">El producto se anuncia como "original de 1969" pero el precio de 45€ es sospechosamente bajo para un vinilo original de esa época en buenas condiciones. Los vinilos originales de The Beatles de 1969 en estado VG+ suelen venderse por 150-300€ según el mercado. Sospecho que podría ser una reedición reciente.</field>
+            <field name="categoria">informacion_falsa</field>
+            <field name="estado">rechazada</field>
+            <field name="fecha_denuncia" eval="(datetime.now() - timedelta(days=25)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_resolucion" eval="(datetime.now() - timedelta(days=20)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="resolucion">Después de verificar con el vendedor y examinar las fotos proporcionadas, se ha confirmado que el vinilo es efectivamente una edición original europea de 1969. El precio es competitivo y está justificado porque, aunque es original, el estado VG+ no es coleccionable de alta gama (no es Near Mint). El vendedor ha añadido fotos adicionales del sello y matriz para mayor transparencia.</field>
+        </record>
+
+        <!-- Denuncia PENDIENTE (para testing) -->
+        <record id="denuncia_6" model="renaix.denuncia">
+            <field name="tipo">producto</field>
+            <field name="producto_id" ref="producto_airpods_pro"/>
+            <field name="usuario_reportante_id" ref="usuario_pedro_sanchez"/>
+            <field name="motivo">Sospecho que estos AirPods podrían ser réplicas no autorizadas de Apple. El precio es demasiado bajo para ser auténticos AirPods Pro 2ª generación en ese estado. Solicito verificación de autenticidad mediante número de serie.</field>
+            <field name="categoria">fraude</field>
+            <field name="estado">pendiente</field>
+            <field name="fecha_denuncia" eval="(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Denuncia de contenido violento -->
+        <record id="denuncia_7" model="renaix.denuncia">
+            <field name="tipo">usuario</field>
+            <field name="usuario_reportado_id" ref="usuario_maria_garcia"/>
+            <field name="usuario_reportante_id" ref="usuario_juan_perez"/>
+            <field name="motivo">La usuario ha utilizado lenguaje amenazante y agresivo en los comentarios de mi producto después de que rechazara su oferta de compra. Me siento intimidado y creo que este comportamiento debe ser sancionado.</field>
+            <field name="categoria">violencia</field>
+            <field name="estado">en_revision</field>
+            <field name="fecha_denuncia" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+    </data>
+</odoo>

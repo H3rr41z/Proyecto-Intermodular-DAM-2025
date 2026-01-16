@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- USUARIOS DE LA APP -->
+        <!-- ========================================== -->
+        
+        <record id="usuario_juan_perez" model="res.partner">
+            <field name="name">Juan Pérez</field>
+            <field name="email">juan.perez@example.com</field>
+            <field name="phone">+34 600 111 222</field>
+            <field name="street">Calle Mayor 15</field>
+            <field name="city">Valencia</field>
+            <field name="zip">46001</field>
+            <field name="country_id" ref="base.es"/>
+            <field name="es_usuario_app" eval="True"/>
+            <field name="cuenta_activa" eval="True"/>
+            <field name="fecha_registro_app" eval="(datetime.now() - timedelta(days=180)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_ultima_actividad" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="usuario_maria_garcia" model="res.partner">
+            <field name="name">María García</field>
+            <field name="email">maria.garcia@example.com</field>
+            <field name="phone">+34 611 222 333</field>
+            <field name="street">Avenida del Puerto 25</field>
+            <field name="city">Valencia</field>
+            <field name="zip">46021</field>
+            <field name="country_id" ref="base.es"/>
+            <field name="es_usuario_app" eval="True"/>
+            <field name="cuenta_activa" eval="True"/>
+            <field name="fecha_registro_app" eval="(datetime.now() - timedelta(days=150)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_ultima_actividad" eval="(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="usuario_carlos_lopez" model="res.partner">
+            <field name="name">Carlos López</field>
+            <field name="email">carlos.lopez@example.com</field>
+            <field name="phone">+34 622 333 444</field>
+            <field name="street">Plaza del Ayuntamiento 8</field>
+            <field name="city">Valencia</field>
+            <field name="zip">46002</field>
+            <field name="country_id" ref="base.es"/>
+            <field name="es_usuario_app" eval="True"/>
+            <field name="cuenta_activa" eval="True"/>
+            <field name="fecha_registro_app" eval="(datetime.now() - timedelta(days=120)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_ultima_actividad" eval="(datetime.now() - timedelta(hours=6)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="usuario_ana_martinez" model="res.partner">
+            <field name="name">Ana Martínez</field>
+            <field name="email">ana.martinez@example.com</field>
+            <field name="phone">+34 633 444 555</field>
+            <field name="street">Calle Colón 42</field>
+            <field name="city">Valencia</field>
+            <field name="zip">46004</field>
+            <field name="country_id" ref="base.es"/>
+            <field name="es_usuario_app" eval="True"/>
+            <field name="cuenta_activa" eval="True"/>
+            <field name="fecha_registro_app" eval="(datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_ultima_actividad" eval="(datetime.now() - timedelta(hours=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="usuario_pedro_sanchez" model="res.partner">
+            <field name="name">Pedro Sánchez</field>
+            <field name="email">pedro.sanchez@example.com</field>
+            <field name="phone">+34 644 555 666</field>
+            <field name="street">Calle Xátiva 10</field>
+            <field name="city">Valencia</field>
+            <field name="zip">46007</field>
+            <field name="country_id" ref="base.es"/>
+            <field name="es_usuario_app" eval="True"/>
+            <field name="cuenta_activa" eval="True"/>
+            <field name="fecha_registro_app" eval="(datetime.now() - timedelta(days=60)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_ultima_actividad" eval="datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="usuario_laura_fernandez" model="res.partner">
+            <field name="name">Laura Fernández</field>
+            <field name="email">laura.fernandez@example.com</field>
+            <field name="phone">+34 655 666 777</field>
+            <field name="street">Avenida Blasco Ibáñez 33</field>
+            <field name="city">Valencia</field>
+            <field name="zip">46010</field>
+            <field name="country_id" ref="base.es"/>
+            <field name="es_usuario_app" eval="True"/>
+            <field name="cuenta_activa" eval="True"/>
+            <field name="fecha_registro_app" eval="(datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_ultima_actividad" eval="(datetime.now() - timedelta(hours=12)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="usuario_david_ruiz" model="res.partner">
+            <field name="name">David Ruiz</field>
+            <field name="email">david.ruiz@example.com</field>
+            <field name="phone">+34 666 777 888</field>
+            <field name="street">Calle Jesús 18</field>
+            <field name="city">Valencia</field>
+            <field name="zip">46007</field>
+            <field name="country_id" ref="base.es"/>
+            <field name="es_usuario_app" eval="True"/>
+            <field name="cuenta_activa" eval="True"/>
+            <field name="fecha_registro_app" eval="(datetime.now() - timedelta(days=15)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_ultima_actividad" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="usuario_sofia_moreno" model="res.partner">
+            <field name="name">Sofía Moreno</field>
+            <field name="email">sofia.moreno@example.com</field>
+            <field name="phone">+34 677 888 999</field>
+            <field name="street">Calle de la Paz 5</field>
+            <field name="city">Valencia</field>
+            <field name="zip">46003</field>
+            <field name="country_id" ref="base.es"/>
+            <field name="es_usuario_app" eval="True"/>
+            <field name="cuenta_activa" eval="True"/>
+            <field name="fecha_registro_app" eval="(datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="fecha_ultima_actividad" eval="(datetime.now() - timedelta(hours=18)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Usuario con cuenta inactiva (para testing) -->
+        <record id="usuario_inactivo" model="res.partner">
+            <field name="name">Usuario Suspendido</field>
+            <field name="email">suspendido@example.com</field>
+            <field name="phone">+34 688 999 000</field>
+            <field name="city">Valencia</field>
+            <field name="country_id" ref="base.es"/>
+            <field name="es_usuario_app" eval="True"/>
+            <field name="cuenta_activa" eval="False"/>
+            <field name="fecha_registro_app" eval="(datetime.now() - timedelta(days=100)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+    </data>
+</odoo>

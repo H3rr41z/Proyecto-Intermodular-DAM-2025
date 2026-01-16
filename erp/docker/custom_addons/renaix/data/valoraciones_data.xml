@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- VALORACIONES -->
+        <!-- ========================================== -->
+        
+        <!-- Valoración Compra 1: Comprador valora a Vendedor -->
+        <record id="valoracion_1" model="renaix.valoracion">
+            <field name="compra_id" ref="compra_1"/>
+            <field name="tipo_valoracion">comprador_a_vendedor</field>
+            <field name="usuario_valorador_id" ref="usuario_ana_martinez"/>
+            <field name="usuario_valorado_id" ref="usuario_david_ruiz"/>
+            <field name="puntuacion">5</field>
+            <field name="comentario">Excelente vendedor, muy amable y el producto tal como se describía. Entrega rápida y sin problemas. ¡Totalmente recomendable!</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=23)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Valoración Compra 1: Vendedor valora a Comprador -->
+        <record id="valoracion_2" model="renaix.valoracion">
+            <field name="compra_id" ref="compra_1"/>
+            <field name="tipo_valoracion">vendedor_a_comprador</field>
+            <field name="usuario_valorador_id" ref="usuario_david_ruiz"/>
+            <field name="usuario_valorado_id" ref="usuario_ana_martinez"/>
+            <field name="puntuacion">5</field>
+            <field name="comentario">Compradora muy seria y puntual. Transacción perfecta. Recomendada al 100%.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=23)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Valoración Compra 2: Comprador valora a Vendedor -->
+        <record id="valoracion_3" model="renaix.valoracion">
+            <field name="compra_id" ref="compra_2"/>
+            <field name="tipo_valoracion">comprador_a_vendedor</field>
+            <field name="usuario_valorador_id" ref="usuario_pedro_sanchez"/>
+            <field name="usuario_valorado_id" ref="usuario_sofia_moreno"/>
+            <field name="puntuacion">5</field>
+            <field name="comentario">Perfecta vendedora. La cámara estaba impecable y funcionaba a la perfección. Muy buena comunicación durante todo el proceso. Empaquetado profesional.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=13)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Valoración Compra 2: Vendedor valora a Comprador -->
+        <record id="valoracion_4" model="renaix.valoracion">
+            <field name="compra_id" ref="compra_2"/>
+            <field name="tipo_valoracion">vendedor_a_comprador</field>
+            <field name="usuario_valorador_id" ref="usuario_sofia_moreno"/>
+            <field name="usuario_valorado_id" ref="usuario_pedro_sanchez"/>
+            <field name="puntuacion">5</field>
+            <field name="comentario">Comprador excelente, muy educado y con buena comunicación. Pago inmediato. Gracias!</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=13)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Valoración Compra 5: Comprador valora a Vendedor -->
+        <record id="valoracion_5" model="renaix.valoracion">
+            <field name="compra_id" ref="compra_5"/>
+            <field name="tipo_valoracion">comprador_a_vendedor</field>
+            <field name="usuario_valorador_id" ref="usuario_maria_garcia"/>
+            <field name="usuario_valorado_id" ref="usuario_carlos_lopez"/>
+            <field name="puntuacion">4</field>
+            <field name="comentario">Buen vendedor, producto como esperaba. Entrega sin problemas. Solo una pequeña demora en responder mensajes pero nada grave.</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=6)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <!-- Valoración Compra 5: Vendedor valora a Comprador -->
+        <record id="valoracion_6" model="renaix.valoracion">
+            <field name="compra_id" ref="compra_5"/>
+            <field name="tipo_valoracion">vendedor_a_comprador</field>
+            <field name="usuario_valorador_id" ref="usuario_carlos_lopez"/>
+            <field name="usuario_valorado_id" ref="usuario_maria_garcia"/>
+            <field name="puntuacion">5</field>
+            <field name="comentario">Compradora muy amable. Todo perfecto. Recomendada!</field>
+            <field name="fecha" eval="(datetime.now() - timedelta(days=6)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+    </data>
+</odoo>
