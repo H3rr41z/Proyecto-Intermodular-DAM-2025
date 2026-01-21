@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "renaix_auth",
+    'name': "renaix_api",
 
     'summary': "Short (1 phrase/line) summary of the module's purpose",
 

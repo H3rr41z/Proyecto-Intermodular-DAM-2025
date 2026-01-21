@@ -3,9 +3,9 @@
 # from odoo import models, fields, api
 
 
-# class renaix_auth(models.Model):
-#     _name = 'renaix_auth.renaix_auth'
-#     _description = 'renaix_auth.renaix_auth'
+# class renaix_api(models.Model):
+#     _name = 'renaix_api.renaix_api'
+#     _description = 'renaix_api.renaix_api'
 
 #     name = fields.Char()
 #     value = fields.Integer()
