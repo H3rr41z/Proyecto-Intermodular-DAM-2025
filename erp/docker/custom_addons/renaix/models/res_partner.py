@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class ResPartner(models.Model):
@@ -135,7 +137,7 @@ class ResPartner(models.Model):
         string='API Token',
         copy=False,
         groups='base.group_system',
-        help='Token de autenticación para la API REST'
+        help='Token de autenticación para la API REST (refresh token)'
     )
     
     # Campos para control de cuenta
@@ -156,6 +158,31 @@ class ResPartner(models.Model):
         string='Información Adicional',
         help='Notas o información adicional sobre el usuario de la app'
     )
+    
+    # ========================================
+    # ⭐ NUEVOS CAMPOS PARA AUTENTICACIÓN API
+    # ========================================
+    
+    password_hash = fields.Char(
+        string='Password Hash',
+        copy=False,
+        groups='base.group_system',  # Solo administradores pueden verlo
+        help='Hash de la contraseña para autenticación en la app móvil'
+    )
+    
+    # ========================================
+    # CONSTRAINTS SQL
+    # ========================================
+    
+    _sql_constraints = [
+        ('email_unique_app_user', 
+         'UNIQUE(email) WHERE es_usuario_app = true',
+         'Ya existe un usuario de la app con este email.')
+    ]
+    
+    # ========================================
+    # MÉTODOS COMPUTE
+    # ========================================
     
     @api.depends('valoracion_ids.puntuacion')
     def _compute_valoracion_promedio(self):
@@ -197,6 +224,10 @@ class ResPartner(models.Model):
             partner.total_comentarios = len(partner.comentario_ids)
             partner.total_denuncias_realizadas = len(partner.denuncia_ids)
     
+    # ========================================
+    # MÉTODOS CRUD
+    # ========================================
+    
     @api.model_create_multi
     def create(self, vals_list):
         """
@@ -211,6 +242,101 @@ class ResPartner(models.Model):
                 vals['partner_gid'] = str(uuid.uuid4())
         
         return super().create(vals_list)
+    
+    # ========================================
+    # ⭐ NUEVOS MÉTODOS PARA GESTIÓN DE PASSWORD
+    # ========================================
+    
+    def set_password(self, password):
+        """
+        Establece la contraseña del usuario (hasheada con werkzeug).
+        Solo para usuarios de la app móvil.
+        
+        Args:
+            password (str): Contraseña en texto plano
+            
+        Raises:
+            ValidationError: Si el usuario no es de la app
+        """
+        self.ensure_one()
+        
+        if not self.es_usuario_app:
+            raise ValidationError(
+                'Solo los usuarios de la app móvil pueden tener contraseña.'
+            )
+        
+        # Validar longitud mínima
+        if not password or len(password) < 6:
+            raise ValidationError(
+                'La contraseña debe tener al menos 6 caracteres.'
+            )
+        
+        # Hashear y guardar
+        self.password_hash = generate_password_hash(password)
+    
+    def check_password(self, password):
+        """
+        Verifica si la contraseña proporcionada es correcta.
+        
+        Args:
+            password (str): Contraseña en texto plano
+            
+        Returns:
+            bool: True si la contraseña es correcta, False en caso contrario
+        """
+        self.ensure_one()
+        
+        # Si no hay hash guardado, la contraseña es incorrecta
+        if not self.password_hash:
+            return False
+        
+        # Verificar usando werkzeug
+        return check_password_hash(self.password_hash, password)
+    
+    @api.model
+    def authenticate_app_user(self, email, password):
+        """
+        Autentica un usuario de la app usando email y contraseña.
+        
+        Args:
+            email (str): Email del usuario
+            password (str): Contraseña en texto plano
+            
+        Returns:
+            res.partner: Usuario autenticado si las credenciales son correctas
+            False: Si las credenciales son incorrectas
+            
+        Raises:
+            ValidationError: Si la cuenta está desactivada
+        """
+        # Buscar usuario por email (solo usuarios app)
+        partner = self.search([
+            ('email', '=', email),
+            ('es_usuario_app', '=', True)
+        ], limit=1)
+        
+        # Si no existe el usuario
+        if not partner:
+            return False
+        
+        # Verificar si la cuenta está activa
+        if not partner.cuenta_activa:
+            raise ValidationError(
+                'Tu cuenta ha sido desactivada. Contacta con soporte.'
+            )
+        
+        # Verificar contraseña
+        if not partner.check_password(password):
+            return False
+        
+        # Actualizar última actividad
+        partner.fecha_ultima_actividad = fields.Datetime.now()
+        
+        return partner
+    
+    # ========================================
+    # MÉTODOS DE VISUALIZACIÓN Y ACCIONES
+    # ========================================
     
     def name_get(self):
         """Personaliza cómo se muestra el nombre en selects"""
