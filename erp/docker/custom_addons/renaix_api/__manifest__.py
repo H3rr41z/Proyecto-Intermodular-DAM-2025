@@ -37,7 +37,8 @@
     'auto_install': False,
     
     # External dependencies
+    # PyJWT está instalado manualmente en el contenedor
     'external_dependencies': {
-        'python': ['PyJWT'],
+        'python': [],
     },
 }

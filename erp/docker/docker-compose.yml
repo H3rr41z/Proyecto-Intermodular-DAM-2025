@@ -30,7 +30,7 @@ services:
       - USER=odoo
       - PASSWORD=odoo
     # Indica que pasa ese parametro al arrancar el servicio Odoo
-    command: --dev=all 
+    command: --dev=all --db-filter=^Renaix_db$ 
 #Definimos el servicio de la base de datos
   db:
     image: postgres:15

@@ -15,7 +15,7 @@ class CategoriasController(http.Controller):
         try:
             categorias = request.env['renaix.categoria'].sudo().search([], order='name ASC')
             categorias_data = [serializers.serialize_categoria(c) for c in categorias]
-            
+
             return response_helpers.success_response(data=categorias_data, message='Categorías recuperadas')
         except Exception as e:
             _logger.error(f'Error: {str(e)}')
