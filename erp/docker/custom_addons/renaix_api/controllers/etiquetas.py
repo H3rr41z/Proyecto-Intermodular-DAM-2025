@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 
 class EtiquetasController(http.Controller):
     
-    @http.route('/api/v1/etiquetas', type='http', auth='public', methods=['GET'], csrf=False, cors='*')
+    @http.route('/api/v1/etiquetas', type='http', auth='none', methods=['GET'], csrf=False, cors='*')
     def listar_etiquetas(self, **params):
         try:
             etiquetas = request.env['renaix.etiqueta'].sudo().search([], order='producto_count DESC', limit=50)
@@ -21,7 +21,7 @@ class EtiquetasController(http.Controller):
             _logger.error(f'Error: {str(e)}')
             return response_helpers.server_error_response(str(e))
     
-    @http.route('/api/v1/etiquetas/buscar', type='http', auth='public', methods=['GET'], csrf=False, cors='*')
+    @http.route('/api/v1/etiquetas/buscar', type='http', auth='none', methods=['GET'], csrf=False, cors='*')
     def buscar_etiquetas(self, **params):
         try:
             query = params.get('q', '')

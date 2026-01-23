@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 
 class CategoriasController(http.Controller):
     
-    @http.route('/api/v1/categorias', type='http', auth='public', methods=['GET'], csrf=False, cors='*')
+    @http.route('/api/v1/categorias', type='http', auth='none', methods=['GET'], csrf=False, cors='*')
     def listar_categorias(self, **params):
         try:
             categorias = request.env['renaix.categoria'].sudo().search([], order='name ASC')

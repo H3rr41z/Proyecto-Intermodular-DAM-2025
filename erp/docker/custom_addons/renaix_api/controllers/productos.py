@@ -17,7 +17,7 @@ _logger = logging.getLogger(__name__)
 
 class ProductosController(http.Controller):
     
-    @http.route('/api/v1/productos', type='http', auth='public', 
+    @http.route('/api/v1/productos', type='http', auth='none', 
                 methods=['GET'], csrf=False, cors='*')
     def listar_productos(self, **params):
         """
@@ -72,7 +72,7 @@ class ProductosController(http.Controller):
             return response_helpers.server_error_response(str(e))
     
     
-    @http.route('/api/v1/productos/<int:producto_id>', type='http', auth='public', 
+    @http.route('/api/v1/productos/<int:producto_id>', type='http', auth='none', 
                 methods=['GET'], csrf=False, cors='*')
     def detalle_producto(self, producto_id, **params):
         """
@@ -343,7 +343,7 @@ class ProductosController(http.Controller):
             return response_helpers.server_error_response(str(e))
     
     
-    @http.route('/api/v1/productos/buscar', type='http', auth='public', 
+    @http.route('/api/v1/productos/buscar', type='http', auth='none', 
                 methods=['GET'], csrf=False, cors='*')
     def buscar_productos(self, **params):
         """

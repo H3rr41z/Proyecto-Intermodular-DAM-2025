@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 
 class ComentariosController(http.Controller):
     
-    @http.route('/api/v1/productos/<int:producto_id>/comentarios', type='http', auth='public', 
+    @http.route('/api/v1/productos/<int:producto_id>/comentarios', type='http', auth='none', 
                 methods=['GET'], csrf=False, cors='*')
     def listar_comentarios(self, producto_id, **params):
         """Listar comentarios de un producto."""
