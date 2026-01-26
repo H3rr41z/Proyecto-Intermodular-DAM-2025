@@ -1,0 +1,1354 @@
+{
+  "info": {
+    "_postman_id": "41c8c901-f218-40eb-bec6-106dafa899cb",
+    "name": "Renaix API REST - Completa",
+    "description": "Colección completa de endpoints para la API REST de Renaix.\n\n**Instrucciones de uso:**\n\n1. Importar esta colección en Postman\n    \n2. Configurar las variables de entorno (ver sección Variables)\n    \n3. Ejecutar primero el endpoint de Registro o Login\n    \n4. El access_token se guardará automáticamente\n    \n5. Probar el resto de endpoints\n    \n\n**Variables necesarias:**\n\n- `base_url`: [http://localhost:8069](http://localhost:8069)\n    \n- `access_token`: Se genera automáticamente después del login\n    \n- `refresh_token`: Se genera automáticamente después del login",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51514911",
+    "_collection_link": "https://go.postman.co/collection/51514911-41c8c901-f218-40eb-bec6-106dafa899cb?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "🔐 Autenticación",
+      "item": [
+        {
+          "name": "Registro de Usuario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Guardar tokens automáticamente",
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.success && jsonData.data) {",
+                  "        pm.environment.set('access_token', jsonData.data.access_token);",
+                  "        pm.environment.set('refresh_token', jsonData.data.refresh_token);",
+                  "        pm.environment.set('user_id', jsonData.data.user.id);",
+                  "        console.log('✅ Tokens guardados automáticamente');",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan.perez@example.com\",\n  \"password\": \"password123\",\n  \"phone\": \"612345678\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Registra un nuevo usuario en la aplicación.\n\n**Body requerido:**\n- name: Nombre completo\n- email: Email único\n- password: Contraseña (mínimo 6 caracteres)\n- phone: Teléfono (opcional)\n\n**Respuesta:**\n- access_token: Token de acceso (1 hora)\n- refresh_token: Token de refresco (7 días)\n- user: Datos del usuario"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Guardar tokens automáticamente",
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.success && jsonData.data) {",
+                  "        pm.environment.set('access_token', jsonData.data.access_token);",
+                  "        pm.environment.set('refresh_token', jsonData.data.refresh_token);",
+                  "        pm.environment.set('user_id', jsonData.data.user.id);",
+                  "        console.log('✅ Tokens guardados automáticamente');",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"juan.perez@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Inicia sesión con email y contraseña."
+          },
+          "response": []
+        },
+        {
+          "name": "Renovar Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Guardar nuevo access_token",
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.success && jsonData.data) {",
+                  "        pm.environment.set('access_token', jsonData.data.access_token);",
+                  "        console.log('✅ Access token renovado');",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/refresh",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "refresh"
+              ]
+            },
+            "description": "Renueva el access_token usando el refresh_token.\n\nUsar cuando el access_token expira (después de 1 hora)."
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Cierra sesión e invalida el refresh_token."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints de autenticación JWT"
+    },
+    {
+      "name": "👤 Usuarios",
+      "item": [
+        {
+          "name": "Mi Perfil",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/usuarios/perfil",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "perfil"
+              ]
+            },
+            "description": "Obtiene el perfil del usuario autenticado."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Mi Perfil",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan Pérez Actualizado\",\n  \"phone\": \"612345679\",\n  \"mobile\": \"698765432\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/usuarios/perfil",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "perfil"
+              ]
+            },
+            "description": "Actualiza los datos del perfil."
+          },
+          "response": []
+        },
+        {
+          "name": "Ver Perfil Público",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/usuarios/{{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "{{user_id}}"
+              ]
+            },
+            "description": "Ver perfil público de cualquier usuario."
+          },
+          "response": []
+        },
+        {
+          "name": "Mis Productos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/usuarios/perfil/productos?page=1&limit=20",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "perfil",
+                "productos"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Lista mis productos publicados."
+          },
+          "response": []
+        },
+        {
+          "name": "Mis Compras",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/usuarios/perfil/compras",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "perfil",
+                "compras"
+              ]
+            },
+            "description": "Lista mis compras realizadas."
+          },
+          "response": []
+        },
+        {
+          "name": "Mis Ventas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/usuarios/perfil/ventas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "perfil",
+                "ventas"
+              ]
+            },
+            "description": "Lista mis ventas realizadas."
+          },
+          "response": []
+        },
+        {
+          "name": "Mis Valoraciones",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/usuarios/perfil/valoraciones",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "perfil",
+                "valoraciones"
+              ]
+            },
+            "description": "Lista valoraciones recibidas."
+          },
+          "response": []
+        },
+        {
+          "name": "Mis Estadísticas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/usuarios/perfil/estadisticas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "perfil",
+                "estadisticas"
+              ]
+            },
+            "description": "Obtiene estadísticas del usuario."
+          },
+          "response": []
+        }
+      ],
+      "description": "Gestión de usuarios y perfiles"
+    },
+    {
+      "name": "📦 Productos",
+      "item": [
+        {
+          "name": "Listar Productos (Público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/productos?page=1&limit=20&estado_venta=disponible",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "productos"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "estado_venta",
+                  "value": "disponible"
+                }
+              ]
+            },
+            "description": "Lista productos disponibles (público, no requiere autenticación)."
+          },
+          "response": []
+        },
+        {
+          "name": "Detalle Producto (Público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/productos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "productos",
+                "1"
+              ]
+            },
+            "description": "Obtiene detalle completo de un producto incluyendo imágenes y comentarios."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Guardar ID del producto creado",
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.success && jsonData.data) {",
+                  "        pm.environment.set('producto_id', jsonData.data.id);",
+                  "        console.log('✅ Producto creado con ID:', jsonData.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"iPhone 12 Pro\",\n  \"descripcion\": \"Excelente estado, batería al 85%. Incluye cargador original.\",\n  \"precio\": 450.00,\n  \"categoria_id\": 1,\n  \"estado_producto\": \"como_nuevo\",\n  \"antiguedad\": \"1_anno\",\n  \"ubicacion\": \"Madrid\",\n  \"etiqueta_ids\": [1, 2]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/productos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "productos"
+              ]
+            },
+            "description": "Crea un nuevo producto.\n\n**Estados disponibles:**\n- nuevo\n- como_nuevo\n- buen_estado\n- usado\n- para_piezas\n\n**Antigüedad:**\n- menos_6_meses\n- 6_meses\n- 1_anno\n- 2_annos\n- mas_2_annos"
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Producto",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"iPhone 12 Pro - Actualizado\",\n  \"precio\": 420.00,\n  \"descripcion\": \"Precio rebajado. Excelente estado.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/productos/{{producto_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "productos",
+                "{{producto_id}}"
+              ]
+            },
+            "description": "Actualiza un producto (solo el propietario)."
+          },
+          "response": []
+        },
+        {
+          "name": "Publicar Producto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/productos/{{producto_id}}/publicar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "productos",
+                "{{producto_id}}",
+                "publicar"
+              ]
+            },
+            "description": "Publica un producto (cambia de borrador a disponible)."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Producto",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/productos/{{producto_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "productos",
+                "{{producto_id}}"
+              ]
+            },
+            "description": "Elimina un producto (soft delete)."
+          },
+          "response": []
+        },
+        {
+          "name": "Búsqueda Avanzada (Público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/productos/buscar?query=iphone&precio_max=500&categoria_id=1&orden=precio_asc&page=1&limit=20",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "productos",
+                "buscar"
+              ],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "iphone",
+                  "description": "Búsqueda de texto"
+                },
+                {
+                  "key": "precio_max",
+                  "value": "500",
+                  "description": "Precio máximo"
+                },
+                {
+                  "key": "precio_min",
+                  "value": null,
+                  "description": "Precio mínimo",
+                  "disabled": true
+                },
+                {
+                  "key": "categoria_id",
+                  "value": "1",
+                  "description": "ID de categoría"
+                },
+                {
+                  "key": "etiquetas",
+                  "value": null,
+                  "description": "IDs separadas por comas",
+                  "disabled": true
+                },
+                {
+                  "key": "estado_producto",
+                  "value": null,
+                  "description": "Estado del producto",
+                  "disabled": true
+                },
+                {
+                  "key": "ubicacion",
+                  "value": null,
+                  "description": "Ubicación",
+                  "disabled": true
+                },
+                {
+                  "key": "orden",
+                  "value": "precio_asc",
+                  "description": "precio_asc, precio_desc, fecha_desc, fecha_asc"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Búsqueda avanzada con múltiples filtros."
+          },
+          "response": []
+        },
+        {
+          "name": "Añadir Imagen",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url_imagen\": \"https://example.com/iphone12.jpg\",\n  \"es_principal\": true,\n  \"descripcion\": \"Vista frontal\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/productos/{{producto_id}}/imagenes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "productos",
+                "{{producto_id}}",
+                "imagenes"
+              ]
+            },
+            "description": "Añade una imagen a un producto."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Imagen",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/productos/{{producto_id}}/imagenes/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "productos",
+                "{{producto_id}}",
+                "imagenes",
+                "1"
+              ]
+            },
+            "description": "Elimina una imagen de un producto."
+          },
+          "response": []
+        }
+      ],
+      "description": "CRUD y búsqueda de productos"
+    },
+    {
+      "name": "🛒 Compras",
+      "item": [
+        {
+          "name": "Comprar Producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Guardar ID de la compra",
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.success && jsonData.data) {",
+                  "        pm.environment.set('compra_id', jsonData.data.id);",
+                  "        console.log('✅ Compra creada con ID:', jsonData.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"producto_id\": 1,\n  \"notas\": \"¿Puedo recogerlo mañana por la tarde?\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/compras",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "compras"
+              ]
+            },
+            "description": "Compra un producto disponible.\n\nCambia el estado del producto a 'reservado'."
+          },
+          "response": []
+        },
+        {
+          "name": "Detalle de Compra",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/compras/{{compra_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "compras",
+                "{{compra_id}}"
+              ]
+            },
+            "description": "Obtiene detalle de una compra (comprador o vendedor)."
+          },
+          "response": []
+        },
+        {
+          "name": "Confirmar Compra (Vendedor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/compras/{{compra_id}}/confirmar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "compras",
+                "{{compra_id}}",
+                "confirmar"
+              ]
+            },
+            "description": "El vendedor confirma la compra.\n\nCambia estado de 'pendiente' a 'confirmada'."
+          },
+          "response": []
+        },
+        {
+          "name": "Completar Compra (Comprador)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/compras/{{compra_id}}/completar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "compras",
+                "{{compra_id}}",
+                "completar"
+              ]
+            },
+            "description": "El comprador confirma recepción del producto.\n\nCambia estado de 'confirmada' a 'completada'.\nEl producto cambia a estado 'vendido'."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancelar Compra",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/compras/{{compra_id}}/cancelar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "compras",
+                "{{compra_id}}",
+                "cancelar"
+              ]
+            },
+            "description": "Cancela una compra (comprador o vendedor).\n\nEl producto vuelve a estado 'disponible'."
+          },
+          "response": []
+        }
+      ],
+      "description": "Flujo completo de compra-venta"
+    },
+    {
+      "name": "💬 Comentarios",
+      "item": [
+        {
+          "name": "Listar Comentarios (Público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/productos/1/comentarios",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "productos",
+                "1",
+                "comentarios"
+              ]
+            },
+            "description": "Lista comentarios de un producto."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Comentario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"texto\": \"¿Todavía está disponible? Estoy interesado.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/productos/1/comentarios",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "productos",
+                "1",
+                "comentarios"
+              ]
+            },
+            "description": "Crea un comentario en un producto."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Comentario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/comentarios/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "comentarios",
+                "1"
+              ]
+            },
+            "description": "Elimina un comentario propio."
+          },
+          "response": []
+        }
+      ],
+      "description": "Comentarios en productos"
+    },
+    {
+      "name": "⭐ Valoraciones",
+      "item": [
+        {
+          "name": "Valorar Transacción",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"puntuacion\": 5,\n  \"comentario\": \"Excelente vendedor, muy rápido en la entrega.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/compras/{{compra_id}}/valorar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "compras",
+                "{{compra_id}}",
+                "valorar"
+              ]
+            },
+            "description": "Valora una transacción completada.\n\n**Puntuación:** 1-5 estrellas\n**Comentario:** Opcional\n\nSolo se puede valorar una vez por transacción."
+          },
+          "response": []
+        },
+        {
+          "name": "Ver Valoraciones de Usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/usuarios/{{user_id}}/valoraciones",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "{{user_id}}",
+                "valoraciones"
+              ]
+            },
+            "description": "Ver valoraciones recibidas por un usuario."
+          },
+          "response": []
+        }
+      ],
+      "description": "Sistema de valoraciones"
+    },
+    {
+      "name": "💌 Mensajes",
+      "item": [
+        {
+          "name": "Mis Conversaciones",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/mensajes/conversaciones",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "mensajes",
+                "conversaciones"
+              ]
+            },
+            "description": "Lista todas mis conversaciones."
+          },
+          "response": []
+        },
+        {
+          "name": "Enviar Mensaje",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receptor_id\": 2,\n  \"texto\": \"Hola, ¿el producto sigue disponible?\",\n  \"producto_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/mensajes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "mensajes"
+              ]
+            },
+            "description": "Envía un mensaje a otro usuario.\n\n**producto_id:** Opcional, para vincular el mensaje a un producto."
+          },
+          "response": []
+        },
+        {
+          "name": "Marcar Mensaje como Leído",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/mensajes/1/marcar-leido",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "mensajes",
+                "1",
+                "marcar-leido"
+              ]
+            },
+            "description": "Marca un mensaje como leído."
+          },
+          "response": []
+        }
+      ],
+      "description": "Sistema de mensajería"
+    },
+    {
+      "name": "🚨 Denuncias",
+      "item": [
+        {
+          "name": "Crear Denuncia",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"producto\",\n  \"producto_id\": 1,\n  \"categoria\": \"fraude\",\n  \"motivo\": \"El producto no corresponde con la descripción. Las fotos son engañosas.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/denuncias",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "denuncias"
+              ]
+            },
+            "description": "Crea una denuncia.\n\n**Tipos:**\n- producto\n- comentario\n- usuario\n\n**Categorías:**\n- spam\n- ofensivo\n- fraude\n- contenido_inapropiado\n- otro"
+          },
+          "response": []
+        },
+        {
+          "name": "Mis Denuncias",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/denuncias/mis-denuncias",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "denuncias",
+                "mis-denuncias"
+              ]
+            },
+            "description": "Lista mis denuncias realizadas."
+          },
+          "response": []
+        }
+      ],
+      "description": "Sistema de denuncias"
+    },
+    {
+      "name": "🏷️ Categorías y Etiquetas",
+      "item": [
+        {
+          "name": "Listar Categorías (Público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/categorias",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "categorias"
+              ]
+            },
+            "description": "Lista todas las categorías disponibles."
+          },
+          "response": []
+        },
+        {
+          "name": "Etiquetas Populares (Público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/etiquetas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "etiquetas"
+              ]
+            },
+            "description": "Lista las 50 etiquetas más populares."
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Etiquetas (Público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/etiquetas/buscar?q=gaming",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "etiquetas",
+                "buscar"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "gaming",
+                  "description": "Término de búsqueda (mínimo 2 caracteres)"
+                }
+              ]
+            },
+            "description": "Busca etiquetas por nombre."
+          },
+          "response": []
+        }
+      ],
+      "description": "Categorías y etiquetas del sistema"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Headers automáticos para todas las peticiones",
+          "pm.request.headers.add({key: 'Accept', value: 'application/json'});",
+          "pm.request.headers.add({key: 'Content-Type', value: 'application/json'});",
+          "pm.request.headers.add({key: 'User-Agent', value: 'Mozilla/5.0 (compatible; PostmanRuntime/7.0)'});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8069",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refresh_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "producto_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "compra_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
