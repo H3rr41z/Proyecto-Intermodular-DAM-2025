@@ -8,7 +8,7 @@ import json
 import logging
 from odoo import http
 from odoo.http import request
-from ..models.utils import jwt_utils, validators, response_helpers, serializers
+from ..models.utils import jwt_utils, auth_helpers, validators, response_helpers, serializers
 
 _logger = logging.getLogger(__name__)
 
@@ -73,10 +73,10 @@ class UsuariosController(http.Controller):
                     update_vals[field] = data[field]
             
             # Validar teléfonos si se proporcionan
-            if update_vals.get('phone') and not validators.auth_helpers.validate_phone_number(update_vals['phone']):
+            if update_vals.get('phone') and not auth_helpers.validate_phone_number(update_vals['phone']):
                 return response_helpers.validation_error_response('Formato de teléfono inválido')
-            
-            if update_vals.get('mobile') and not validators.auth_helpers.validate_phone_number(update_vals['mobile']):
+
+            if update_vals.get('mobile') and not auth_helpers.validate_phone_number(update_vals['mobile']):
                 return response_helpers.validation_error_response('Formato de móvil inválido')
             
             # Actualizar

@@ -3,9 +3,7 @@
     "_postman_id": "41c8c901-f218-40eb-bec6-106dafa899cb",
     "name": "Renaix API REST - Completa",
     "description": "Colección completa de endpoints para la API REST de Renaix.\n\n**Instrucciones de uso:**\n\n1. Importar esta colección en Postman\n    \n2. Configurar las variables de entorno (ver sección Variables)\n    \n3. Ejecutar primero el endpoint de Registro o Login\n    \n4. El access_token se guardará automáticamente\n    \n5. Probar el resto de endpoints\n    \n\n**Variables necesarias:**\n\n- `base_url`: [http://localhost:8069](http://localhost:8069)\n    \n- `access_token`: Se genera automáticamente después del login\n    \n- `refresh_token`: Se genera automáticamente después del login",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "51514911",
-    "_collection_link": "https://go.postman.co/collection/51514911-41c8c901-f218-40eb-bec6-106dafa899cb?source=collection_link"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
@@ -17,6 +15,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "8d1f219b-1e84-46ed-a415-6dbbca0c6295",
                 "exec": [
                   "// Guardar tokens automáticamente",
                   "if (pm.response.code === 201) {",
@@ -29,10 +28,25 @@
                   "    }",
                   "}"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "9d7064e8-e8d7-4d12-b485-2d9fb7e111e5",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
+          "id": "5697f1ec-8798-415b-a82c-dc9188de5e0a",
           "request": {
             "method": "POST",
             "header": [
@@ -43,7 +57,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan.perez@example.com\",\n  \"password\": \"password123\",\n  \"phone\": \"612345678\"\n}"
+              "raw": "{\n  \"name\": \"Mani Pérez\",\n  \"email\": \"mani.perez@example.com\",\n  \"password\": \"Password@123\",\n  \"phone\": \"612345678\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/v1/auth/register",
@@ -67,6 +81,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "50e697a4-6bdd-4957-a20f-31745e4d78f6",
                 "exec": [
                   "// Guardar tokens automáticamente",
                   "if (pm.response.code === 200) {",
@@ -79,10 +94,25 @@
                   "    }",
                   "}"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "35a22000-b037-47d4-937d-4167611381dd",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
+          "id": "4aef3f0f-14b6-470d-b596-215ef5907c31",
           "request": {
             "method": "POST",
             "header": [
@@ -93,7 +123,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"juan.perez@example.com\",\n  \"password\": \"password123\"\n}"
+              "raw": "{\n  \"email\": \"mani.perez@example.com\",\n  \"password\": \"Password@123\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/v1/auth/login",
@@ -131,6 +161,7 @@
               }
             }
           ],
+          "id": "879b2e75-949c-4e01-ab1e-2e27b0282f8b",
           "request": {
             "method": "POST",
             "header": [
@@ -161,6 +192,7 @@
         },
         {
           "name": "Logout",
+          "id": "e372103e-7bf0-4f9a-bce4-edc8eb1b489c",
           "request": {
             "method": "POST",
             "header": [
@@ -186,6 +218,7 @@
           "response": []
         }
       ],
+      "id": "e14ab29c-327d-4ecc-b7f3-424ea144f21f",
       "description": "Endpoints de autenticación JWT"
     },
     {
@@ -193,6 +226,7 @@
       "item": [
         {
           "name": "Mi Perfil",
+          "id": "f5a185f2-bb76-4314-85ac-a3623b7d9e99",
           "request": {
             "method": "GET",
             "header": [
@@ -219,6 +253,7 @@
         },
         {
           "name": "Actualizar Mi Perfil",
+          "id": "fe68f616-dd74-43c7-8cd1-c7cc09573018",
           "request": {
             "method": "PUT",
             "header": [
@@ -253,6 +288,7 @@
         },
         {
           "name": "Ver Perfil Público",
+          "id": "5b5d06d1-f539-40b7-b93a-0493880e6947",
           "request": {
             "method": "GET",
             "header": [],
@@ -274,6 +310,7 @@
         },
         {
           "name": "Mis Productos",
+          "id": "053b4027-7bf8-416c-981c-8ae59d5a2453",
           "request": {
             "method": "GET",
             "header": [
@@ -311,6 +348,7 @@
         },
         {
           "name": "Mis Compras",
+          "id": "b5efb924-9c39-45d8-a7c3-5d1c93adff3b",
           "request": {
             "method": "GET",
             "header": [
@@ -338,6 +376,7 @@
         },
         {
           "name": "Mis Ventas",
+          "id": "49a157f3-33da-4e79-a078-30ee18d762c3",
           "request": {
             "method": "GET",
             "header": [
@@ -365,6 +404,7 @@
         },
         {
           "name": "Mis Valoraciones",
+          "id": "0e456c9e-2bfa-409a-b7ca-952625429f1a",
           "request": {
             "method": "GET",
             "header": [
@@ -392,6 +432,7 @@
         },
         {
           "name": "Mis Estadísticas",
+          "id": "1587ab5b-0dde-43c8-839c-5f93c30bf093",
           "request": {
             "method": "GET",
             "header": [
@@ -418,6 +459,7 @@
           "response": []
         }
       ],
+      "id": "319e5f07-034f-47a7-967b-e30d01b4e55c",
       "description": "Gestión de usuarios y perfiles"
     },
     {
@@ -425,6 +467,7 @@
       "item": [
         {
           "name": "Listar Productos (Público)",
+          "id": "ccd98843-41c9-45a3-bf93-07a3b77f9ab8",
           "request": {
             "method": "GET",
             "header": [],
@@ -459,6 +502,7 @@
         },
         {
           "name": "Detalle Producto (Público)",
+          "id": "6bfb29fd-ef02-4064-9db0-51e3c118fe1c",
           "request": {
             "method": "GET",
             "header": [],
@@ -498,6 +542,7 @@
               }
             }
           ],
+          "id": "9e5b98da-f838-4af5-ad7c-d15b4a1dd789",
           "request": {
             "method": "POST",
             "header": [
@@ -531,6 +576,7 @@
         },
         {
           "name": "Actualizar Producto",
+          "id": "1e02d0b0-8372-47e3-9cb2-2efb078cd918",
           "request": {
             "method": "PUT",
             "header": [
@@ -548,7 +594,7 @@
               "raw": "{\n  \"nombre\": \"iPhone 12 Pro - Actualizado\",\n  \"precio\": 420.00,\n  \"descripcion\": \"Precio rebajado. Excelente estado.\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/v1/productos/{{producto_id}}",
+              "raw": "{{base_url}}/api/v1/productos/18",
               "host": [
                 "{{base_url}}"
               ],
@@ -556,7 +602,7 @@
                 "api",
                 "v1",
                 "productos",
-                "{{producto_id}}"
+                "18"
               ]
             },
             "description": "Actualiza un producto (solo el propietario)."
@@ -565,6 +611,7 @@
         },
         {
           "name": "Publicar Producto",
+          "id": "62af1a2f-abaa-46d7-82da-e51576920719",
           "request": {
             "method": "POST",
             "header": [
@@ -592,6 +639,7 @@
         },
         {
           "name": "Eliminar Producto",
+          "id": "afed5d57-326a-4644-8c84-46cf057359e3",
           "request": {
             "method": "DELETE",
             "header": [
@@ -618,6 +666,7 @@
         },
         {
           "name": "Búsqueda Avanzada (Público)",
+          "id": "159fb3cc-884c-4766-8743-0469aa0cc9db",
           "request": {
             "method": "GET",
             "header": [],
@@ -693,6 +742,7 @@
         },
         {
           "name": "Añadir Imagen",
+          "id": "b7de4eed-4640-4431-b777-b49b38c4b8fe",
           "request": {
             "method": "POST",
             "header": [
@@ -728,6 +778,7 @@
         },
         {
           "name": "Eliminar Imagen",
+          "id": "333afc2e-a38a-49a4-8531-2a9ed94d186b",
           "request": {
             "method": "DELETE",
             "header": [
@@ -755,6 +806,7 @@
           "response": []
         }
       ],
+      "id": "da7810b2-0b4d-448c-842e-63f7e7411962",
       "description": "CRUD y búsqueda de productos"
     },
     {
@@ -780,6 +832,7 @@
               }
             }
           ],
+          "id": "29ecf46e-ec49-40b6-b8ac-3daec5d59144",
           "request": {
             "method": "POST",
             "header": [
@@ -813,6 +866,7 @@
         },
         {
           "name": "Detalle de Compra",
+          "id": "a5b2cabb-71b2-472e-bc33-1d4f1158847c",
           "request": {
             "method": "GET",
             "header": [
@@ -839,6 +893,7 @@
         },
         {
           "name": "Confirmar Compra (Vendedor)",
+          "id": "378d5b2d-d5e8-472d-bfca-e74853d397fa",
           "request": {
             "method": "POST",
             "header": [
@@ -866,6 +921,7 @@
         },
         {
           "name": "Completar Compra (Comprador)",
+          "id": "f761ed21-5e33-4505-a337-1e7e18a11a97",
           "request": {
             "method": "POST",
             "header": [
@@ -893,6 +949,7 @@
         },
         {
           "name": "Cancelar Compra",
+          "id": "e96462d1-5fe8-4636-87b5-13954f6d0c04",
           "request": {
             "method": "POST",
             "header": [
@@ -919,6 +976,7 @@
           "response": []
         }
       ],
+      "id": "079d3312-e3af-48cf-9399-c5132ffc093d",
       "description": "Flujo completo de compra-venta"
     },
     {
@@ -926,6 +984,7 @@
       "item": [
         {
           "name": "Listar Comentarios (Público)",
+          "id": "0c84fbd0-b49b-4129-bddf-c9499109caa7",
           "request": {
             "method": "GET",
             "header": [],
@@ -948,6 +1007,7 @@
         },
         {
           "name": "Crear Comentario",
+          "id": "3e12a3d1-0034-471d-a527-de5a5f200fa8",
           "request": {
             "method": "POST",
             "header": [
@@ -983,6 +1043,7 @@
         },
         {
           "name": "Eliminar Comentario",
+          "id": "5438716c-003c-4b66-8165-9bc0d7fd6bf6",
           "request": {
             "method": "DELETE",
             "header": [
@@ -1008,6 +1069,7 @@
           "response": []
         }
       ],
+      "id": "abd8007a-626c-414b-b0f8-fa3a7142737c",
       "description": "Comentarios en productos"
     },
     {
@@ -1015,6 +1077,7 @@
       "item": [
         {
           "name": "Valorar Transacción",
+          "id": "371996cf-c18f-4825-872b-cff2c907a38f",
           "request": {
             "method": "POST",
             "header": [
@@ -1050,6 +1113,7 @@
         },
         {
           "name": "Ver Valoraciones de Usuario",
+          "id": "c3762d22-5727-4fe2-8833-bf4edc190427",
           "request": {
             "method": "GET",
             "header": [],
@@ -1071,6 +1135,7 @@
           "response": []
         }
       ],
+      "id": "5239c3cf-e851-413a-93c3-550a7cfc78dd",
       "description": "Sistema de valoraciones"
     },
     {
@@ -1078,6 +1143,7 @@
       "item": [
         {
           "name": "Mis Conversaciones",
+          "id": "d66dd086-a774-4ebc-b55d-9d863e19fb79",
           "request": {
             "method": "GET",
             "header": [
@@ -1104,6 +1170,7 @@
         },
         {
           "name": "Enviar Mensaje",
+          "id": "33f46621-79dd-497e-b7f1-84d9e47097b6",
           "request": {
             "method": "POST",
             "header": [
@@ -1137,6 +1204,7 @@
         },
         {
           "name": "Marcar Mensaje como Leído",
+          "id": "50a92855-963d-47e7-a286-652dec4dcc73",
           "request": {
             "method": "PUT",
             "header": [
@@ -1163,6 +1231,7 @@
           "response": []
         }
       ],
+      "id": "2533fc50-0519-41c3-925d-6ea6a885d78e",
       "description": "Sistema de mensajería"
     },
     {
@@ -1170,6 +1239,7 @@
       "item": [
         {
           "name": "Crear Denuncia",
+          "id": "c91c4741-6e36-4be3-ad9c-976966a5073f",
           "request": {
             "method": "POST",
             "header": [
@@ -1203,6 +1273,7 @@
         },
         {
           "name": "Mis Denuncias",
+          "id": "e1618fdb-68a1-44ad-aa4c-d25771ad52dc",
           "request": {
             "method": "GET",
             "header": [
@@ -1228,6 +1299,7 @@
           "response": []
         }
       ],
+      "id": "d104d0cd-f1d7-4289-8328-2bf4c9548286",
       "description": "Sistema de denuncias"
     },
     {
@@ -1235,6 +1307,7 @@
       "item": [
         {
           "name": "Listar Categorías (Público)",
+          "id": "0adbd719-38f0-4293-86ae-11547fafd216",
           "request": {
             "method": "GET",
             "header": [],
@@ -1255,6 +1328,7 @@
         },
         {
           "name": "Etiquetas Populares (Público)",
+          "id": "4ae5f377-ef7c-4553-b445-2f8aab667090",
           "request": {
             "method": "GET",
             "header": [],
@@ -1275,6 +1349,7 @@
         },
         {
           "name": "Buscar Etiquetas (Público)",
+          "id": "534b0b17-b44a-446f-b6e2-f8fac6dd05df",
           "request": {
             "method": "GET",
             "header": [],
@@ -1302,6 +1377,7 @@
           "response": []
         }
       ],
+      "id": "09f76e4f-3bac-4fbf-9586-912ae237544d",
       "description": "Categorías y etiquetas del sistema"
     }
   ],
@@ -1321,31 +1397,37 @@
   ],
   "variable": [
     {
+      "id": "15edc93b-e6d5-4444-810d-749dadc0d134",
       "key": "base_url",
       "value": "http://localhost:8069",
       "type": "string"
     },
     {
+      "id": "ffea8f83-5f6f-4562-8447-87e694c43fc2",
       "key": "access_token",
       "value": "",
       "type": "string"
     },
     {
+      "id": "94d25b1c-6c6a-421c-b51c-0d2d4b245091",
       "key": "refresh_token",
       "value": "",
       "type": "string"
     },
     {
+      "id": "052ac5e7-f972-444d-b8a4-6c8f2ad988a0",
       "key": "user_id",
       "value": "",
       "type": "string"
     },
     {
+      "id": "34f4420e-6bce-4108-a416-a1329ded8f61",
       "key": "producto_id",
       "value": "",
       "type": "string"
     },
     {
+      "id": "b8d15c2d-b05d-4f8c-b693-51114b1c525e",
       "key": "compra_id",
       "value": "",
       "type": "string"

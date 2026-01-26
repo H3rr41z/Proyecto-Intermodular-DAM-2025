@@ -156,7 +156,15 @@ class ResPartner(models.Model):
         string='Información Adicional',
         help='Notas o información adicional sobre el usuario de la app'
     )
-    
+
+    # Campo para almacenar contraseña hasheada (solo para usuarios app)
+    password_hash = fields.Char(
+        string='Password Hash',
+        copy=False,
+        groups='base.group_system',
+        help='Hash de la contraseña del usuario de la app'
+    )
+
     @api.depends('valoracion_ids.puntuacion')
     def _compute_valoracion_promedio(self):
         """Calcula la valoración promedio del usuario como vendedor"""
@@ -293,3 +301,49 @@ class ResPartner(models.Model):
                     subject='GID Regenerado',
                     message_type='notification'
                 )
+
+    def set_password(self, password):
+        """
+        Establece la contraseña del usuario de la app (hasheada).
+
+        Args:
+            password (str): Contraseña en texto plano
+        """
+        from werkzeug.security import generate_password_hash
+        self.ensure_one()
+        if not self.es_usuario_app:
+            raise ValueError('Solo se puede establecer contraseña para usuarios de la app')
+
+        self.password_hash = generate_password_hash(password)
+
+    @api.model
+    def authenticate_app_user(self, email, password):
+        """
+        Autentica un usuario de la app mediante email y contraseña.
+
+        Args:
+            email (str): Email del usuario
+            password (str): Contraseña en texto plano
+
+        Returns:
+            res.partner: Registro del usuario si la autenticación es exitosa, False si no
+        """
+        from werkzeug.security import check_password_hash
+
+        # Buscar usuario por email
+        partner = self.search([
+            ('email', '=', email),
+            ('es_usuario_app', '=', True),
+            ('cuenta_activa', '=', True)
+        ], limit=1)
+
+        if not partner or not partner.password_hash:
+            return False
+
+        # Verificar contraseña
+        if check_password_hash(partner.password_hash, password):
+            # Actualizar última actividad
+            partner.fecha_ultima_actividad = fields.Datetime.now()
+            return partner
+
+        return False
