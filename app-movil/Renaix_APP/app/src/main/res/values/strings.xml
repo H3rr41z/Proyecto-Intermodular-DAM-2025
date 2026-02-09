@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Renaix</string>
+    
+    <!-- Common -->
+    <string name="loading">Cargando…</string>
+    <string name="error">Error</string>
+    <string name="retry">Reintentar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept">Aceptar</string>
+    <string name="save">Guardar</string>
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+    <string name="search">Buscar</string>
+    
+    <!-- Auth -->
+    <string name="login">Iniciar Sesión</string>
+    <string name="register">Registrarse</string>
+    <string name="logout">Cerrar Sesión</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="name">Nombre</string>
+    <string name="phone">Teléfono</string>
+    
+    <!-- Products -->
+    <string name="products">Productos</string>
+    <string name="product_detail">Detalle del Producto</string>
+    <string name="price">Precio</string>
+    <string name="description">Descripción</string>
+    <string name="category">Categoría</string>
+    <string name="condition">Estado</string>
+    <string name="buy">Comprar</string>
+    <string name="create_product">Crear Producto</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_search">Buscar</string>
+    <string name="nav_map">Mapa</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_profile">Perfil</string>
+    
+    <!-- Errors -->
+    <string name="error_network">Error de conexión</string>
+    <string name="error_generic">Ha ocurrido un error</string>
+    <string name="error_empty_field">Este campo es obligatorio</string>
+    <string name="error_invalid_email">Email inválido</string>
+    <string name="error_password_short">La contraseña debe tener al menos 6 caracteres</string>
+</resources>
