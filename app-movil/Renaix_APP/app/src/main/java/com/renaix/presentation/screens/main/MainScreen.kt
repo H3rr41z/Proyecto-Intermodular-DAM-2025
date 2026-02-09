@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.renaix.di.AppContainer
 import com.renaix.presentation.navigation.BottomNavItem
 import com.renaix.presentation.navigation.Screen
-import com.renaix.presentation.screens.chat.conversations.ConversationsScreen
+import com.renaix.presentation.screens.chat.ConversationsScreen
 import com.renaix.presentation.screens.map.MapScreen
 import com.renaix.presentation.screens.products.list.ProductListScreen
 import com.renaix.presentation.screens.products.search.SearchScreen

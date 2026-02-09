@@ -10,8 +10,8 @@ import androidx.navigation.navArgument
 import com.renaix.di.AppContainer
 import com.renaix.presentation.screens.auth.login.LoginScreen
 import com.renaix.presentation.screens.auth.register.RegisterScreen
-import com.renaix.presentation.screens.chat.conversations.ConversationsScreen
-import com.renaix.presentation.screens.chat.detail.ChatScreen
+import com.renaix.presentation.screens.chat.ConversationsScreen
+import com.renaix.presentation.screens.chat.ChatScreen
 import com.renaix.presentation.screens.main.MainScreen
 import com.renaix.presentation.screens.map.MapScreen
 import com.renaix.presentation.screens.products.create.CreateProductScreen

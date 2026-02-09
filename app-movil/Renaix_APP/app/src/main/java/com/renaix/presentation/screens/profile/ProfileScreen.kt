@@ -26,7 +26,7 @@ fun ProfileScreen(
     onNavigateToMyProducts: () -> Unit,
     onNavigateToMyPurchases: () -> Unit,
     onNavigateToMySales: () -> Unit,
-    onNavigateToSettings: () -> Unit,
+    onNavigateToEditProfile: () -> Unit,
     onLogout: () -> Unit
 ) {
     val viewModel = remember {
@@ -50,7 +50,7 @@ fun ProfileScreen(
             TopAppBar(
                 title = { Text("Mi perfil") },
                 actions = {
-                    IconButton(onClick = onNavigateToSettings) {
+                    IconButton(onClick = onNavigateToEditProfile) {
                         Icon(Icons.Filled.Settings, contentDescription = "Ajustes")
                     }
                 }
