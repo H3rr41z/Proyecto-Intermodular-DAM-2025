@@ -45,7 +45,7 @@ fun ChatScreen(
 
     val getMessagesUseCase = appContainer.getMessagesUseCase
     val sendMessageUseCase = appContainer.sendMessageUseCase
-    val currentUserId = appContainer.preferencesManager.userId
+    val currentUserId = appContainer.preferencesManager.getUserId()
 
     fun loadMessages() {
         scope.launch {
@@ -72,7 +72,11 @@ fun ChatScreen(
         isSending = true
 
         scope.launch {
-            sendMessageUseCase(otherUserId, productId, text)
+            sendMessageUseCase(
+                    receptorId = otherUserId,
+                    texto = text,
+                    productoId = productId
+                )
                 .onSuccess {
                     loadMessages()
                 }
@@ -171,7 +175,7 @@ fun ChatScreen(
                         ) { message ->
                             MessageBubble(
                                 message = message,
-                                isOwnMessage = message.remitenteId == currentUserId
+                                isOwnMessage = message.emisor.id == currentUserId
                             )
                         }
                     }
@@ -266,7 +270,7 @@ private fun MessageBubble(
                 .padding(12.dp)
         ) {
             Text(
-                text = message.contenido,
+                text = message.texto,
                 color = textColor,
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -275,7 +279,7 @@ private fun MessageBubble(
         Spacer(modifier = Modifier.height(2.dp))
 
         Text(
-            text = formatMessageTime(message.fechaEnvio),
+            text = formatMessageTime(message.fecha),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

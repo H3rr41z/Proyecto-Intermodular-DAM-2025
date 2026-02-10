@@ -19,6 +19,7 @@ import com.renaix.presentation.screens.products.detail.ProductDetailScreen
 import com.renaix.presentation.screens.products.list.ProductListScreen
 import com.renaix.presentation.screens.products.search.SearchScreen
 import com.renaix.presentation.screens.profile.ProfileScreen
+import com.renaix.presentation.screens.profile.PublicProfileScreen
 import com.renaix.presentation.screens.splash.SplashScreen
 
 /**
@@ -154,12 +155,15 @@ fun RenaixNavGraph(
             )
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getInt("userId") ?: 0
-            val productId = backStackEntry.arguments?.getInt("productId")?.takeIf { it > 0 }
+            val productId = backStackEntry.arguments?.getInt("productId")?.takeIf { it > 0 } ?: 0
             ChatScreen(
-                userId = userId,
+                otherUserId = userId,
                 productId = productId,
                 appContainer = appContainer,
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToProduct = { prodId ->
+                    navController.navigate(Screen.ProductDetail.createRoute(prodId))
+                }
             )
         }
 
@@ -172,14 +176,16 @@ fun RenaixNavGraph(
             )
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getInt("userId") ?: 0
-            // PublicProfileScreen - pendiente implementar
-            ProfileScreen(
+            PublicProfileScreen(
+                userId = userId,
                 appContainer = appContainer,
-                onNavigateToMyProducts = {},
-                onNavigateToMyPurchases = {},
-                onNavigateToMySales = {},
-                onNavigateToEditProfile = {},
-                onLogout = {}
+                onNavigateBack = { navController.popBackStack() },
+                onProductClick = { productId ->
+                    navController.navigate(Screen.ProductDetail.createRoute(productId))
+                },
+                onNavigateToChat = { chatUserId ->
+                    navController.navigate(Screen.Chat.createRoute(chatUserId, 0))
+                }
             )
         }
     }

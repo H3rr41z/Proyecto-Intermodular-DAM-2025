@@ -20,49 +20,49 @@ object Constants {
     private const val API_VERSION = "/api/v1"
     
     /**
-     * URL completa de la API
+     * URL completa de la API (con trailing slash para paths relativos)
      */
-    const val API_BASE_URL = "$BASE_URL$API_VERSION"
+    const val API_BASE_URL = "$BASE_URL$API_VERSION/"
     
     // ==================== API ENDPOINTS ====================
     
     object Endpoints {
         // Auth
-        const val AUTH_REGISTER = "/auth/register"
-        const val AUTH_LOGIN = "/auth/login"
-        const val AUTH_REFRESH = "/auth/refresh"
-        const val AUTH_LOGOUT = "/auth/logout"
-        
+        const val AUTH_REGISTER = "auth/register"
+        const val AUTH_LOGIN = "auth/login"
+        const val AUTH_REFRESH = "auth/refresh"
+        const val AUTH_LOGOUT = "auth/logout"
+
         // Users
-        const val USERS_PROFILE = "/usuarios/perfil"
-        const val USERS_PUBLIC = "/usuarios"
-        
+        const val USERS_PROFILE = "usuarios/perfil"
+        const val USERS_PUBLIC = "usuarios"
+
         // Products
-        const val PRODUCTS = "/productos"
-        const val PRODUCTS_SEARCH = "/productos/buscar"
-        
+        const val PRODUCTS = "productos"
+        const val PRODUCTS_SEARCH = "productos/buscar"
+
         // Categories
-        const val CATEGORIES = "/categorias"
-        
+        const val CATEGORIES = "categorias"
+
         // Tags
-        const val TAGS = "/etiquetas"
-        const val TAGS_SEARCH = "/etiquetas/buscar"
-        
+        const val TAGS = "etiquetas"
+        const val TAGS_SEARCH = "etiquetas/buscar"
+
         // Purchases
-        const val PURCHASES = "/compras"
-        
+        const val PURCHASES = "compras"
+
         // Comments
-        const val COMMENTS = "/comentarios"
-        
+        const val COMMENTS = "comentarios"
+
         // Ratings
-        const val RATINGS = "/valoraciones"
-        
+        const val RATINGS = "valoraciones"
+
         // Messages
-        const val MESSAGES = "/mensajes"
-        const val CONVERSATIONS = "/mensajes/conversaciones"
-        
+        const val MESSAGES = "mensajes"
+        const val CONVERSATIONS = "mensajes/conversaciones"
+
         // Reports
-        const val REPORTS = "/denuncias"
+        const val REPORTS = "denuncias"
     }
     
     // ==================== SHARED PREFERENCES ====================

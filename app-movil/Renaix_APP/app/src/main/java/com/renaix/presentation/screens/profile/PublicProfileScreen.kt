@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.renaix.di.AppContainer
 import com.renaix.domain.model.Product
-import com.renaix.domain.model.User
+import com.renaix.domain.model.PublicUser
 import com.renaix.presentation.common.components.*
 import com.renaix.presentation.common.state.UiState
 import kotlinx.coroutines.launch
@@ -29,7 +29,7 @@ fun PublicProfileScreen(
     onProductClick: (Int) -> Unit,
     onNavigateToChat: (Int) -> Unit
 ) {
-    var userState by remember { mutableStateOf<UiState<User>>(UiState.Loading) }
+    var userState by remember { mutableStateOf<UiState<PublicUser>>(UiState.Loading) }
     var productsState by remember { mutableStateOf<UiState<List<Product>>>(UiState.Loading) }
     val scope = rememberCoroutineScope()
 
@@ -131,7 +131,7 @@ fun PublicProfileScreen(
                                 )
 
                                 // Valoración
-                                user.valoracionPromedio?.let { rating ->
+                                if (user.valoracionPromedio > 0) {
                                     Spacer(modifier = Modifier.height(8.dp))
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically
@@ -144,17 +144,10 @@ fun PublicProfileScreen(
                                         )
                                         Spacer(modifier = Modifier.width(4.dp))
                                         Text(
-                                            text = String.format("%.1f", rating),
+                                            text = String.format("%.1f", user.valoracionPromedio),
                                             style = MaterialTheme.typography.titleMedium,
                                             fontWeight = FontWeight.SemiBold
                                         )
-                                        user.totalValoraciones?.let { total ->
-                                            Text(
-                                                text = " ($total valoraciones)",
-                                                style = MaterialTheme.typography.bodySmall,
-                                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                                            )
-                                        }
                                     }
                                 }
 

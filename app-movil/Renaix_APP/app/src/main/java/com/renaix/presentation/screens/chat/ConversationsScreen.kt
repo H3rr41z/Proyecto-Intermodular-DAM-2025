@@ -29,10 +29,11 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun ConversationsScreen(
     appContainer: AppContainer,
-    onConversationClick: (Int, Int) -> Unit // (otherUserId, productId)
+    onConversationClick: (Int, Int?) -> Unit // userId, productId
 ) {
     var conversationsState by remember { mutableStateOf<UiState<List<Conversation>>>(UiState.Loading) }
     val scope = rememberCoroutineScope()
+    val currentUserId = appContainer.preferencesManager.getUserId()
 
     val getConversationsUseCase = appContainer.getConversationsUseCase
 
@@ -92,15 +93,14 @@ fun ConversationsScreen(
                     ) {
                         items(
                             items = state.data,
-                            key = { it.id }
+                            key = { it.hiloId }
                         ) { conversation ->
-                            ConversationItem(
+                            ConversationListItem(
                                 conversation = conversation,
+                                currentUserId = currentUserId,
                                 onClick = {
-                                    onConversationClick(
-                                        conversation.otherUser.id,
-                                        conversation.product.id
-                                    )
+                                    val otherUserId = conversation.getOtherParticipant(currentUserId)?.id ?: return@ConversationListItem
+                                    onConversationClick(otherUserId, null)
                                 }
                             )
                             HorizontalDivider()
@@ -115,10 +115,13 @@ fun ConversationsScreen(
 }
 
 @Composable
-private fun ConversationItem(
+private fun ConversationListItem(
     conversation: Conversation,
+    currentUserId: Int,
     onClick: () -> Unit
 ) {
+    val otherParticipant = conversation.getOtherParticipant(currentUserId)
+
     ListItem(
         modifier = Modifier
             .fillMaxWidth()
@@ -130,11 +133,11 @@ private fun ConversationItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = conversation.otherUser.name,
-                    fontWeight = if (conversation.unreadCount > 0) FontWeight.Bold else FontWeight.Normal,
+                    text = otherParticipant?.name ?: "Usuario",
+                    fontWeight = FontWeight.Normal,
                     modifier = Modifier.weight(1f)
                 )
-                conversation.lastMessage?.fechaEnvio?.let { fecha ->
+                conversation.ultimoMensaje?.fecha?.let { fecha ->
                     Text(
                         text = formatConversationDate(fecha),
                         style = MaterialTheme.typography.bodySmall,
@@ -144,25 +147,14 @@ private fun ConversationItem(
             }
         },
         supportingContent = {
-            Column {
-                // Producto
+            conversation.ultimoMensaje?.let { message ->
                 Text(
-                    text = conversation.product.nombre,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.primary,
+                    text = message.texto,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                // Último mensaje
-                conversation.lastMessage?.let { message ->
-                    Text(
-                        text = message.contenido,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
             }
         },
         leadingContent = {
@@ -177,13 +169,6 @@ private fun ConversationItem(
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
-                }
-            }
-        },
-        trailingContent = {
-            if (conversation.unreadCount > 0) {
-                Badge {
-                    Text(conversation.unreadCount.toString())
                 }
             }
         }

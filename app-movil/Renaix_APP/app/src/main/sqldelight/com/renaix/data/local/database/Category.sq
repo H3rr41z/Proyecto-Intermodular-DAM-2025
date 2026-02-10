@@ -1,0 +1,13 @@
+-- Queries for Category table
+
+selectAllCategories:
+SELECT * FROM Category ORDER BY nombre ASC;
+
+selectCategoryById:
+SELECT * FROM Category WHERE id = ?;
+
+insertCategory:
+INSERT OR REPLACE INTO Category VALUES (?, ?, ?, ?, ?);
+
+deleteAllCategories:
+DELETE FROM Category;

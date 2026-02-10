@@ -1,0 +1,18 @@
+-- Queries for Favorite table
+
+selectAllFavorites:
+SELECT p.* FROM Product p
+INNER JOIN Favorite f ON p.id = f.producto_id
+ORDER BY f.fecha_agregado DESC;
+
+insertFavorite:
+INSERT OR IGNORE INTO Favorite(producto_id, fecha_agregado) VALUES (?, ?);
+
+deleteFavorite:
+DELETE FROM Favorite WHERE producto_id = ?;
+
+isFavorite:
+SELECT EXISTS(SELECT 1 FROM Favorite WHERE producto_id = ?);
+
+countFavorites:
+SELECT COUNT(*) FROM Favorite;

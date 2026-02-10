@@ -1,0 +1,29 @@
+-- Queries for Product table
+
+selectAllProducts:
+SELECT * FROM Product
+WHERE estado_venta = 'disponible'
+ORDER BY fecha_publicacion DESC;
+
+selectProductById:
+SELECT * FROM Product WHERE id = ?;
+
+selectProductsByCategory:
+SELECT * FROM Product
+WHERE categoria_id = ? AND estado_venta = 'disponible'
+ORDER BY fecha_publicacion DESC;
+
+searchProducts:
+SELECT * FROM Product
+WHERE nombre LIKE '%' || ? || '%'
+AND estado_venta = 'disponible'
+ORDER BY fecha_publicacion DESC;
+
+insertProduct:
+INSERT OR REPLACE INTO Product VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+deleteProduct:
+DELETE FROM Product WHERE id = ?;
+
+deleteAllProducts:
+DELETE FROM Product;

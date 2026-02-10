@@ -1,0 +1,10 @@
+-- Queries for UserProfile table
+
+selectUserProfile:
+SELECT * FROM UserProfile LIMIT 1;
+
+insertUserProfile:
+INSERT OR REPLACE INTO UserProfile VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+deleteUserProfile:
+DELETE FROM UserProfile;

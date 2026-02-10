@@ -1,5 +1,6 @@
 package com.renaix.presentation.screens.profile
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -127,7 +128,7 @@ fun ProfileScreen(
                             )
 
                             // Valoración
-                            user.valoracionPromedio?.let { rating ->
+                            if (user.valoracionPromedio > 0) {
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
@@ -141,17 +142,10 @@ fun ProfileScreen(
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Text(
-                                        text = String.format("%.1f", rating),
+                                        text = String.format("%.1f", user.valoracionPromedio),
                                         style = MaterialTheme.typography.titleMedium,
                                         fontWeight = FontWeight.SemiBold
                                     )
-                                    user.totalValoraciones?.let { total ->
-                                        Text(
-                                            text = " ($total valoraciones)",
-                                            style = MaterialTheme.typography.bodySmall,
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    }
                                 }
                             }
                         }
@@ -188,7 +182,7 @@ fun ProfileScreen(
                         subtitle = "Salir de tu cuenta",
                         onClick = { viewModel.logout() },
                         isDestructive = true,
-                        isLoading = logoutState.isLoading
+                        isLoading = logoutState is UiState.Loading
                     )
 
                     Spacer(modifier = Modifier.height(32.dp))
@@ -244,16 +238,10 @@ private fun ProfileMenuItem(
             .fillMaxWidth()
             .then(
                 if (!isLoading) {
-                    Modifier.clickable(onClick = onClick)
+                    Modifier.clickable { onClick() }
                 } else {
                     Modifier
                 }
             )
-    )
-}
-
-private fun Modifier.clickable(onClick: () -> Unit): Modifier {
-    return this.then(
-        androidx.compose.foundation.clickable(onClick = onClick)
     )
 }

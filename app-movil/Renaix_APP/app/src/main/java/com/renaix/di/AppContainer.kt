@@ -2,6 +2,7 @@ package com.renaix.di
 
 import android.content.Context
 import com.renaix.data.local.database.DatabaseDriverFactory
+import com.renaix.data.local.database.DatabaseHelper
 import com.renaix.data.local.preferences.PreferencesManager
 import com.renaix.data.local.preferences.SecurePreferences
 import com.renaix.data.remote.api.KtorClient
@@ -106,6 +107,14 @@ class AppContainerImpl(private val context: Context) : AppContainer {
         DatabaseDriverFactory(context)
     }
 
+    private val databaseHelper by lazy {
+        DatabaseHelper(databaseDriverFactory)
+    }
+
+    private val database by lazy {
+        databaseHelper.database
+    }
+
     // Network - Ktor Client
     private val publicHttpClient by lazy {
         KtorClient.createPublicClient()
@@ -152,7 +161,7 @@ class AppContainerImpl(private val context: Context) : AppContainer {
     }
 
     override val productRepository: ProductRepository by lazy {
-        ProductRepositoryImpl(productRemoteDataSource)
+        ProductRepositoryImpl(productRemoteDataSource, database)
     }
 
     override val userRepository: UserRepository by lazy {
@@ -160,7 +169,7 @@ class AppContainerImpl(private val context: Context) : AppContainer {
     }
 
     override val categoryRepository: CategoryRepository by lazy {
-        CategoryRepositoryImpl(categoryRemoteDataSource)
+        CategoryRepositoryImpl(categoryRemoteDataSource, database)
     }
 
     override val chatRepository: ChatRepository by lazy {

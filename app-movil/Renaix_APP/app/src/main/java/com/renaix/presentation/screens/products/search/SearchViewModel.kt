@@ -149,10 +149,10 @@ class SearchViewModel(
 
             searchProductsUseCase(
                 query = query,
-                categoryId = _selectedCategoryId.value,
-                minPrice = _minPrice.value,
-                maxPrice = _maxPrice.value,
-                sortBy = _sortOrder.value.apiValue
+                categoriaId = _selectedCategoryId.value,
+                precioMin = _minPrice.value,
+                precioMax = _maxPrice.value,
+                orden = _sortOrder.value.apiValue
             ).onSuccess { products ->
                 _searchResults.value = UiState.Success(products)
             }.onFailure { error ->

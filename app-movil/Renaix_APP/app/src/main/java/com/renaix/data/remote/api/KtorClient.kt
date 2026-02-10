@@ -23,6 +23,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
 /**
@@ -137,7 +138,7 @@ object KtorClient {
                     val refreshToken = preferencesManager.getRefreshToken()
                     if (refreshToken != null) {
                         try {
-                            val newToken = refreshAccessToken(refreshToken)
+                            val newToken = runBlocking { refreshAccessToken(refreshToken) }
                             if (newToken != null) {
                                 preferencesManager.saveAccessToken(newToken)
                                 request.headers.remove(HttpHeaders.Authorization)

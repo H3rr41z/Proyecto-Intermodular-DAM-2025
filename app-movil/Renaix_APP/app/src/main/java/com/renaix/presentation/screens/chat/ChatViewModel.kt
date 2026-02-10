@@ -58,8 +58,10 @@ class ChatViewModel(
             getConversationsUseCase()
                 .onSuccess { conversations ->
                     // Filtrar la conversación actual
-                    val conversation = conversations.find { it.userId == currentUserId }
-                    val messagesList = conversation?.messages ?: emptyList()
+                    val conversation = conversations.find { conv ->
+                        conv.participantes.any { it.id == currentUserId }
+                    }
+                    val messagesList = conversation?.mensajes ?: emptyList()
                     _messages.value = UiState.Success(messagesList)
                 }
                 .onFailure { error ->
@@ -88,9 +90,9 @@ class ChatViewModel(
             _sendMessageState.value = SendMessageState.Sending
 
             sendMessageUseCase(
-                recipientId = currentUserId,
-                text = text,
-                productId = currentProductId
+                receptorId = currentUserId,
+                texto = text,
+                productoId = currentProductId
             ).onSuccess { message ->
                 _sendMessageState.value = SendMessageState.Success
                 _messageText.value = ""

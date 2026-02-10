@@ -65,8 +65,8 @@ class MapViewModel(
             _products.value = UiState.Loading
 
             getProductsUseCase(
-                limit = 100, // Cargar más productos para el mapa
-                offset = 0
+                page = 1,
+                limit = 100 // Cargar más productos para el mapa
             ).onSuccess { products ->
                 _products.value = UiState.Success(products)
             }.onFailure { error ->

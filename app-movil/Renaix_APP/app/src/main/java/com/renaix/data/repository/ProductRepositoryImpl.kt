@@ -185,7 +185,7 @@ class ProductRepositoryImpl(
 
     override suspend fun isFavorite(productId: Int): Boolean {
         return withContext(Dispatchers.IO) {
-            database.favoriteQueries.isFavorite(productId.toLong()).executeAsOne() > 0
+            database.favoriteQueries.isFavorite(productId.toLong()).executeAsOne()
         }
     }
 
