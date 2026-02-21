@@ -1,3 +1,5 @@
+import java.net.URL
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -142,7 +144,7 @@ tasks.dokkaHtml.configure {
             includes.from("README.md")
             sourceLink {
                 localDirectory.set(file("src/main/java"))
-                remoteUrl.set(java.net.URI("https://github.com/tu-usuario/renaix/tree/main/app/src/main/java").toURL())
+                remoteUrl.set(URL("https://github.com/H3rr41z/Proyecto-Intermodular-DAM-2025/tree/main/app-movil/Renaix_APP/app/src/main/java"))
                 remoteLineSuffix.set("#L")
             }
         }
