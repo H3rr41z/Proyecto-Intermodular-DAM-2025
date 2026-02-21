@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "37945660650",
+    "project_id": "renaix-59031",
+    "storage_bucket": "renaix-59031.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37945660650:android:9eada5f6f2e7cd000a7393",
+        "android_client_info": {
+          "package_name": "com.renaix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu_hD93L1GtWrmgFr2SfX_LsY4jws8JSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

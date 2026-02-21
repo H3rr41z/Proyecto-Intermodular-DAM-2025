@@ -15,6 +15,31 @@ class PreferencesManager(
     private val _isLoggedIn = MutableStateFlow(getIsLoggedIn())
     val isLoggedIn: StateFlow<Boolean> = _isLoggedIn.asStateFlow()
 
+    private val _isDarkMode = MutableStateFlow(getDarkModePreference())
+    val isDarkMode: StateFlow<Boolean> = _isDarkMode.asStateFlow()
+
+    // ==================== DARK MODE ====================
+
+    /**
+     * Guarda la preferencia de modo oscuro
+     */
+    fun setDarkMode(enabled: Boolean) {
+        securePreferences.putBoolean(PrefsKeys.DARK_MODE, enabled)
+        _isDarkMode.value = enabled
+    }
+
+    /**
+     * Obtiene la preferencia de modo oscuro
+     */
+    private fun getDarkModePreference(): Boolean {
+        return securePreferences.getBoolean(PrefsKeys.DARK_MODE, false)
+    }
+
+    /**
+     * Obtiene el estado actual del modo oscuro
+     */
+    fun isDarkModeEnabled(): Boolean = _isDarkMode.value
+
     // ==================== ACCESS TOKEN ====================
 
     /**

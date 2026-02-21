@@ -12,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -20,8 +22,7 @@ import com.renaix.domain.model.Product
 import com.renaix.ui.theme.CustomShapes
 import com.renaix.ui.theme.Grey300
 import com.renaix.util.Constants
-import java.text.NumberFormat
-import java.util.Locale
+import com.renaix.util.toEuroPrice
 
 /**
  * Card de producto para listados
@@ -37,7 +38,11 @@ fun ProductCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick() },
+            .height(280.dp)  // Altura fija para consistencia
+            .clickable(onClick = onClick)
+            .semantics {
+                contentDescription = "${product.nombre}, ${product.precio.toEuroPrice()}, ${product.estadoProducto.displayName}"
+            },
         shape = CustomShapes.ProductCard,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -113,7 +118,7 @@ fun ProductCard(
 
                 // Precio
                 Text(
-                    text = formatPrice(product.precio),
+                    text = product.precio.toEuroPrice(),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
@@ -157,7 +162,9 @@ fun ProductCardPlaceholder(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(280.dp),  // Misma altura que ProductCard
         shape = CustomShapes.ProductCard
     ) {
         Column {
@@ -184,9 +191,4 @@ fun ProductCardPlaceholder(
             }
         }
     }
-}
-
-private fun formatPrice(price: Double): String {
-    val format = NumberFormat.getCurrencyInstance(Locale("es", "ES"))
-    return format.format(price)
 }

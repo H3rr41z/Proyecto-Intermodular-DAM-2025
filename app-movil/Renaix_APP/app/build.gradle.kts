@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("app.cash.sqldelight")
+    id("org.jetbrains.dokka")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -114,7 +116,10 @@ dependencies {
     
     // Shimmer Effect
     implementation("com.valentinilk.shimmer:compose-shimmer:1.2.0")
-    
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-messaging-ktx")
 }
 
 // SQLDelight Configuration
@@ -123,6 +128,23 @@ sqldelight {
         create("RenaixDatabase") {
             packageName.set("com.renaix.data.local.database")
             dialect("app.cash.sqldelight:sqlite-3-35-dialect:2.0.1")
+        }
+    }
+}
+
+// Dokka Configuration - Documentación automática
+tasks.dokkaHtml.configure {
+    outputDirectory.set(file("$projectDir/docs"))
+
+    dokkaSourceSets {
+        named("main") {
+            moduleName.set("Renaix App")
+            includes.from("README.md")
+            sourceLink {
+                localDirectory.set(file("src/main/java"))
+                remoteUrl.set(java.net.URI("https://github.com/tu-usuario/renaix/tree/main/app/src/main/java").toURL())
+                remoteLineSuffix.set("#L")
+            }
         }
     }
 }

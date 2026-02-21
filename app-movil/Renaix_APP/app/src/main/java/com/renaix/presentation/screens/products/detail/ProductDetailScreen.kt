@@ -1,9 +1,12 @@
 package com.renaix.presentation.screens.products.detail
 
+import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -13,21 +16,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.*
 import com.renaix.di.AppContainer
 import com.renaix.presentation.common.components.ErrorView
 import com.renaix.presentation.common.components.LoadingIndicator
 import com.renaix.presentation.common.components.OfferDialog
 import com.renaix.presentation.common.components.RenaixButton
+import com.renaix.presentation.common.components.ZoomableImageDialog
 import com.renaix.presentation.common.state.UiState
 import com.renaix.ui.theme.Purple500
 import com.renaix.ui.theme.CustomShapes
 import com.renaix.util.Constants
+import com.renaix.util.toEuroPrice
 import kotlinx.coroutines.launch
-import java.text.NumberFormat
-import java.util.Locale
 
 /**
  * Pantalla de detalle de producto
@@ -53,7 +60,28 @@ fun ProductDetailScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val chatRepository = appContainer.chatRepository
+    val context = LocalContext.current
     var isSendingOffer by remember { mutableStateOf(false) }
+
+    // Función para compartir producto
+    fun shareProduct(productName: String, productPrice: String, productDescription: String) {
+        val shareText = """
+            |🦋 ¡Mira este producto en Renaix!
+            |
+            |📦 $productName
+            |💰 $productPrice
+            |
+            |$productDescription
+            |
+            |Descarga Renaix para ver más productos de segunda mano.
+        """.trimMargin()
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, shareText)
+        }
+        context.startActivity(Intent.createChooser(intent, "Compartir producto"))
+    }
 
     LaunchedEffect(productId) {
         viewModel.loadProduct(productId)
@@ -81,6 +109,23 @@ fun ProductDetailScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Volver")
+                    }
+                },
+                actions = {
+                    // Botón de compartir (solo si hay producto cargado)
+                    if (state is UiState.Success) {
+                        val product = (state as UiState.Success).data
+                        IconButton(
+                            onClick = {
+                                shareProduct(
+                                    product.nombre,
+                                    product.precio.toEuroPrice(),
+                                    product.descripcion.take(100) + if (product.descripcion.length > 100) "..." else ""
+                                )
+                            }
+                        ) {
+                            Icon(Icons.Filled.Share, contentDescription = "Compartir producto")
+                        }
                     }
                 }
             )
@@ -112,9 +157,40 @@ fun ProductDetailScreen(
                         .padding(padding)
                         .verticalScroll(rememberScrollState())
                 ) {
-                    // Imágenes
+                    // Estado para el zoom de imagen
+                    var zoomImageUrl by remember { mutableStateOf<String?>(null) }
+
+                    // Dialog de zoom
+                    zoomImageUrl?.let { url ->
+                        ZoomableImageDialog(
+                            imageUrl = url,
+                            onDismiss = { zoomImageUrl = null }
+                        )
+                    }
+
+                    // Imágenes con indicador
                     if (product.imagenes.isNotEmpty()) {
+                        val lazyRowState = rememberLazyListState()
+                        val currentImageIndex by remember {
+                            derivedStateOf {
+                                val layoutInfo = lazyRowState.layoutInfo
+                                val visibleItems = layoutInfo.visibleItemsInfo
+                                if (visibleItems.isEmpty()) 0
+                                else {
+                                    val firstVisibleItem = visibleItems.first()
+                                    val itemWidth = firstVisibleItem.size
+                                    val offset = lazyRowState.firstVisibleItemScrollOffset
+                                    if (offset > itemWidth / 2) {
+                                        (lazyRowState.firstVisibleItemIndex + 1).coerceAtMost(product.imagenes.size - 1)
+                                    } else {
+                                        lazyRowState.firstVisibleItemIndex
+                                    }
+                                }
+                            }
+                        }
+
                         LazyRow(
+                            state = lazyRowState,
                             contentPadding = PaddingValues(horizontal = 16.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
@@ -127,12 +203,36 @@ fun ProductDetailScreen(
 
                                 AsyncImage(
                                     model = imageUrl,
-                                    contentDescription = null,
+                                    contentDescription = "Toca para ampliar",
                                     modifier = Modifier
                                         .size(280.dp)
-                                        .clip(CustomShapes.ProductImage),
+                                        .clip(CustomShapes.ProductImage)
+                                        .clickable { zoomImageUrl = imageUrl },
                                     contentScale = ContentScale.Crop
                                 )
+                            }
+                        }
+
+                        // Indicador de posición (puntos)
+                        if (product.imagenes.size > 1) {
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                product.imagenes.forEachIndexed { index, _ ->
+                                    val isSelected = index == currentImageIndex
+                                    Surface(
+                                        modifier = Modifier
+                                            .padding(horizontal = 4.dp)
+                                            .size(if (isSelected) 10.dp else 8.dp),
+                                        shape = androidx.compose.foundation.shape.CircleShape,
+                                        color = if (isSelected)
+                                            MaterialTheme.colorScheme.primary
+                                        else
+                                            MaterialTheme.colorScheme.outlineVariant
+                                    ) {}
+                                }
                             }
                         }
                     }
@@ -143,7 +243,7 @@ fun ProductDetailScreen(
                     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                         // Precio
                         Text(
-                            text = formatPrice(product.precio),
+                            text = product.precio.toEuroPrice(),
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary
@@ -191,20 +291,73 @@ fun ProductDetailScreen(
                             )
                         }
 
-                        // Ubicación
+                        // Ubicación con mini-mapa
                         if (!product.ubicacion.isNullOrBlank()) {
                             Spacer(modifier = Modifier.height(16.dp))
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    Icons.Filled.LocationOn,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(
-                                    text = product.ubicacion,
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
+
+                            // Calcular coordenadas para el mapa (demo basado en ID)
+                            val productLocation = remember(product.id) {
+                                val baseLat = 41.3851 // Barcelona
+                                val baseLng = 2.1734
+                                val offset = (product.id % 100) * 0.001
+                                LatLng(baseLat + offset, baseLng + offset)
+                            }
+
+                            val cameraPositionState = rememberCameraPositionState {
+                                position = CameraPosition.fromLatLngZoom(productLocation, 15f)
+                            }
+
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
+                                Column {
+                                    // Texto de ubicación
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(12.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(
+                                            Icons.Filled.LocationOn,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text(
+                                            text = product.ubicacion,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.Medium
+                                        )
+                                    }
+
+                                    // Mini-mapa
+                                    GoogleMap(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(150.dp)
+                                            .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)),
+                                        cameraPositionState = cameraPositionState,
+                                        properties = MapProperties(
+                                            isMyLocationEnabled = false,
+                                            mapType = MapType.NORMAL
+                                        ),
+                                        uiSettings = MapUiSettings(
+                                            zoomControlsEnabled = false,
+                                            zoomGesturesEnabled = false,
+                                            scrollGesturesEnabled = false,
+                                            tiltGesturesEnabled = false,
+                                            rotationGesturesEnabled = false,
+                                            mapToolbarEnabled = false
+                                        )
+                                    ) {
+                                        Marker(
+                                            state = MarkerState(position = productLocation),
+                                            title = product.nombre
+                                        )
+                                    }
+                                }
                             }
                         }
 
@@ -308,7 +461,7 @@ fun ProductDetailScreen(
                                             color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                         Text(
-                                            text = formatPrice(product.precio),
+                                            text = product.precio.toEuroPrice(),
                                             style = MaterialTheme.typography.titleLarge,
                                             fontWeight = FontWeight.Bold,
                                             color = MaterialTheme.colorScheme.primary
@@ -365,9 +518,4 @@ fun ProductDetailScreen(
             else -> {}
         }
     }
-}
-
-private fun formatPrice(price: Double): String {
-    val format = NumberFormat.getCurrencyInstance(Locale("es", "ES"))
-    return format.format(price)
 }

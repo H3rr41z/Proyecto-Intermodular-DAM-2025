@@ -76,6 +76,7 @@ object Constants {
         const val USER_NAME = "user_name"
         const val USER_EMAIL = "user_email"
         const val IS_LOGGED_IN = "is_logged_in"
+        const val DARK_MODE = "dark_mode"
     }
     
     // ==================== DATABASE ====================

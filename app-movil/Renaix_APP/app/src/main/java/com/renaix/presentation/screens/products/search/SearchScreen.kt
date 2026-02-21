@@ -13,6 +13,8 @@ import com.renaix.domain.model.Product
 import com.renaix.presentation.common.components.*
 import com.renaix.presentation.common.state.UiState
 import com.renaix.ui.theme.CustomShapes
+import com.valentinilk.shimmer.shimmer
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -31,7 +33,10 @@ fun SearchScreen(
     val productRepository = appContainer.productRepository
 
     fun performSearch() {
-        if (searchQuery.isBlank()) return
+        if (searchQuery.isBlank()) {
+            searchResults = UiState.Idle
+            return
+        }
 
         scope.launch {
             searchResults = UiState.Loading
@@ -43,6 +48,16 @@ fun SearchScreen(
                     searchResults = UiState.Error(exception.message ?: "Error en la búsqueda")
                 }
         }
+    }
+
+    // Búsqueda en tiempo real con debounce (300ms)
+    LaunchedEffect(searchQuery) {
+        if (searchQuery.isBlank()) {
+            searchResults = UiState.Idle
+            return@LaunchedEffect
+        }
+        delay(300) // Esperar 300ms después de dejar de escribir
+        performSearch()
     }
 
     Scaffold(
@@ -94,7 +109,18 @@ fun SearchScreen(
                 }
 
                 is UiState.Loading -> {
-                    LoadingIndicator(message = "Buscando...")
+                    // Skeleton loaders con shimmer
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.shimmer()
+                    ) {
+                        items(4) {
+                            ProductCardPlaceholder()
+                        }
+                    }
                 }
 
                 is UiState.Error -> {

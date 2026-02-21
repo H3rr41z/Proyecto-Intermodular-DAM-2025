@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.renaix.di.AppContainerImpl
@@ -18,6 +20,7 @@ import com.renaix.ui.theme.RenaixTheme
  *
  * Configura:
  * - Theme (Material 3 con tema morado personalizado)
+ * - Soporte para modo oscuro con persistencia
  * - NavController para navegación
  * - AppContainer para inyección de dependencias
  * - NavHost con todas las rutas de la app
@@ -40,8 +43,11 @@ class MainActivity : ComponentActivity() {
             // NavController para gestionar la navegación
             val navController = rememberNavController()
 
-            // Tema personalizado de Renaix
-            RenaixTheme {
+            // Observar preferencia de modo oscuro
+            val isDarkMode by appContainer.preferencesManager.isDarkMode.collectAsState()
+
+            // Tema personalizado de Renaix con soporte para modo oscuro
+            RenaixTheme(darkTheme = isDarkMode) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
