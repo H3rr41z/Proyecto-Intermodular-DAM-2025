@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -58,7 +59,6 @@ fun MainScreen(
     onNavigateToProductDetail: (Int) -> Unit,
     onNavigateToCreateProduct: () -> Unit,
     onNavigateToChat: (Int, Int?) -> Unit,
-    onNavigateToPublicProfile: (Int) -> Unit,
     onLogout: () -> Unit
 ) {
     val navController = rememberNavController()
@@ -120,7 +120,7 @@ fun MainScreen(
             onDismissRequest = { showLogoutDialog = false },
             icon = {
                 Icon(
-                    imageVector = Icons.Outlined.Logout,
+                    imageVector = Icons.AutoMirrored.Outlined.Logout,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.error
                 )
@@ -436,7 +436,7 @@ private fun DrawerContent(
         Spacer(modifier = Modifier.weight(1f))
 
         DrawerMenuItem(
-            icon = Icons.Outlined.Logout,
+            icon = Icons.AutoMirrored.Outlined.Logout,
             label = "Cerrar sesión",
             onClick = onLogout,
             tint = MaterialTheme.colorScheme.error
@@ -489,7 +489,7 @@ private fun ModernBottomNavigation(
         containerColor = MaterialTheme.colorScheme.surface,
         tonalElevation = 3.dp
     ) {
-        BottomNavItem.entries.forEach { item ->
+        BottomNavItem.values().forEach { item ->
             val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
             val showBadge = item == BottomNavItem.Chat && unreadMessagesCount > 0
 

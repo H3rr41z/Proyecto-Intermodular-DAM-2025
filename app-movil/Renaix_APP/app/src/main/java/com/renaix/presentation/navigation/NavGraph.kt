@@ -123,9 +123,6 @@ fun RenaixNavGraph(
                 onNavigateToChat = { userId, productId ->
                     navController.navigate(Screen.Chat.createRoute(userId, productId))
                 },
-                onNavigateToPublicProfile = { userId ->
-                    navController.navigate(Screen.PublicProfile.createRoute(userId))
-                },
                 onLogout = {
                     navController.navigate(Screen.Login.route) {
                         popUpTo(Screen.Main.route) { inclusive = true }

@@ -1,6 +1,8 @@
 package com.renaix.presentation.screens.products.create
 
+import android.content.ContentResolver
 import android.net.Uri
+import android.util.Base64
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renaix.domain.repository.CategoryRepository
@@ -25,6 +27,9 @@ class CreateProductViewModel(
     private val _selectedImages = MutableStateFlow<List<Uri>>(emptyList())
     val selectedImages: StateFlow<List<Uri>> = _selectedImages.asStateFlow()
 
+    private val _uploadState = MutableStateFlow<UiState<Unit>>(UiState.Idle)
+    val uploadState: StateFlow<UiState<Unit>> = _uploadState.asStateFlow()
+
     init {
         loadCategories()
     }
@@ -40,75 +45,51 @@ class CreateProductViewModel(
         }
     }
 
-    /**
-     * Actualiza el nombre del producto
-     */
     fun updateName(name: String) {
-        _formState.value = _formState.value.copy(
-            nombre = name,
-            nombreError = null
-        )
+        _formState.value = _formState.value.copy(nombre = name, nombreError = null)
     }
 
-    /**
-     * Actualiza la descripción
-     */
     fun updateDescription(description: String) {
-        _formState.value = _formState.value.copy(
-            descripcion = description,
-            descripcionError = null
-        )
+        _formState.value = _formState.value.copy(descripcion = description, descripcionError = null)
     }
 
-    /**
-     * Actualiza el precio
-     */
     fun updatePrice(price: String) {
-        _formState.value = _formState.value.copy(
-            precio = price,
-            precioError = null
-        )
+        _formState.value = _formState.value.copy(precio = price, precioError = null)
     }
 
-    /**
-     * Selecciona una categoría
-     */
     fun selectCategory(categoryId: Int) {
-        _formState.value = _formState.value.copy(
-            categoriaId = categoryId,
-            categoriaError = null
-        )
+        _formState.value = _formState.value.copy(categoriaId = categoryId, categoriaError = null)
     }
 
-    /**
-     * Añade imágenes seleccionadas
-     */
+    fun updateEstado(estadoProducto: String) {
+        _formState.value = _formState.value.copy(estadoProducto = estadoProducto)
+    }
+
+    fun updateUbicacion(ubicacion: String) {
+        _formState.value = _formState.value.copy(ubicacion = ubicacion)
+    }
+
     fun addImages(uris: List<Uri>) {
         val currentImages = _selectedImages.value.toMutableList()
         currentImages.addAll(uris)
-
-        // Limitar a 10 imágenes máximo
         _selectedImages.value = currentImages.take(10)
+        if (_selectedImages.value.isNotEmpty()) {
+            _formState.value = _formState.value.copy(imagenesError = null)
+        }
     }
 
-    /**
-     * Elimina una imagen
-     */
     fun removeImage(uri: Uri) {
         _selectedImages.value = _selectedImages.value.filter { it != uri }
     }
 
-    /**
-     * Valida y crea el producto
-     */
     fun createProduct() {
         val state = _formState.value
 
-        // Validaciones - acumular todos los errores en una sola copia
         var nombreError: String? = null
         var descripcionError: String? = null
         var precioError: String? = null
         var categoriaError: String? = null
+        var imagenesError: String? = null
 
         if (state.nombre.isBlank()) {
             nombreError = "El nombre es obligatorio"
@@ -131,20 +112,24 @@ class CreateProductViewModel(
             categoriaError = "Selecciona una categoría"
         }
 
+        if (_selectedImages.value.isEmpty()) {
+            imagenesError = "Añade al menos una imagen"
+        }
+
         val hasErrors = nombreError != null || descripcionError != null ||
-                precioError != null || categoriaError != null
+                precioError != null || categoriaError != null || imagenesError != null
 
         if (hasErrors) {
             _formState.value = state.copy(
                 nombreError = nombreError,
                 descripcionError = descripcionError,
                 precioError = precioError,
-                categoriaError = categoriaError
+                categoriaError = categoriaError,
+                imagenesError = imagenesError
             )
             return
         }
 
-        // Crear producto
         viewModelScope.launch {
             _uiState.value = UiState.Loading
 
@@ -167,17 +152,38 @@ class CreateProductViewModel(
         }
     }
 
-    /**
-     * Resetea el estado UI
-     */
+    fun uploadImages(productId: Int, contentResolver: ContentResolver) {
+        val images = _selectedImages.value
+        viewModelScope.launch {
+            _uploadState.value = UiState.Loading
+            var firstImage = true
+            for (uri in images) {
+                try {
+                    val bytes = contentResolver.openInputStream(uri)?.readBytes() ?: continue
+                    val base64 = Base64.encodeToString(bytes, Base64.NO_WRAP)
+                    productRepository.addProductImage(
+                        productId = productId,
+                        imageBase64 = base64,
+                        esPrincipal = firstImage
+                    )
+                    firstImage = false
+                } catch (e: Exception) {
+                    // skip failed image, continue with next
+                }
+            }
+            _uploadState.value = UiState.Success(Unit)
+        }
+    }
+
     fun resetUiState() {
         _uiState.value = UiState.Idle
     }
+
+    fun resetUploadState() {
+        _uploadState.value = UiState.Idle
+    }
 }
 
-/**
- * Estado del formulario de creación
- */
 data class CreateProductFormState(
     val nombre: String = "",
     val nombreError: String? = null,
@@ -191,5 +197,6 @@ data class CreateProductFormState(
     val antiguedad: String? = null,
     val ubicacion: String? = null,
     val etiquetaIds: List<Int> = emptyList(),
-    val availableCategories: List<com.renaix.domain.model.Category> = emptyList()
+    val availableCategories: List<com.renaix.domain.model.Category> = emptyList(),
+    val imagenesError: String? = null
 )

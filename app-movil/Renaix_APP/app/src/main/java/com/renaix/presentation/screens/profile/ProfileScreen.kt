@@ -5,8 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -50,7 +51,7 @@ fun ProfileScreen(
             onDismissRequest = { showLogoutDialog = false },
             icon = {
                 Icon(
-                    imageVector = Icons.Outlined.Logout,
+                    imageVector = Icons.AutoMirrored.Outlined.Logout,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.error
                 )
@@ -219,7 +220,7 @@ fun ProfileScreen(
 
                     // Cerrar sesión
                     ProfileMenuItem(
-                        icon = Icons.Filled.Logout,
+                        icon = Icons.AutoMirrored.Filled.Logout,
                         title = "Cerrar sesión",
                         subtitle = "Salir de tu cuenta",
                         onClick = { showLogoutDialog = true },

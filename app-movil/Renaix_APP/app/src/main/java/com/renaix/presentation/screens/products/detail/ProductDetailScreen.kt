@@ -10,6 +10,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -142,7 +145,7 @@ fun ProductDetailScreen(
                 title = { Text("Detalle") },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                     }
                 },
                 actions = {
@@ -470,7 +473,7 @@ fun ProductDetailScreen(
                                         containerColor = MaterialTheme.colorScheme.primary
                                     )
                                 ) {
-                                    Icon(Icons.Filled.Chat, contentDescription = null)
+                                    Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = null)
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text("Contactar con el Vendedor")
                                 }
@@ -656,7 +659,7 @@ fun ProductDetailScreen(
                                     CircularProgressIndicator(modifier = Modifier.size(20.dp))
                                 } else {
                                     Icon(
-                                        Icons.Filled.Send,
+                                        Icons.AutoMirrored.Filled.Send,
                                         contentDescription = "Enviar comentario"
                                     )
                                 }

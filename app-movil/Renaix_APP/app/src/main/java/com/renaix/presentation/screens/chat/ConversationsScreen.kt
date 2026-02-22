@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -83,7 +84,7 @@ fun ConversationsScreen(
                         modifier = Modifier.padding(padding),
                         title = "Sin mensajes",
                         message = "Contacta con vendedores para iniciar una conversación",
-                        icon = Icons.Filled.Chat
+                        icon = Icons.AutoMirrored.Filled.Chat
                     )
                 } else {
                     LazyColumn(

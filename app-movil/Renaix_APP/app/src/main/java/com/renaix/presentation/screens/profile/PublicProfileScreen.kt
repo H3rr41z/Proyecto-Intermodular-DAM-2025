@@ -3,6 +3,8 @@ package com.renaix.presentation.screens.profile
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -69,7 +71,7 @@ fun PublicProfileScreen(
                 title = { Text("Perfil") },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                     }
                 }
             )
@@ -165,7 +167,7 @@ fun PublicProfileScreen(
                                 OutlinedButton(
                                     onClick = { onNavigateToChat(userId) }
                                 ) {
-                                    Icon(Icons.Filled.Chat, contentDescription = null)
+                                    Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = null)
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text("Contactar")
                                 }
