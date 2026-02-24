@@ -79,8 +79,8 @@ class UsuariosController(http.Controller):
             if update_vals.get('mobile') and not auth_helpers.validate_phone_number(update_vals['mobile']):
                 return response_helpers.validation_error_response('Formato de móvil inválido')
 
-            # Manejar imagen si se proporciona
-            if 'image' in data:
+            # Manejar imagen si se proporciona (null significa "no cambiar", "" significa "eliminar")
+            if 'image' in data and data['image'] is not None:
                 image_data = data['image']
 
                 # Si es una cadena vacía, eliminar la imagen
@@ -540,3 +540,31 @@ class UsuariosController(http.Controller):
         except Exception as e:
             _logger.error(f'Error al obtener productos del usuario: {str(e)}')
             return response_helpers.server_error_response(str(e))
+
+
+    @http.route('/api/v1/usuarios/<int:partner_id>/imagen', type='http', auth='none',
+                methods=['GET'], csrf=False, cors='*')
+    def get_imagen_usuario(self, partner_id, **params):
+        """
+        Sirve la imagen de perfil de un usuario (público, sin autenticación).
+        Necesario porque /web/image/ requiere sesión web, no Bearer token.
+
+        Returns:
+            HTTP binary response con la imagen de perfil
+        """
+        try:
+            import base64 as b64
+            partner = request.env['res.partner'].sudo().browse(partner_id)
+            if not partner.exists() or not partner.image_1920:
+                return request.make_response('Not found', status=404)
+
+            image_data = b64.b64decode(partner.image_1920)
+            headers = [
+                ('Content-Type', 'image/jpeg'),
+                ('Cache-Control', 'public, max-age=86400'),
+            ]
+            return request.make_response(image_data, headers=headers)
+
+        except Exception as e:
+            _logger.error(f'Error al servir imagen de usuario {partner_id}: {str(e)}')
+            return request.make_response('Error', status=500)

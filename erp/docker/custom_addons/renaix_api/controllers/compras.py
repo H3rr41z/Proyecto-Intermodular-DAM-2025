@@ -33,39 +33,41 @@ class ComprasController(http.Controller):
         try:
             partner = jwt_utils.verify_token(request)
             data = json.loads(request.httprequest.data.decode('utf-8'))
-            
+
             if not data.get('producto_id'):
                 return response_helpers.validation_error_response('producto_id requerido')
-            
+
             producto = request.env['renaix.producto'].sudo().browse(data['producto_id'])
-            
+
             if not producto.exists():
                 return response_helpers.not_found_response('Producto no encontrado')
-            
+
             if producto.estado_venta != 'disponible':
                 return response_helpers.validation_error_response('Producto no disponible')
-            
+
             if producto.propietario_id.id == partner.id:
                 return response_helpers.validation_error_response('No puedes comprar tu propio producto')
-            
+
             compra_vals = {
                 'producto_id': producto.id,
                 'comprador_id': partner.id,
-                'vendedor_id': producto.propietario_id.id,
                 'precio_final': producto.precio,
                 'notas': data.get('notas', ''),
             }
-            
-            compra = request.env['renaix.compra'].sudo().create(compra_vals)
-            
+
+            # Usamos savepoint para que un fallo del ORM no deje la transacción
+            # en estado abortado, lo que causaría una respuesta HTML en vez de JSON
+            with request.env.cr.savepoint():
+                compra = request.env['renaix.compra'].sudo().create(compra_vals)
+
             _logger.info(f'Compra creada: {compra.id}')
-            
+
             return response_helpers.success_response(
                 data=serializers.serialize_compra(compra),
                 message='Compra creada exitosamente',
                 status=201
             )
-            
+
         except json.JSONDecodeError:
             return response_helpers.validation_error_response('JSON inválido')
         except Exception as e:

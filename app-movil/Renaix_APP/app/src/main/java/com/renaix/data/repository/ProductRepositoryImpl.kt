@@ -100,14 +100,16 @@ class ProductRepositoryImpl(
         descripcion: String?,
         precio: Double?,
         categoriaId: Int?,
-        estadoProducto: String?
+        estadoProducto: String?,
+        ubicacion: String?
     ): Result<ProductDetail> {
         val request = UpdateProductRequest(
             nombre = nombre,
             descripcion = descripcion,
             precio = precio,
             categoriaId = categoriaId,
-            estadoProducto = estadoProducto
+            estadoProducto = estadoProducto,
+            ubicacion = ubicacion
         )
 
         return when (val result = remoteDataSource.updateProduct(productId, request)) {

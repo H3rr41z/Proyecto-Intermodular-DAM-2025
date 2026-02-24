@@ -35,7 +35,7 @@ def serialize_partner(partner, full=False):
             'productos_comprados': partner.productos_comprados,
             'total_comentarios': partner.total_comentarios,
             'fecha_registro_app': partner.fecha_registro_app.isoformat() if partner.fecha_registro_app else None,
-            'imagen_url': f'/web/image/res.partner/{partner.id}/image_1920' if partner.image_1920 else None,
+            'image_url': f'/api/v1/usuarios/{partner.id}/imagen' if partner.image_1920 else None,
         })
     
     return data
@@ -100,7 +100,7 @@ def serialize_producto_imagen(imagen):
     
     return {
         'id': imagen.id,
-        'url': imagen.url_imagen,
+        'url_imagen': f'/api/v1/imagenes/{imagen.id}' if imagen.id else '',
         'es_principal': imagen.es_principal,
         'descripcion': imagen.descripcion or '',
         'secuencia': imagen.secuencia,
@@ -325,10 +325,20 @@ def serialize_conversacion(mensajes):
     # Determinar el "otro" usuario (el que no soy yo)
     # Esto se debe calcular en el controlador según el usuario autenticado
     
-    mensajes_no_leidos = mensajes.filtered(lambda m: not m.leido)
-    
+    mensajes_no_leidos = [m for m in mensajes if not m.leido]
+
+    # Recopilar participantes únicos del hilo (emisor y receptor)
+    seen_ids = set()
+    participantes = []
+    for m in mensajes:
+        for partner in [m.emisor_id, m.receptor_id]:
+            if partner and partner.id and partner.id not in seen_ids:
+                seen_ids.add(partner.id)
+                participantes.append(serialize_partner(partner, full=False))
+
     return {
         'hilo_id': primer_mensaje.hilo_id,
+        'participantes': participantes,
         'producto': serialize_producto(primer_mensaje.producto_id, include_images=False) if primer_mensaje.producto_id else None,
         'ultimo_mensaje': serialize_mensaje(ultimo_mensaje),
         'total_mensajes': len(mensajes),

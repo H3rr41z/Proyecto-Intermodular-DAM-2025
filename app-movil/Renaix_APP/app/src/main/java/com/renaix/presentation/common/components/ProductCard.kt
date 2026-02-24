@@ -53,9 +53,7 @@ fun ProductCard(
                     .fillMaxWidth()
                     .height(160.dp)
             ) {
-                val imageUrl = product.imagenPrincipal?.let {
-                    if (it.startsWith("http")) it else "${Constants.API_BASE_URL.removeSuffix("/api/v1")}$it"
-                }
+                val imageUrl = Constants.imageUrl(product.imagenPrincipal)
 
                 AsyncImage(
                     model = imageUrl,

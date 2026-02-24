@@ -90,7 +90,23 @@ object Constants {
     const val MAX_PAGE_SIZE = 100
     
     // ==================== IMAGES ====================
-    
+
+    /**
+     * Normaliza una URL de imagen.
+     * Siempre usa el host configurado en BASE_URL para evitar el mismatch
+     * entre lo que devuelve Odoo (localhost) y lo que necesita el emulador (10.0.2.2).
+     */
+    fun imageUrl(path: String?): String? {
+        if (path.isNullOrBlank()) return null
+        val base = API_BASE_URL.removeSuffix("/api/v1/").trimEnd('/')
+        return if (path.startsWith("http")) {
+            val cleanPath = "/${path.substringAfter("//").substringAfter("/")}"
+            "$base$cleanPath"
+        } else {
+            "$base$path"
+        }
+    }
+
     const val MAX_IMAGES_PER_PRODUCT = 10
     const val MAX_IMAGE_SIZE_MB = 5
     const val MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024

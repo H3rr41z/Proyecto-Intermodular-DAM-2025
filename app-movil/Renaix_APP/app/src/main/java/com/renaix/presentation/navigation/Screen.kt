@@ -25,11 +25,15 @@ sealed class Screen(val route: String) {
         fun createRoute(productId: Int) = "products/$productId"
     }
     object CreateProduct : Screen("products/create")
+    object EditProduct : Screen("products/{productId}/edit") {
+        fun createRoute(productId: Int) = "products/$productId/edit"
+    }
     object Search : Screen("search")
 
     // Profile
     object Profile : Screen("profile")
     object EditProfile : Screen("profile/edit")
+    object Favorites : Screen("profile/favorites")
     object MyProducts : Screen("profile/products")
     object MyPurchases : Screen("profile/purchases")
     object MySales : Screen("profile/sales")

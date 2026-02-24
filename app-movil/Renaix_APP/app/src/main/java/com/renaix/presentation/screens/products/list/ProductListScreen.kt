@@ -213,13 +213,15 @@ fun ProductListScreen(
                 }
             }
 
-            // Pull-to-refresh indicator
-            PullToRefreshContainer(
-                state = pullToRefreshState,
-                modifier = Modifier.align(Alignment.TopCenter),
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary
-            )
+            // Pull-to-refresh indicator — solo visible cuando el usuario arrastra o se está recargando
+            if (pullToRefreshState.progress > 0f || pullToRefreshState.isRefreshing) {
+                PullToRefreshContainer(
+                    state = pullToRefreshState,
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.primary
+                )
+            }
         }
     }
 }

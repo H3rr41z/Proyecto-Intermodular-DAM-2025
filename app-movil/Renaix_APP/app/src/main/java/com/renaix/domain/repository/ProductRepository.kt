@@ -59,7 +59,8 @@ interface ProductRepository {
         descripcion: String? = null,
         precio: Double? = null,
         categoriaId: Int? = null,
-        estadoProducto: String? = null
+        estadoProducto: String? = null,
+        ubicacion: String? = null
     ): Result<ProductDetail>
 
     /**

@@ -17,7 +17,11 @@ data class PurchaseResponse(
     val estado: String,  // pendiente, confirmada, completada, cancelada
     @SerialName("fecha_compra")
     val fechaCompra: String? = null,
-    val notas: String? = null
+    val notas: String? = null,
+    @SerialName("comprador_valoro")
+    val compradorValoro: Boolean = false,
+    @SerialName("vendedor_valoro")
+    val vendedorValoro: Boolean = false
 )
 
 /**

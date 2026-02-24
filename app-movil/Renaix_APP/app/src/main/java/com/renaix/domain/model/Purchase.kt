@@ -11,7 +11,9 @@ data class Purchase(
     val precioFinal: Double,
     val estado: EstadoCompra,
     val fechaCompra: String? = null,
-    val notas: String? = null
+    val notas: String? = null,
+    val compradorValoro: Boolean = false,
+    val vendedorValoro: Boolean = false
 )
 
 /**

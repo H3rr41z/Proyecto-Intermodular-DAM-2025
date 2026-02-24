@@ -12,12 +12,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.renaix.di.AppContainer
 import com.renaix.presentation.common.components.ErrorView
 import com.renaix.presentation.common.components.LoadingIndicator
 import com.renaix.presentation.common.state.UiState
+import com.renaix.util.Constants
 
 /**
  * Pantalla de perfil del usuario
@@ -29,6 +33,7 @@ fun ProfileScreen(
     onNavigateToMyProducts: () -> Unit,
     onNavigateToMyPurchases: () -> Unit,
     onNavigateToMySales: () -> Unit,
+    onNavigateToFavorites: () -> Unit,
     onNavigateToEditProfile: () -> Unit,
     onLogout: () -> Unit
 ) {
@@ -145,12 +150,24 @@ fun ProfileScreen(
                                 color = MaterialTheme.colorScheme.primaryContainer
                             ) {
                                 Box(contentAlignment = Alignment.Center) {
-                                    Icon(
-                                        Icons.Filled.Person,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(48.dp),
-                                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-                                    )
+                                    val profileImageUrl = Constants.imageUrl(user.imageUrl)
+                                    if (profileImageUrl != null) {
+                                        AsyncImage(
+                                            model = profileImageUrl,
+                                            contentDescription = "Foto de perfil",
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .clip(MaterialTheme.shapes.extraLarge)
+                                        )
+                                    } else {
+                                        Icon(
+                                            Icons.Filled.Person,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(48.dp),
+                                            tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                        )
+                                    }
                                 }
                             }
 
@@ -214,6 +231,13 @@ fun ProfileScreen(
                         title = "Mis ventas",
                         subtitle = "Historial de ventas realizadas",
                         onClick = onNavigateToMySales
+                    )
+
+                    ProfileMenuItem(
+                        icon = Icons.Filled.Favorite,
+                        title = "Mis favoritos",
+                        subtitle = "Productos guardados como favoritos",
+                        onClick = onNavigateToFavorites
                     )
 
                     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))

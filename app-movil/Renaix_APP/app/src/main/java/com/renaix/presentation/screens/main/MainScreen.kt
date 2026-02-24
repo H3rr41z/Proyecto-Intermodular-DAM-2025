@@ -59,6 +59,11 @@ fun MainScreen(
     onNavigateToProductDetail: (Int) -> Unit,
     onNavigateToCreateProduct: () -> Unit,
     onNavigateToChat: (Int, Int?) -> Unit,
+    onNavigateToMyProducts: () -> Unit,
+    onNavigateToMyPurchases: () -> Unit,
+    onNavigateToMySales: () -> Unit,
+    onNavigateToFavorites: () -> Unit,
+    onNavigateToEditProfile: () -> Unit,
     onLogout: () -> Unit
 ) {
     val navController = rememberNavController()
@@ -164,16 +169,34 @@ fun MainScreen(
                     isDarkMode = isDarkMode,
                     onDarkModeToggle = { preferencesManager.setDarkMode(it) },
                     onNavigateToMyProducts = {
-                        scope.launch { drawerState.close() }
+                        scope.launch {
+                            drawerState.close()
+                            onNavigateToMyProducts()
+                        }
                     },
                     onNavigateToMyPurchases = {
-                        scope.launch { drawerState.close() }
+                        scope.launch {
+                            drawerState.close()
+                            onNavigateToMyPurchases()
+                        }
                     },
                     onNavigateToMySales = {
-                        scope.launch { drawerState.close() }
+                        scope.launch {
+                            drawerState.close()
+                            onNavigateToMySales()
+                        }
+                    },
+                    onNavigateToFavorites = {
+                        scope.launch {
+                            drawerState.close()
+                            onNavigateToFavorites()
+                        }
                     },
                     onNavigateToSettings = {
-                        scope.launch { drawerState.close() }
+                        scope.launch {
+                            drawerState.close()
+                            onNavigateToEditProfile()
+                        }
                     },
                     onLogout = {
                         scope.launch { drawerState.close() }
@@ -301,10 +324,11 @@ fun MainScreen(
                 composable(Screen.Profile.route) {
                     ProfileScreen(
                         appContainer = appContainer,
-                        onNavigateToMyProducts = { },
-                        onNavigateToMyPurchases = { },
-                        onNavigateToMySales = { },
-                        onNavigateToEditProfile = { },
+                        onNavigateToMyProducts = onNavigateToMyProducts,
+                        onNavigateToMyPurchases = onNavigateToMyPurchases,
+                        onNavigateToMySales = onNavigateToMySales,
+                        onNavigateToFavorites = onNavigateToFavorites,
+                        onNavigateToEditProfile = onNavigateToEditProfile,
                         onLogout = onLogout
                     )
                 }
@@ -325,6 +349,7 @@ private fun DrawerContent(
     onNavigateToMyProducts: () -> Unit,
     onNavigateToMyPurchases: () -> Unit,
     onNavigateToMySales: () -> Unit,
+    onNavigateToFavorites: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onLogout: () -> Unit
 ) {
@@ -395,6 +420,12 @@ private fun DrawerContent(
             icon = Icons.Outlined.Sell,
             label = "Mis ventas",
             onClick = onNavigateToMySales
+        )
+
+        DrawerMenuItem(
+            icon = Icons.Outlined.FavoriteBorder,
+            label = "Mis favoritos",
+            onClick = onNavigateToFavorites
         )
 
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
@@ -586,11 +617,11 @@ private fun AnimatedFab(
     )
 
     if (fabScale > 0f) {
-        LargeFloatingActionButton(
+        FloatingActionButton(
             onClick = onClick,
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,
-            shape = RoundedCornerShape(20.dp),
+            shape = RoundedCornerShape(16.dp),
             modifier = Modifier
                 .scale(fabScale * pulseScale)
                 .semantics { contentDescription = "Crear nuevo producto" }
@@ -598,7 +629,7 @@ private fun AnimatedFab(
             Icon(
                 imageVector = Icons.Filled.Add,
                 contentDescription = null,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
     }

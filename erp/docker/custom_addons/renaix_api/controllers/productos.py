@@ -606,3 +606,31 @@ class ProductosController(http.Controller):
         except Exception as e:
             _logger.error(f'Error al eliminar imagen: {str(e)}')
             return response_helpers.server_error_response(str(e))
+
+
+    @http.route('/api/v1/imagenes/<int:imagen_id>', type='http', auth='none',
+                methods=['GET'], csrf=False, cors='*')
+    def get_imagen_binaria(self, imagen_id, **params):
+        """
+        Sirve el binario de una imagen de producto (público, sin autenticación).
+        Necesario porque /web/image/ requiere sesión web, no Bearer token.
+
+        Returns:
+            HTTP binary response con la imagen
+        """
+        try:
+            import base64 as b64
+            imagen = request.env['renaix.producto.imagen'].sudo().browse(imagen_id)
+            if not imagen.exists() or not imagen.imagen:
+                return request.make_response('Not found', status=404)
+
+            image_data = b64.b64decode(imagen.imagen)
+            headers = [
+                ('Content-Type', 'image/jpeg'),
+                ('Cache-Control', 'public, max-age=86400'),
+            ]
+            return request.make_response(image_data, headers=headers)
+
+        except Exception as e:
+            _logger.error(f'Error al servir imagen {imagen_id}: {str(e)}')
+            return request.make_response('Error', status=500)

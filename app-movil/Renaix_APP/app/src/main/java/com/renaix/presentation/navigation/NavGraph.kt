@@ -18,8 +18,14 @@ import com.renaix.presentation.screens.main.MainScreen
 import com.renaix.presentation.screens.map.MapScreen
 import com.renaix.presentation.screens.products.create.CreateProductScreen
 import com.renaix.presentation.screens.products.detail.ProductDetailScreen
+import com.renaix.presentation.screens.products.edit.EditProductScreen
 import com.renaix.presentation.screens.products.list.ProductListScreen
 import com.renaix.presentation.screens.products.search.SearchScreen
+import com.renaix.presentation.screens.profile.EditProfileScreen
+import com.renaix.presentation.screens.profile.FavoritesScreen
+import com.renaix.presentation.screens.profile.MyProductsScreen
+import com.renaix.presentation.screens.profile.MyPurchasesScreen
+import com.renaix.presentation.screens.profile.MySalesScreen
 import com.renaix.presentation.screens.profile.ProfileScreen
 import com.renaix.presentation.screens.profile.PublicProfileScreen
 import com.renaix.presentation.screens.splash.SplashScreen
@@ -123,6 +129,21 @@ fun RenaixNavGraph(
                 onNavigateToChat = { userId, productId ->
                     navController.navigate(Screen.Chat.createRoute(userId, productId))
                 },
+                onNavigateToMyProducts = {
+                    navController.navigate(Screen.MyProducts.route)
+                },
+                onNavigateToMyPurchases = {
+                    navController.navigate(Screen.MyPurchases.route)
+                },
+                onNavigateToMySales = {
+                    navController.navigate(Screen.MySales.route)
+                },
+                onNavigateToFavorites = {
+                    navController.navigate(Screen.Favorites.route)
+                },
+                onNavigateToEditProfile = {
+                    navController.navigate(Screen.EditProfile.route)
+                },
                 onLogout = {
                     navController.navigate(Screen.Login.route) {
                         popUpTo(Screen.Main.route) { inclusive = true }
@@ -149,6 +170,9 @@ fun RenaixNavGraph(
                 },
                 onNavigateToPublicProfile = { userId ->
                     navController.navigate(Screen.PublicProfile.createRoute(userId))
+                },
+                onNavigateToEditProduct = { prodId ->
+                    navController.navigate(Screen.EditProduct.createRoute(prodId))
                 }
             )
         }
@@ -160,6 +184,30 @@ fun RenaixNavGraph(
                 onProductCreated = { productId ->
                     navController.navigate(Screen.ProductDetail.createRoute(productId)) {
                         popUpTo(Screen.CreateProduct.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable(
+            route = Screen.EditProduct.route,
+            arguments = listOf(
+                navArgument("productId") { type = NavType.IntType }
+            )
+        ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getInt("productId") ?: 0
+            EditProductScreen(
+                productId = productId,
+                appContainer = appContainer,
+                onNavigateBack = { navController.popBackStack() },
+                onProductSaved = { prodId ->
+                    navController.navigate(Screen.ProductDetail.createRoute(prodId)) {
+                        popUpTo(Screen.EditProduct.route) { inclusive = true }
+                    }
+                },
+                onProductDeleted = {
+                    navController.navigate(Screen.Main.route) {
+                        popUpTo(Screen.Main.route) { inclusive = false }
                     }
                 }
             )
@@ -186,6 +234,55 @@ fun RenaixNavGraph(
                 onNavigateBack = { navController.popBackStack() },
                 onNavigateToProduct = { prodId ->
                     navController.navigate(Screen.ProductDetail.createRoute(prodId))
+                }
+            )
+        }
+
+        // ==================== PROFILE SECTIONS ====================
+
+        composable(route = Screen.MyProducts.route) {
+            MyProductsScreen(
+                appContainer = appContainer,
+                onNavigateBack = { navController.popBackStack() },
+                onProductClick = { productId: Int ->
+                    navController.navigate(Screen.ProductDetail.createRoute(productId))
+                }
+            )
+        }
+
+        composable(route = Screen.MyPurchases.route) {
+            MyPurchasesScreen(
+                appContainer = appContainer,
+                onNavigateBack = { navController.popBackStack() },
+                onProductClick = { productId ->
+                    navController.navigate(Screen.ProductDetail.createRoute(productId))
+                }
+            )
+        }
+
+        composable(route = Screen.MySales.route) {
+            MySalesScreen(
+                appContainer = appContainer,
+                onNavigateBack = { navController.popBackStack() },
+                onProductClick = { productId ->
+                    navController.navigate(Screen.ProductDetail.createRoute(productId))
+                }
+            )
+        }
+
+        composable(route = Screen.EditProfile.route) {
+            EditProfileScreen(
+                appContainer = appContainer,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(route = Screen.Favorites.route) {
+            FavoritesScreen(
+                appContainer = appContainer,
+                onNavigateBack = { navController.popBackStack() },
+                onProductClick = { productId ->
+                    navController.navigate(Screen.ProductDetail.createRoute(productId))
                 }
             )
         }

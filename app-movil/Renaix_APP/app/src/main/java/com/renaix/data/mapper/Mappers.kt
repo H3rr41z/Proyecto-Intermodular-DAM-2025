@@ -157,7 +157,9 @@ fun PurchaseResponse.toDomain(): Purchase {
         precioFinal = precioFinal,
         estado = EstadoCompra.fromString(estado),
         fechaCompra = fechaCompra,
-        notas = notas
+        notas = notas,
+        compradorValoro = compradorValoro,
+        vendedorValoro = vendedorValoro
     )
 }
 

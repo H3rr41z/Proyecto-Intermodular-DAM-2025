@@ -155,14 +155,25 @@ class Mensaje(models.Model):
         """Al crear: generar hilo_id si no existe y notificar"""
         # Generar hilo_id automático si no se proporciona
         if 'hilo_id' not in vals or not vals['hilo_id']:
-            # Formato: emisor_receptor_producto (ordenado alfabéticamente)
             emisor_id = vals.get('emisor_id')
             receptor_id = vals.get('receptor_id')
-            producto_id = vals.get('producto_id', 0)
-            
-            # Ordenar IDs para que el hilo sea el mismo independientemente del emisor
-            ids_ordenados = sorted([emisor_id, receptor_id])
-            vals['hilo_id'] = f"hilo_{ids_ordenados[0]}_{ids_ordenados[1]}_{producto_id}"
+            producto_id = vals.get('producto_id') or 0
+
+            if not producto_id:
+                # Sin producto: reutilizar el hilo existente entre estos dos usuarios
+                existing = self.search([
+                    '|',
+                    '&', ('emisor_id', '=', emisor_id), ('receptor_id', '=', receptor_id),
+                    '&', ('emisor_id', '=', receptor_id), ('receptor_id', '=', emisor_id),
+                ], limit=1, order='fecha desc')
+                if existing and existing.hilo_id:
+                    vals['hilo_id'] = existing.hilo_id
+
+            # Si todavía no hay hilo_id, generar uno nuevo
+            if 'hilo_id' not in vals or not vals['hilo_id']:
+                # Ordenar IDs para que el hilo sea el mismo independientemente del emisor
+                ids_ordenados = sorted([emisor_id, receptor_id])
+                vals['hilo_id'] = f"hilo_{ids_ordenados[0]}_{ids_ordenados[1]}_{producto_id}"
         
         mensaje = super(Mensaje, self).create(vals)
         

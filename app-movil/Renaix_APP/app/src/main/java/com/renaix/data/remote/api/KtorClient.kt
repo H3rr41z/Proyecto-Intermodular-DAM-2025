@@ -48,6 +48,7 @@ object KtorClient {
         ignoreUnknownKeys = true
         coerceInputValues = true
         encodeDefaults = true
+        explicitNulls = false  // No enviar campos null (evita borrado accidental en el backend)
     }
 
     /**

@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import com.renaix.di.AppContainer
 import com.renaix.domain.model.CategoriaDenuncia
+import com.renaix.domain.model.EstadoVenta
 import com.renaix.presentation.common.components.ErrorView
 import com.renaix.presentation.common.components.LoadingIndicator
 import com.renaix.presentation.common.components.OfferDialog
@@ -51,7 +52,8 @@ fun ProductDetailScreen(
     appContainer: AppContainer,
     onNavigateBack: () -> Unit,
     onNavigateToChat: (Int, Int) -> Unit,
-    onNavigateToPublicProfile: (Int) -> Unit
+    onNavigateToPublicProfile: (Int) -> Unit,
+    onNavigateToEditProduct: (Int) -> Unit = {}
 ) {
     val viewModel = remember {
         ProductDetailViewModel(
@@ -69,6 +71,7 @@ fun ProductDetailScreen(
     val currentUserId by viewModel.currentUserId.collectAsState()
     val commentActionState by viewModel.commentActionState.collectAsState()
     val reportState by viewModel.reportState.collectAsState()
+    val publishState by viewModel.publishState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val chatRepository = appContainer.chatRepository
@@ -139,6 +142,20 @@ fun ProductDetailScreen(
         }
     }
 
+    LaunchedEffect(publishState) {
+        when (publishState) {
+            is UiState.Success -> {
+                snackbarHostState.showSnackbar("Producto publicado correctamente")
+                viewModel.resetPublishState()
+            }
+            is UiState.Error -> {
+                snackbarHostState.showSnackbar((publishState as UiState.Error).message)
+                viewModel.resetPublishState()
+            }
+            else -> {}
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -149,8 +166,19 @@ fun ProductDetailScreen(
                     }
                 },
                 actions = {
-                    // Botón de favorito (solo si hay producto cargado)
                     if (state is UiState.Success) {
+                        val product = (state as UiState.Success).data
+                        // Botón editar (solo propietario)
+                        if (currentUserId == product.propietario.id) {
+                            IconButton(onClick = { onNavigateToEditProduct(productId) }) {
+                                Icon(
+                                    Icons.Filled.Edit,
+                                    contentDescription = "Editar producto",
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                        // Botón de favorito
                         IconButton(onClick = { viewModel.toggleFavorite() }) {
                             Icon(
                                 imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
@@ -158,10 +186,7 @@ fun ProductDetailScreen(
                                 tint = if (isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
-                    }
-                    // Botón de compartir (solo si hay producto cargado)
-                    if (state is UiState.Success) {
-                        val product = (state as UiState.Success).data
+                        // Botón de compartir
                         IconButton(
                             onClick = {
                                 shareProduct(
@@ -242,11 +267,7 @@ fun ProductDetailScreen(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(product.imagenes) { imagen ->
-                                val imageUrl = if (imagen.urlImagen.startsWith("http")) {
-                                    imagen.urlImagen
-                                } else {
-                                    "${Constants.API_BASE_URL.removeSuffix("/api/v1")}${imagen.urlImagen}"
-                                }
+                                val imageUrl = Constants.imageUrl(imagen.urlImagen)
 
                                 AsyncImage(
                                     model = imageUrl,
@@ -459,33 +480,89 @@ fun ProductDetailScreen(
 
                         // Sistema de negociación
                         var showOfferDialog by remember { mutableStateOf(false) }
+                        var showBuyDialog by remember { mutableStateOf(false) }
 
-                        if (product.estadoVenta.value == "disponible") {
+                        // Botón publicar (solo propietario + borrador)
+                        if (product.estadoVenta == EstadoVenta.BORRADOR &&
+                            currentUserId == product.propietario.id
+                        ) {
+                            val isPublishing = publishState is UiState.Loading
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Button(
+                                onClick = { viewModel.publishProduct() },
+                                modifier = Modifier.fillMaxWidth(),
+                                enabled = !isPublishing,
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.tertiary
+                                )
+                            ) {
+                                if (isPublishing) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(18.dp),
+                                        strokeWidth = 2.dp,
+                                        color = MaterialTheme.colorScheme.onTertiary
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text("Publicando...")
+                                } else {
+                                    Icon(Icons.Filled.Publish, contentDescription = null)
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text("Publicar producto")
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(8.dp))
+                        }
+
+                        if (product.estadoVenta.value == "disponible" && currentUserId != product.propietario.id) {
+                            val isBuying = buyState is UiState.Loading
                             Column(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                // Botón principal: Contactar vendedor
+                                // Botón principal: Comprar ahora
                                 Button(
-                                    onClick = { onNavigateToChat(product.propietario.id, productId) },
+                                    onClick = { showBuyDialog = true },
                                     modifier = Modifier.fillMaxWidth(),
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = MaterialTheme.colorScheme.primary
-                                    )
+                                    enabled = !isBuying
                                 ) {
-                                    Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = null)
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text("Contactar con el Vendedor")
+                                    if (isBuying) {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier.size(18.dp),
+                                            strokeWidth = 2.dp,
+                                            color = MaterialTheme.colorScheme.onPrimary
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text("Comprando...")
+                                    } else {
+                                        Icon(Icons.Filled.ShoppingCart, contentDescription = null)
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text("Comprar ahora")
+                                    }
                                 }
 
-                                // Botón secundario: Hacer oferta
-                                OutlinedButton(
-                                    onClick = { showOfferDialog = true },
-                                    modifier = Modifier.fillMaxWidth()
+                                // Botones secundarios: Hacer oferta + Contactar
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
-                                    Icon(Icons.Filled.LocalOffer, contentDescription = null)
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text("Hacer Oferta")
+                                    OutlinedButton(
+                                        onClick = { showOfferDialog = true },
+                                        modifier = Modifier.weight(1f),
+                                        enabled = !isBuying
+                                    ) {
+                                        Icon(Icons.Filled.LocalOffer, contentDescription = null, modifier = Modifier.size(16.dp))
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Text("Hacer Oferta")
+                                    }
+                                    OutlinedButton(
+                                        onClick = { onNavigateToChat(product.propietario.id, productId) },
+                                        modifier = Modifier.weight(1f),
+                                        enabled = !isBuying
+                                    ) {
+                                        Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = null, modifier = Modifier.size(16.dp))
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Text("Contactar")
+                                    }
                                 }
 
                                 // Info de precio
@@ -515,13 +592,45 @@ fun ProductDetailScreen(
                                         )
                                     }
                                 }
-
-                                Text(
-                                    text = "Puedes negociar el precio con el vendedor",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
                             }
+                        }
+
+                        // Dialog de compra
+                        if (showBuyDialog) {
+                            var buyNotas by remember { mutableStateOf("") }
+                            AlertDialog(
+                                onDismissRequest = { showBuyDialog = false },
+                                title = { Text("Confirmar compra") },
+                                text = {
+                                    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                                        Text(
+                                            text = "¿Comprar ${product.nombre} por ${product.precio.toEuroPrice()}?",
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+                                        OutlinedTextField(
+                                            value = buyNotas,
+                                            onValueChange = { buyNotas = it },
+                                            label = { Text("Notas para el vendedor (opcional)") },
+                                            placeholder = { Text("Ej: Recojo en mano, envío por mensajería...") },
+                                            modifier = Modifier.fillMaxWidth(),
+                                            maxLines = 3
+                                        )
+                                    }
+                                },
+                                confirmButton = {
+                                    Button(onClick = {
+                                        showBuyDialog = false
+                                        viewModel.buyProduct(productId, buyNotas.trim().ifBlank { null })
+                                    }) {
+                                        Text("Comprar")
+                                    }
+                                },
+                                dismissButton = {
+                                    TextButton(onClick = { showBuyDialog = false }) {
+                                        Text("Cancelar")
+                                    }
+                                }
+                            )
                         }
 
                         // Dialog de oferta
@@ -724,7 +833,7 @@ fun ProductDetailScreen(
                                                 expanded = expandedCategoria,
                                                 onDismissRequest = { expandedCategoria = false }
                                             ) {
-                                                CategoriaDenuncia.entries.forEach { cat ->
+                                                CategoriaDenuncia.values().forEach { cat ->
                                                     DropdownMenuItem(
                                                         text = { Text(cat.displayName) },
                                                         onClick = {

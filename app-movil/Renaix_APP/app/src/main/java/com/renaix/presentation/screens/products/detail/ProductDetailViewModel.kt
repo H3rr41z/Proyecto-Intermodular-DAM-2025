@@ -42,6 +42,9 @@ class ProductDetailViewModel(
     private val _reportState = MutableStateFlow<UiState<Unit>>(UiState.Idle)
     val reportState: StateFlow<UiState<Unit>> = _reportState.asStateFlow()
 
+    private val _publishState = MutableStateFlow<UiState<Unit>>(UiState.Idle)
+    val publishState: StateFlow<UiState<Unit>> = _publishState.asStateFlow()
+
     private var currentProductId: Int = -1
 
     init {
@@ -144,5 +147,24 @@ class ProductDetailViewModel(
 
     fun resetReportState() {
         _reportState.value = UiState.Idle
+    }
+
+    fun publishProduct() {
+        if (currentProductId < 0) return
+        viewModelScope.launch {
+            _publishState.value = UiState.Loading
+            productRepository.publishProduct(currentProductId)
+                .onSuccess {
+                    _publishState.value = UiState.Success(Unit)
+                    loadProduct(currentProductId)
+                }
+                .onFailure { e ->
+                    _publishState.value = UiState.Error(e.message ?: "Error al publicar el producto")
+                }
+        }
+    }
+
+    fun resetPublishState() {
+        _publishState.value = UiState.Idle
     }
 }
